@@ -7,6 +7,9 @@ import Contact from '@/views/contact'
 
 import NewPage from '@/views/new'
 import BestsellersPage from '@/views/bestsellers'
+import CartPage from '@/views/cart'
+import CheckoutPage from '@/views/checkout'
+import WishlistPage from '@/views/wishlist'
 
 import Collections from '@/views/collections'
 import NecklacesPage from '@/views/collections/necklaces'
@@ -28,6 +31,9 @@ export function Router() {
 
         <Route path="new" element={<NewPage />} />
         <Route path="bestsellers" element={<BestsellersPage />} />
+        <Route path="cart" element={<CartPage />} />
+        <Route path="checkout" element={<CheckoutPage />} />
+        <Route path="wishlist" element={<WishlistPage />} />
 
         <Route path="collections" element={<Collections />} />
         <Route path="collections/necklaces" element={<NecklacesPage />} />
