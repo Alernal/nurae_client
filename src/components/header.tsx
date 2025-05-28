@@ -48,14 +48,14 @@ const collections = [
 ];
 
 export function Header() {
-  const { itemCount } = useWishlist()
+  const { itemCount } = useWishlist();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md border-b border-pink-100 shadow-xl">
       {/* Top Bar */}
-      <div className="bg-luxury-gradient text-white py-2 px-4">
+      <div className="bg-[#D4AF37] text-white py-2 px-4">
         <div className="container flex items-center justify-between text-sm">
           <div className="hidden md:flex items-center gap-4">
             <div className="flex items-center gap-2">
@@ -260,18 +260,13 @@ export function Header() {
         </nav>
 
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-3 group">
-          <div className="relative">
-            <LuCrown className="h-10 w-10 text-accent group-hover:text-primary transition-colors duration-300" />
-            <LuSparkles className="h-5 w-5 text-secondary absolute -top-1 -right-1 animate-pulse" />
-          </div>
+        <Link to="/" className="flex items-center justify-center group">
           <div className="text-center">
-            <span className="font-serif text-3xl font-bold bg-luxury-gradient bg-clip-text text-transparent tracking-wider block">
-              LÚMINA
-            </span>
-            <span className="text-xs text-gray-500 font-display tracking-widest">
-              LUXURY ACCESSIBLE
-            </span>
+            <img
+              src="/logo.png"
+              alt="Lumina Logo"
+              className="mx-auto h-16 w-full group-hover:scale-110 transition-transform duration-300"
+            />
           </div>
         </Link>
 

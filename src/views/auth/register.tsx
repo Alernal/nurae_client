@@ -1,21 +1,40 @@
-import { useState } from "react"
-import { useNavigate, Link } from "react-router-dom"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { LuEye, LuEyeOff, LuMail, LuLock, LuUser, LuPhone } from "react-icons/lu"
-import { useAuthStore } from "@/stores/useAuthStore"
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { registerSchema, type RegisterFormValues } from "@/schemas/auth-schema";
+import { useRegister } from "@/hooks/auth/useRegister";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { LuEye, LuEyeOff, LuMail, LuLock, LuUser } from "react-icons/lu";
 
 export default function RegisterPage() {
-  const [showPassword, setShowPassword] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
-  const navigate = useNavigate()
-  const login = useAuthStore((state) => state.login)
+  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
-  const handleRegister = async () => {
-    setIsLoading(true)
-  }
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegisterFormValues>({
+    resolver: zodResolver(registerSchema),
+  });
+
+  const { mutate: registerMutate, isPending } = useRegister();
+
+  const onSubmit = (data: RegisterFormValues) => {
+    registerMutate(data, {
+      onSuccess: () => navigate("/"),
+    });
+  };
 
   return (
     <div className="min-h-screen bg-nurae-gradient flex items-center justify-center p-4">
@@ -28,37 +47,39 @@ export default function RegisterPage() {
 
         <Card className="border-warm-sand/20 shadow-2xl bg-white/95 backdrop-blur-sm">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl text-nurae-brown">Registrarse</CardTitle>
-            <CardDescription className="text-secondary">Ingresa tus datos para crear una cuenta</CardDescription>
+            <CardTitle className="text-2xl text-nurae-brown">
+              Registrarse
+            </CardTitle>
+            <CardDescription className="text-secondary">
+              Ingresa tus datos para crear una cuenta
+            </CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleRegister} className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="firstName" className="text-nurae-brown">Nombre</Label>
-                  <div className="relative">
-                    <LuUser className="absolute left-3 top-3 h-4 w-4 text-secondary" />
-                    <Input
-                      id="firstName"
-                      placeholder="Nombre"
-                      className="pl-10 border-warm-sand focus:border-nurae-brown"
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="lastName" className="text-nurae-brown">Apellido</Label>
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="name" className="text-nurae-brown">
+                  Nombre
+                </Label>
+                <div className="relative">
+                  <LuUser className="absolute left-3 top-3 h-4 w-4 text-secondary" />
                   <Input
-                    id="lastName"
-                    placeholder="Apellido"
-                    className="border-warm-sand focus:border-nurae-brown"
-                    required
+                    id="name"
+                    placeholder="Nombre"
+                    className="pl-10 border-warm-sand focus:border-nurae-brown"
+                    {...register("name")}
                   />
+                  {errors.name && (
+                    <p className="text-sm text-red-600">
+                      {errors.name.message}
+                    </p>
+                  )}
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-nurae-brown">Email</Label>
+                <Label htmlFor="email" className="text-nurae-brown">
+                  Email
+                </Label>
                 <div className="relative">
                   <LuMail className="absolute left-3 top-3 h-4 w-4 text-secondary" />
                   <Input
@@ -66,27 +87,20 @@ export default function RegisterPage() {
                     type="email"
                     placeholder="tu@email.com"
                     className="pl-10 border-warm-sand focus:border-nurae-brown"
-                    required
+                    {...register("email")}
                   />
+                  {errors.email && (
+                    <p className="text-sm text-red-600">
+                      {errors.email.message}
+                    </p>
+                  )}
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="phone" className="text-nurae-brown">Teléfono</Label>
-                <div className="relative">
-                  <LuPhone className="absolute left-3 top-3 h-4 w-4 text-secondary" />
-                  <Input
-                    id="phone"
-                    type="tel"
-                    placeholder="+57 300 123 4567"
-                    className="pl-10 border-warm-sand focus:border-nurae-brown"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="password" className="text-nurae-brown">Contraseña</Label>
+                <Label htmlFor="password" className="text-nurae-brown">
+                  Contraseña
+                </Label>
                 <div className="relative">
                   <LuLock className="absolute left-3 top-3 h-4 w-4 text-secondary" />
                   <Input
@@ -94,34 +108,98 @@ export default function RegisterPage() {
                     type={showPassword ? "text" : "password"}
                     placeholder="••••••••"
                     className="pl-10 pr-10 border-warm-sand focus:border-nurae-brown"
-                    required
+                    {...register("password")}
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-3 text-secondary hover:text-nurae-brown"
                   >
-                    {showPassword ? <LuEyeOff className="h-4 w-4" /> : <LuEye className="h-4 w-4" />}
+                    {showPassword ? (
+                      <LuEyeOff className="h-4 w-4" />
+                    ) : (
+                      <LuEye className="h-4 w-4" />
+                    )}
                   </button>
+                  {errors.password && (
+                    <p className="text-sm text-red-600">
+                      {errors.password.message}
+                    </p>
+                  )}
                 </div>
               </div>
 
-              <div className="flex items-center space-x-2">
-                <input type="checkbox" className="rounded border-warm-sand" required />
-                <label className="text-sm text-secondary">
+              <div className="space-y-2">
+                <Label htmlFor="password_confirmation" className="text-nurae-brown">
+                  Confirmar Contraseña
+                </Label>
+                <div className="relative">
+                  <LuLock className="absolute left-3 top-3 h-4 w-4 text-secondary" />
+                  <Input
+                    id="password_confirmation"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="••••••••"
+                    className="pl-10 pr-10 border-warm-sand focus:border-nurae-brown"
+                    {...register("password_confirmation")}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-3 text-secondary hover:text-nurae-brown"
+                  >
+                    {showPassword ? (
+                      <LuEyeOff className="h-4 w-4" />
+                    ) : (
+                      <LuEye className="h-4 w-4" />
+                    )}
+                  </button>
+                  {errors.password_confirmation && (
+                    <p className="text-sm text-red-600">
+                      {errors.password_confirmation.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <div className="flex items-start space-x-2">
+                <input
+                  type="checkbox"
+                  id="termsAccepted"
+                  className="rounded border-warm-sand mt-1"
+                  {...register("termsAccepted")}
+                />
+                <label
+                  htmlFor="termsAccepted"
+                  className="text-sm text-secondary"
+                >
                   Acepto los{" "}
-                  <Link to="/terms" className="text-nurae-brown hover:underline">términos y condiciones</Link>{" "}
+                  <Link
+                    to="/terms"
+                    className="text-nurae-brown hover:underline"
+                  >
+                    términos y condiciones
+                  </Link>{" "}
                   y la{" "}
-                  <Link to="/privacy-policy" className="text-nurae-brown hover:underline">política de privacidad</Link>
+                  <Link
+                    to="/privacy-policy"
+                    className="text-nurae-brown hover:underline"
+                  >
+                    política de privacidad
+                  </Link>
                 </label>
               </div>
+              {errors.termsAccepted && (
+                <p className="text-sm text-red-600">
+                  {errors.termsAccepted.message}
+                </p>
+              )}
 
               <Button
                 type="submit"
                 className="w-full bg-nurae-gradient hover:opacity-90 text-nurae-charcoal"
-                disabled={isLoading}
+                disabled={isPending}
               >
-                {isLoading ? "Creando cuenta..." : "Crear Cuenta"}
+                {isPending ? "Creando cuenta..." : "Crear Cuenta"}
               </Button>
             </form>
           </CardContent>
@@ -137,5 +215,5 @@ export default function RegisterPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
