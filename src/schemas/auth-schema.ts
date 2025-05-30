@@ -8,7 +8,7 @@ export const loginSchema = z.object({
 export type LoginFormValues = z.infer<typeof loginSchema>
 
 export const registerSchema = z.object({
-    name: z.string().min(1, "El nombre es requerido"),
+    first_name: z.string().min(1, "El nombre es requerido"),
     email: z.string().min(1, "El correo es requerido").email("Correo inválido"),
     password: z.string().min(8, "La contraseña debe tener al menos 8 caracteres"),
     password_confirmation : z.string().min(8, "La confirmación de la contraseña es requerida"),

@@ -13,7 +13,8 @@ export function useLogin() {
       return res.data
     },
     onSuccess: (data) => {
-      loginStore(data.data.token)
+      const { token, user } = data.data
+      loginStore(token, user)
       toast.success("Inicio de sesión exitoso")
     },
     onError: (error: any) => {

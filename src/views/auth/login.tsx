@@ -15,8 +15,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { LuEye, LuEyeOff, LuMail, LuLock } from "react-icons/lu";
+import { useWishlist } from "@/hooks/useWishlist";
 
 export default function LoginPage() {
+  const { fetchWishlist } = useWishlist();
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
@@ -32,7 +34,10 @@ export default function LoginPage() {
 
   const onSubmit = (data: LoginFormValues) => {
     loginMutate(data, {
-      onSuccess: () => navigate("/"),
+      onSuccess: () => {
+        fetchWishlist();
+        navigate("/");
+      },
     });
   };
 
@@ -42,13 +47,19 @@ export default function LoginPage() {
         {/* Logo */}
         <div className="text-center mb-8">
           <div className="w-50 h-20 mx-auto mb-4">
-            <img src="/logo.png" alt="LÚMINA" className="object-contain mx-auto" />
+            <img
+              src="/logo.png"
+              alt="LÚMINA"
+              className="object-contain mx-auto"
+            />
           </div>
         </div>
 
         <Card className="shadow-lg border border-gray-100">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl text-gray-800 font-semibold">Bienvenido</CardTitle>
+            <CardTitle className="text-2xl text-gray-800 font-semibold">
+              Bienvenido
+            </CardTitle>
             <CardDescription className="text-gray-500">
               Inicia sesión en tu cuenta para continuar
             </CardDescription>
@@ -57,16 +68,18 @@ export default function LoginPage() {
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
               {/* Email */}
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-gray-700">Email</Label>
+                <Label htmlFor="email" className="text-gray-700">
+                  Email
+                </Label>
                 <div className="relative">
                   <LuMail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                   <Input
-                  id="email"
-                  type="email"
-                  placeholder="tu@email.com"
-                  className="pl-10 outline-none focus:outline-none focus:ring-0"
-                  tabIndex={-1}
-                  {...register("email")}
+                    id="email"
+                    type="email"
+                    placeholder="tu@email.com"
+                    className="pl-10 outline-none focus:outline-none focus:ring-0"
+                    tabIndex={-1}
+                    {...register("email")}
                   />
                 </div>
                 {errors.email && (
@@ -76,7 +89,9 @@ export default function LoginPage() {
 
               {/* Password */}
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-gray-700">Contraseña</Label>
+                <Label htmlFor="password" className="text-gray-700">
+                  Contraseña
+                </Label>
                 <div className="relative">
                   <LuLock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                   <Input
@@ -91,11 +106,17 @@ export default function LoginPage() {
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-3 text-gray-400 hover:text-yellow-600"
                   >
-                    {showPassword ? <LuEyeOff className="h-4 w-4" /> : <LuEye className="h-4 w-4" />}
+                    {showPassword ? (
+                      <LuEyeOff className="h-4 w-4" />
+                    ) : (
+                      <LuEye className="h-4 w-4" />
+                    )}
                   </button>
                 </div>
                 {errors.password && (
-                  <p className="text-sm text-red-600">{errors.password.message}</p>
+                  <p className="text-sm text-red-600">
+                    {errors.password.message}
+                  </p>
                 )}
               </div>
 
@@ -115,7 +136,10 @@ export default function LoginPage() {
         <div className="text-center mt-6">
           <p className="text-sm text-gray-600">
             ¿No tienes cuenta?{" "}
-            <Link to="/register" className="text-[#D4AF37] font-medium hover:underline">
+            <Link
+              to="/register"
+              className="text-[#D4AF37] font-medium hover:underline"
+            >
               Regístrate aquí
             </Link>
           </p>

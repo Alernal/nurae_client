@@ -17,49 +17,45 @@ import {
   LuHouse,
 } from "react-icons/lu";
 import { cn } from "@/lib/utils";
+import { useAuthStore } from "@/stores/useAuthStore";
 
 const navigation = [
   {
     name: "Dashboard",
     href: "/admin/dashboard",
     icon: LuLayoutDashboard,
-    badge: null,
   },
   {
     name: "Productos",
     href: "/admin/products",
     icon: LuPackage,
-    badge: "23",
   },
   {
     name: "Pedidos",
     href: "/admin/orders",
     icon: LuShoppingCart,
-    badge: "12",
   },
   {
     name: "Clientes",
     href: "/admin/customers",
     icon: LuUsers,
-    badge: null,
   },
   {
     name: "Analíticas",
     href: "/admin/analytics",
     icon: LuChartBar,
-    badge: null,
   },
   {
     name: "Configuración",
     href: "/admin/settings",
     icon: LuSettings,
-    badge: null,
   },
 ];
 
 export function AdminSidebar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { pathname } = useLocation();
+  const user = useAuthStore((state) => state.user);
 
   return (
     <>
@@ -71,7 +67,11 @@ export function AdminSidebar() {
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           className="bg-white border-nurae-sand shadow-lg"
         >
-          {isMobileMenuOpen ? <LuX className="h-5 w-5" /> : <LuMenu className="h-5 w-5" />}
+          {isMobileMenuOpen ? (
+            <LuX className="h-5 w-5" />
+          ) : (
+            <LuMenu className="h-5 w-5" />
+          )}
         </Button>
       </div>
 
@@ -94,25 +94,39 @@ export function AdminSidebar() {
           {/* Header */}
           <div className="flex items-center justify-between px-6 py-4 border-b border-nurae-sand">
             <Link to="/admin/dashboard" className="flex items-center gap-3">
-              <img src="/logo.jpg" alt="NURAE" className="h-8 object-contain" />
+              <img src="/logo.png" alt="NURAE" className="h-8 object-contain" />
             </Link>
             <Badge
               variant="outline"
               className="bg-nurae-gold text-nurae-charcoal border-nurae-gold"
             >
-              Admin
+              {user?.role === "admin" ? "Admin" : user?.role}
             </Badge>
           </div>
 
           {/* User Info */}
           <div className="px-6 py-4 border-b border-nurae-sand">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-nurae-gradient rounded-full flex items-center justify-center">
-                <LuUser className="w-5 h-5 text-white" />
-              </div>
+              {user?.profile_image_url ? (
+                <img
+                  src={`${'http://127.0.0.1:8000'}${
+                    user.profile_image_url
+                  }`}
+                  alt="Avatar"
+                  className="w-10 h-10 rounded-full object-cover"
+                />
+              ) : (
+                <div className="w-10 h-10 bg-nurae-gradient rounded-full flex items-center justify-center">
+                  <LuUser className="w-5 h-5 text-white" />
+                </div>
+              )}
               <div>
-                <p className="font-medium text-nurae-brown">Administrador</p>
-                <p className="text-sm text-neutral-500">admin@nurae.co</p>
+                <Link to="/admin/profile" className="hover:underline">
+                  <p className="font-medium text-nurae-brown">
+                    {user?.first_name} {user?.last_name}
+                  </p>
+                </Link>
+                <p className="text-sm text-neutral-500">{user?.email}</p>
               </div>
             </div>
           </div>
@@ -137,19 +151,6 @@ export function AdminSidebar() {
                     <item.icon className="w-5 h-5" />
                     <span>{item.name}</span>
                   </div>
-                  {item.badge && (
-                    <Badge
-                      variant="secondary"
-                      className={cn(
-                        "text-xs",
-                        isActive
-                          ? "bg-white/20 text-white"
-                          : "bg-nurae-gold text-nurae-charcoal"
-                      )}
-                    >
-                      {item.badge}
-                    </Badge>
-                  )}
                 </Link>
               );
             })}

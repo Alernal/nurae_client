@@ -47,9 +47,9 @@ export function UserMenu() {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link to="/admin/products" className="flex items-center gap-2">
+              <Link to="/admin/profile" className="flex items-center gap-2">
                 <LuUser className="h-4 w-4" />
-                Panel
+                Perfil
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>

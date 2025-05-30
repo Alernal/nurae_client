@@ -1,505 +1,568 @@
-import { useState } from "react"
-import { Link, useParams } from "react-router-dom"
-import { LuHeart, LuMinus, LuPlus, LuShoppingBag, LuStar, LuShare2, LuTruck, LuShield, LuRotateCcw } from "react-icons/lu"
+import { useEffect, useState } from "react";
+import {
+  LuHeart,
+  LuStar,
+  LuTruck,
+  LuShield,
+  LuRotateCcw,
+  LuMessageCircle,
+  LuPlus,
+  LuMinus,
+} from "react-icons/lu";
 
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Separator } from "@/components/ui/separator"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { useWishlist } from "@/providers/wishlist-provider"
-import { useCart } from "@/providers/cart-provider"
-
-const allProducts = [
-  {
-    id: 1,
-    name: "Collar Cadena Rosa Dorada",
-    price: 1290,
-    originalPrice: 1590,
-    images: [
-      "https://previews.123rf.com/images/ylivdesign/ylivdesign1707/ylivdesign170731190/82954948-collar-con-icono-de-colgantes-verdes-ilustraci%C3%B3n-de-dibujos-animados-de-collar-con-colgantes-verdes-.jpg",
-      "https://previews.123rf.com/images/ylivdesign/ylivdesign1707/ylivdesign170731190/82954948-collar-con-icono-de-colgantes-verdes-ilustraci%C3%B3n-de-dibujos-animados-de-collar-con-colgantes-verdes-.jpg",
-      "https://previews.123rf.com/images/ylivdesign/ylivdesign1707/ylivdesign170731190/82954948-collar-con-icono-de-colgantes-verdes-ilustraci%C3%B3n-de-dibujos-animados-de-collar-con-colgantes-verdes-.jpg",
-      "https://previews.123rf.com/images/ylivdesign/ylivdesign1707/ylivdesign170731190/82954948-collar-con-icono-de-colgantes-verdes-ilustraci%C3%B3n-de-dibujos-animados-de-collar-con-colgantes-verdes-.jpg",
-    ],
-    category: "Collares",
-    rating: 4.8,
-    reviews: 156,
-    description:
-      "Nuestro Collar Cadena Rosa Dorada es una pieza atemporal que complementa cualquier atuendo. Diseñado con líneas minimalistas y elegantes, este collar es perfecto para el uso diario o para ocasiones especiales.",
-    features: [
-      "Material: Acero inoxidable con baño de oro rosa de 18k",
-      "Hipoalergénico y resistente al agua",
-      "Cierre de mosquetón seguro",
-      "Acabado pulido de alto brillo",
-      "Incluye caja de regalo LÚMINA",
-    ],
-    colors: [
-      { name: "Rosa Dorado", value: "rose-gold", class: "bg-gradient-to-br from-pink-300 to-amber-300" },
-      { name: "Dorado", value: "gold", class: "bg-gradient-to-br from-amber-300 to-yellow-400" },
-      { name: "Plateado", value: "silver", class: "bg-gradient-to-br from-gray-300 to-gray-400" },
-    ],
-    sizes: [
-      { name: "40cm", value: "40cm" },
-      { name: "45cm", value: "45cm" },
-      { name: "50cm", value: "50cm" },
-    ],
-    inStock: true,
-    stockCount: 15,
-  },
-  // Puedes agregar más productos aquí...
-]
-
-const relatedProducts = [
-  {
-    id: 2,
-    name: "Aretes Cristal Malva",
-    price: 890,
-    image: "/placeholder.svg?height=300&width=300",
-    category: "Aretes",
-    rating: 4.9,
-  },
-  {
-    id: 3,
-    name: "Pulsera Eslabones Dorados",
-    price: 990,
-    image: "/placeholder.svg?height=300&width=300",
-    category: "Pulseras",
-    rating: 4.7,
-  },
-  {
-    id: 4,
-    name: "Anillo Ajustable Joya",
-    price: 790,
-    image: "/placeholder.svg?height=300&width=300",
-    category: "Anillos",
-    rating: 4.9,
-  },
-  {
-    id: 5,
-    name: "Collar Perlas Modernas",
-    price: 1450,
-    image: "/placeholder.svg?height=300&width=300",
-    category: "Collares",
-    rating: 4.6,
-  },
-]
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Progress } from "@/components/ui/progress";
+import { useParams } from "react-router-dom";
+import { useProduct } from "@/hooks/products/useProduct";
 
 const reviews = [
   {
     id: 1,
-    name: "María González",
+    user: "María González",
+    avatar: "/placeholder.svg?height=40&width=40&text=MG",
     rating: 5,
-    date: "2025-01-15",
+    date: "15 de Mayo, 2024",
     comment:
-      "¡Absolutamente hermoso! La calidad es excepcional y el color es exactamente como se ve en las fotos. Lo uso todos los días.",
-    verified: true,
+      "Hermosas argollas, la calidad es excepcional. El oro se ve muy elegante sobre la plata. Llegaron perfectamente empacadas.",
   },
   {
     id: 2,
-    name: "Ana Martínez",
+    user: "Carlos Rodríguez",
+    avatar: "/placeholder.svg?height=40&width=40&text=CR",
     rating: 5,
-    date: "2025-01-10",
+    date: "8 de Mayo, 2024",
     comment:
-      "Perfecto para cualquier ocasión. El material se siente premium y el empaque fue hermoso. Definitivamente compraré más piezas.",
-    verified: true,
+      "Excelente trabajo artesanal. Las argollas son exactamente como se ven en las fotos. El servicio al cliente fue muy atento.",
   },
   {
     id: 3,
-    name: "Sofía Ruiz",
+    user: "Ana Martínez",
+    avatar: "/placeholder.svg?height=40&width=40&text=AM",
     rating: 4,
-    date: "2025-01-08",
+    date: "2 de Mayo, 2024",
     comment:
-      "Me encanta el diseño y la calidad. Solo le doy 4 estrellas porque me hubiera gustado que viniera en más longitudes.",
-    verified: true,
+      "Muy bonitas, aunque tardaron un poco más de lo esperado en llegar. Pero vale la pena la espera por la calidad.",
   },
-]
+];
 
-export default function ProductPage() {
-  const { id } = useParams()
-  const product = allProducts.find(p => p.id === Number(id))
+const ratingDistribution = [
+  { stars: 5, count: 12, percentage: 75 },
+  { stars: 4, count: 3, percentage: 19 },
+  { stars: 3, count: 1, percentage: 6 },
+  { stars: 2, count: 0, percentage: 0 },
+  { stars: 1, count: 0, percentage: 0 },
+];
 
-  if (!product) {
-    return <div>Producto no encontrado</div>
-  }
+export default function ProductView() {
+  const { id } = useParams();
+  const productId = id ? Number(id) : undefined;
+  const { data: product, isLoading } = useProduct(productId);
+  const [showFullDescription, setShowFullDescription] = useState(false);
+  const [quantity, setQuantity] = useState(1);
+  const [isWishlisted, setIsWishlisted] = useState(false);
+  const [userRating, setUserRating] = useState(0);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  const [quantity, setQuantity] = useState(1)
-  const [selectedImage, setSelectedImage] = useState(0)
-  const [selectedColor, setSelectedColor] = useState("rose-gold")
-  const [selectedSize, setSelectedSize] = useState("45cm")
-
-  const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist } = useWishlist()
-  const { addItem: addToCart } = useCart()
-
-  const incrementQuantity = () => {
-    if (quantity < product.stockCount) {
-      setQuantity(prev => prev + 1)
+  useEffect(() => {
+    if (product?.images?.length > 0) {
+      setSelectedImage(product.images[0].url);
     }
+  }, [product]);
+
+  // Si aún está cargando o no hay producto, mostramos loader
+  if (isLoading || !product) {
+    return (
+      <div className="p-8 text-center text-gray-600 text-lg">
+        Cargando producto...
+      </div>
+    );
   }
 
-  const decrementQuantity = () => {
-    if (quantity > 1) {
-      setQuantity(prev => prev - 1)
-    }
-  }
+  const formatPrice = (price: string) => {
+    return new Intl.NumberFormat("es-CO", {
+      style: "currency",
+      currency: "COP",
+      minimumFractionDigits: 0,
+    }).format(Number.parseFloat(price));
+  };
 
-  const toggleWishlist = () => {
-    if (isInWishlist(product.id)) {
-      removeFromWishlist(product.id)
-    } else {
-      addToWishlist({
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        image: product.images[0],
-        category: product.category
-      })
-    }
-  }
+  const averageRating = 4.7;
+  const totalReviews = 16;
 
-  const handleAddToCart = () => {
-    addToCart({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      quantity: quantity,
-      image: product.images[0],
-      color: selectedColor,
-      size: selectedSize
-    })
-  }
+  const StarRating = ({
+    rating,
+    size = "w-4 h-4",
+    interactive = false,
+    onRate,
+  }: {
+    rating: number;
+    size?: string;
+    interactive?: boolean;
+    onRate?: (rating: number) => void;
+  }) => {
+    return (
+      <div className="flex gap-1">
+        {[1, 2, 3, 4, 5].map((star) => (
+          <LuStar
+            key={star}
+            className={`${size} ${
+              star <= rating
+                ? "fill-yellow-400 text-yellow-400"
+                : "fill-gray-200 text-gray-200"
+            } ${interactive ? "cursor-pointer hover:fill-yellow-300" : ""}`}
+            onClick={() => interactive && onRate && onRate(star)}
+          />
+        ))}
+      </div>
+    );
+  };
 
   return (
-    <div>
-      <div className="container px-4 py-8 md:px-6 md:py-12">
-        {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-sm text-gray-500 mb-8">
-          <Link to="/" className="hover:text-primary">Inicio</Link>
-          <span>/</span>
-          <Link to="/collections" className="hover:text-primary">Colecciones</Link>
-          <span>/</span>
-          <Link to={`/collections/${product.category.toLowerCase()}`} className="hover:text-primary">{product.category}</Link>
-          <span>/</span>
-          <span className="text-primary">{product.name}</span>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Product Images */}
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="grid lg:grid-cols-2 gap-12">
+          {/* Galería de imágenes */}
           <div className="space-y-4">
-            <div className="relative aspect-square overflow-hidden rounded-2xl bg-white shadow-lg">
+            {/* Imagen principal */}
+            <div className="aspect-square bg-white rounded-2xl overflow-hidden shadow-sm">
               <img
-                src={product.images[selectedImage] || "/placeholder.svg"}
-                alt="Imagen principal del producto"
-                className="object-cover"
+                src={
+                  selectedImage
+                    ? `http://localhost:8000${selectedImage}`
+                    : "/placeholder.svg"
+                }
+                alt={product.name}
+                width={600}
+                height={600}
+                className="w-full h-full object-cover transition-all duration-300"
               />
-              {product.originalPrice && (
-                <div className="absolute top-4 left-4 bg-red-500 text-white text-sm px-3 py-1.5 rounded-full font-medium">
-                  ¡Oferta!
-                </div>
-              )}
-              <Button
-                variant="ghost"
-                size="icon"
-                className="absolute top-4 right-4 bg-white/90 hover:bg-white shadow-lg"
-                onClick={toggleWishlist}
-              >
-                <LuHeart className={`h-6 w-6 ${isInWishlist(product.id) ? "fill-secondary text-secondary" : "text-gray-600"}`} />
-              </Button>
             </div>
 
-            <div className="grid grid-cols-4 gap-3">
-              {product.images.map((image, index) => (
-                <button
+            {/* Miniaturas */}
+            <div className="grid grid-cols-5 gap-3">
+              {(product.images.slice(0, 5) || []).map((image, index) => (
+                <div
                   key={index}
-                  className={`relative aspect-square overflow-hidden rounded-lg ${selectedImage === index ? "ring-2 ring-primary" : "ring-1 ring-gray-200"
-                    }`}
-                  onClick={() => setSelectedImage(index)}
+                  onClick={() => setSelectedImage(image.url)}
+                  className={`aspect-square bg-white rounded-lg overflow-hidden shadow-sm cursor-pointer transition-colors border-2 ${
+                    selectedImage === image.url
+                      ? "border-rose-400"
+                      : "border-transparent hover:border-rose-200"
+                  }`}
                 >
                   <img
-                    src={image || "/placeholder.svg"}
-                    alt={`Vista ${index + 1} del producto`}
-                    className="object-cover"
+                    src={`http://localhost:8000${image.url}`}
+                    alt={`Vista ${index + 1}`}
+                    width={150}
+                    height={150}
+                    className="w-full h-full object-cover"
                   />
-                </button>
+                </div>
               ))}
             </div>
           </div>
 
-          {/* Product Info */}
-          <div className="space-y-8">
+          {/* Información del producto */}
+          <div className="space-y-6">
             <div>
-              <Link to={`/collections/${product.category.toLowerCase()}`} className="text-sm text-primary hover:text-secondary font-medium uppercase tracking-wide">
-                {product.category}
-              </Link>
-              <h1 className="text-3xl md:text-4xl font-serif font-bold text-gray-800 mt-2">{product.name}</h1>
-              <div className="flex items-center gap-4 mt-3">
-                <div className="flex items-center">
-                  {[...Array(5)].map((_, i) => (
-                    <LuStar
-                      key={i}
-                      className={`w-5 h-5 ${i < Math.floor(product.rating) ? "fill-amber-400 text-amber-400" : "fill-gray-200 text-gray-200"
-                        }`}
-                    />
-                  ))}
-                </div>
-                <span className="text-sm text-gray-600">{product.rating} ({product.reviews} reseñas)</span>
+              <h1 className="text-3xl font-light text-gray-900 mb-2">
+                {product.name}
+              </h1>
+              <div className="flex items-center gap-3 mb-4">
+                <StarRating rating={averageRating} />
+                <span className="text-sm text-gray-600">
+                  ({totalReviews} reseñas)
+                </span>
+                <Badge
+                  variant="secondary"
+                  className="bg-green-100 text-green-800"
+                >
+                  En stock
+                </Badge>
               </div>
-              <div className="mt-4 flex items-center gap-4">
-                <span className="text-3xl font-serif font-bold text-gray-800">MXN ${product.price}</span>
-                {product.originalPrice && (
-                  <>
-                    <span className="text-xl text-gray-400 line-through">MXN ${product.originalPrice}</span>
-                    <span className="bg-red-100 text-red-600 text-sm px-2 py-1 rounded-full font-medium">
-                      Ahorra MXN ${product.originalPrice - product.price}
-                    </span>
-                  </>
-                )}
-              </div>
+              <p className="text-4xl font-light text-gray-900">
+                {formatPrice(product.price)}
+              </p>
             </div>
 
             <Separator />
 
-            {/* Color Selection */}
-            <div className="space-y-4">
-              <h3 className="font-medium text-gray-800">Color: {product.colors.find(c => c.value === selectedColor)?.name}</h3>
-              <RadioGroup value={selectedColor} onValueChange={setSelectedColor} className="flex gap-3">
-                {product.colors.map((color) => (
-                  <div key={color.value} className="flex items-center space-x-2">
-                    <RadioGroupItem value={color.value} id={color.value} className="peer sr-only" />
-                    <Label
-                      htmlFor={color.value}
-                      className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-full ${color.class} ring-offset-background peer-data-[state=checked]:ring-2 peer-data-[state=checked]:ring-primary shadow-lg hover:scale-110 transition-transform`}
-                    >
-                      <span className="sr-only">{color.name}</span>
-                    </Label>
-                  </div>
-                ))}
-              </RadioGroup>
-            </div>
-
-            {/* Size Selection */}
-            <div className="space-y-4">
-              <h3 className="font-medium text-gray-800">Longitud: {selectedSize}</h3>
-              <RadioGroup value={selectedSize} onValueChange={setSelectedSize} className="flex flex-wrap gap-3">
-                {product.sizes.map((size) => (
-                  <div key={size.value} className="flex items-center space-x-2">
-                    <RadioGroupItem value={size.value} id={size.value} className="peer sr-only" />
-                    <Label
-                      htmlFor={size.value}
-                      className="flex h-12 cursor-pointer items-center justify-center rounded-xl border-2 border-gray-200 px-4 py-2 text-sm ring-offset-background peer-data-[state=checked]:bg-primary peer-data-[state=checked]:text-white peer-data-[state=checked]:border-primary hover:border-primary transition-colors"
-                    >
-                      {size.name}
-                    </Label>
-                  </div>
-                ))}
-              </RadioGroup>
-            </div>
-
-            {/* Quantity */}
-            <div className="space-y-4">
-              <h3 className="font-medium text-gray-800">Cantidad</h3>
-              <div className="flex items-center gap-4">
-                <div className="flex items-center">
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="h-12 w-12 rounded-r-none"
-                    onClick={decrementQuantity}
-                    disabled={quantity <= 1}
-                  >
-                    <LuMinus className="h-4 w-4" />
-                  </Button>
-                  <Input
-                    type="number"
-                    min="1"
-                    max={product.stockCount}
-                    value={quantity}
-                    onChange={(e) => setQuantity(Math.max(1, Math.min(product.stockCount, Number.parseInt(e.target.value) || 1)))}
-                    className="h-12 w-16 rounded-none border-x-0 text-center [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-                  />
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="h-12 w-12 rounded-l-none"
-                    onClick={incrementQuantity}
-                    disabled={quantity >= product.stockCount}
-                  >
-                    <LuPlus className="h-4 w-4" />
-                  </Button>
-                </div>
-                <span className="text-sm text-gray-500">
-                  {product.stockCount > 10 ? "En stock" : `Solo ${product.stockCount} disponibles`}
-                </span>
-              </div>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex flex-col gap-4">
-              <Button
-                className="h-14 bg-luxury-gradient hover:opacity-90 text-white text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300"
-                onClick={handleAddToCart}
-                disabled={!product.inStock}
+            {/* Descripción truncada con toggle */}
+            <div>
+              <p
+                className={`text-gray-600 leading-relaxed transition-all duration-300 ${
+                  showFullDescription ? "" : "line-clamp-3"
+                }`}
               >
-                <LuShoppingBag className="mr-2 h-6 w-6" />
-                {product.inStock ? "Añadir al Carrito" : "Agotado"}
-              </Button>
-              <div className="grid grid-cols-2 gap-4">
-                <Button variant="outline" className="h-12" onClick={toggleWishlist}>
-                  <LuHeart className={`mr-2 h-5 w-5 ${isInWishlist(product.id) ? "fill-secondary text-secondary" : ""}`} />
-                  {isInWishlist(product.id) ? "En Favoritos" : "Añadir a Favoritos"}
-                </Button>
-                <Button variant="outline" className="h-12">
-                  <LuShare2 className="mr-2 h-5 w-5" />
-                  Compartir
-                </Button>
+                {product.description}
+              </p>
+              <button
+                onClick={() => setShowFullDescription(!showFullDescription)}
+                className="mt-2 text-sm text-rose-600 hover:underline"
+              >
+                {showFullDescription ? "Ver menos" : "Ver más"}
+              </button>
+            </div>
+
+            {/* Opciones de producto mejoradas */}
+            <div className="space-y-8">
+              {/* Talla y Color en fila */}
+              <div className="flex flex-wrap gap-6">
+                {/* Talla */}
+                <div>
+                  <label className="block text-sm font-semibold text-gray-800 mb-1">
+                    Talla
+                  </label>
+                  <div className="inline-block px-4 py-2 rounded-full border text-sm font-medium bg-indigo-100 text-indigo-800 border-indigo-300 shadow-sm">
+                    {product.size}
+                  </div>
+                </div>
+
+                {/* Color */}
+                <div>
+                  <label className="block text-sm font-semibold text-gray-800 mb-1">
+                    Color
+                  </label>
+                  <div className="inline-block px-4 py-2 rounded-full border text-sm font-medium capitalize bg-pink-100 text-pink-800 border-pink-300 shadow-sm">
+                    {product.color}
+                  </div>
+                </div>
+              </div>
+
+              {/* Cantidad */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-800 mb-2">
+                  Cantidad
+                </label>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    className="p-2 border border-gray-300 rounded-lg bg-white hover:bg-gray-100 shadow-sm"
+                  >
+                    <LuMinus className="w-4 h-4 text-gray-700" />
+                  </button>
+                  <span className="px-5 py-2 border border-gray-300 rounded-lg bg-gray-50 min-w-[60px] text-center font-medium text-gray-800">
+                    {quantity}
+                  </span>
+                  <button
+                    onClick={() =>
+                      setQuantity(Math.min(product.stock_count, quantity + 1))
+                    }
+                    className="p-2 border border-gray-300 rounded-lg bg-white hover:bg-gray-100 shadow-sm"
+                  >
+                    <LuPlus className="w-4 h-4 text-gray-700" />
+                  </button>
+                  <span className="text-sm text-gray-500 ml-2">
+                    {product.stock_count} disponibles
+                  </span>
+                </div>
               </div>
             </div>
 
-            {/* Trust Badges */}
-            <div className="grid grid-cols-3 gap-4 pt-4">
-              <div className="flex flex-col items-center text-center space-y-2">
-                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                  <LuTruck className="h-6 w-6 text-green-600" />
+            {/* Botones de acción */}
+            <div className="space-y-3">
+              <Button
+                size="lg"
+                className="w-full bg-rose-600 hover:bg-rose-700"
+              >
+                Agregar al carrito
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="w-full"
+                onClick={() => setIsWishlisted(!isWishlisted)}
+              >
+                <LuHeart
+                  className={`w-4 h-4 mr-2 ${
+                    isWishlisted ? "fill-red-500 text-red-500" : ""
+                  }`}
+                />
+                {isWishlisted
+                  ? "En lista de deseos"
+                  : "Agregar a lista de deseos"}
+              </Button>
+            </div>
+
+            {/* Información de envío */}
+            <div className="bg-white rounded-xl p-6 space-y-4">
+              <div className="flex items-center gap-3">
+                <LuTruck className="w-5 h-5 text-rose-600" />
+                <div>
+                  <p className="font-medium text-gray-900">Envío gratis</p>
+                  <p className="text-sm text-gray-600">
+                    En compras superiores a $500.000
+                  </p>
                 </div>
-                <span className="text-xs text-gray-600">Envío gratis +$999</span>
               </div>
-              <div className="flex flex-col items-center text-center space-y-2">
-                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                  <LuShield className="h-6 w-6 text-blue-600" />
+              <div className="flex items-center gap-3">
+                <LuShield className="w-5 h-5 text-rose-600" />
+                <div>
+                  <p className="font-medium text-gray-900">
+                    Garantía de calidad
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    12 meses de garantía en todos nuestros productos
+                  </p>
                 </div>
-                <span className="text-xs text-gray-600">Compra segura</span>
               </div>
-              <div className="flex flex-col items-center text-center space-y-2">
-                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-                  <LuRotateCcw className="h-6 w-6 text-purple-600" />
+              <div className="flex items-center gap-3">
+                <LuRotateCcw className="w-5 h-5 text-rose-600" />
+                <div>
+                  <p className="font-medium text-gray-900">
+                    Devoluciones fáciles
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    30 días para cambios y devoluciones
+                  </p>
                 </div>
-                <span className="text-xs text-gray-600">30 días devolución</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Product Details Tabs */}
+        {/* Sección de reseñas y detalles */}
         <div className="mt-16">
-          <Tabs defaultValue="description" className="w-full">
-            <TabsList className="grid w-full grid-cols-3 bg-white/80 backdrop-blur-sm rounded-2xl p-2">
-              <TabsTrigger value="description" className="rounded-xl">Descripción</TabsTrigger>
-              <TabsTrigger value="reviews" className="rounded-xl">Reseñas ({product.reviews})</TabsTrigger>
-              <TabsTrigger value="shipping" className="rounded-xl">Envío y Devoluciones</TabsTrigger>
+          <Tabs defaultValue="reviews" className="w-full">
+            <TabsList className="grid w-full grid-cols-3">
+              <TabsTrigger value="reviews">Reseñas</TabsTrigger>
+              <TabsTrigger value="details">Detalles</TabsTrigger>
+              <TabsTrigger value="shipping">Envío</TabsTrigger>
             </TabsList>
 
-            <TabsContent value="description" className="mt-8">
-              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg">
-                <h3 className="font-serif font-bold text-2xl text-gray-800 mb-4">Descripción del Producto</h3>
-                <p className="text-gray-700 leading-relaxed mb-6">{product.description}</p>
-                <h4 className="font-medium text-lg text-gray-800 mb-4">Características:</h4>
-                <ul className="space-y-2">
-                  {product.features.map((feature, index) => (
-                    <li key={index} className="flex items-start gap-2 text-gray-700">
-                      <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
-                      {feature}
-                    </li>
+            <TabsContent value="reviews" className="mt-8">
+              <div className="grid lg:grid-cols-3 gap-8">
+                {/* Resumen de calificaciones */}
+                <div className="lg:col-span-1">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-lg">Calificaciones</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div className="text-center">
+                        <div className="text-4xl font-light text-gray-900">
+                          {averageRating}
+                        </div>
+                        <StarRating rating={averageRating} size="w-5 h-5" />
+                        <p className="text-sm text-gray-600 mt-1">
+                          Basado en {totalReviews} reseñas
+                        </p>
+                      </div>
+
+                      <div className="space-y-2">
+                        {ratingDistribution.map((item) => (
+                          <div
+                            key={item.stars}
+                            className="flex items-center gap-2 text-sm"
+                          >
+                            <span className="w-3">{item.stars}</span>
+                            <LuStar className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                            <Progress
+                              value={item.percentage}
+                              className="flex-1 h-2"
+                            />
+                            <span className="w-8 text-gray-600">
+                              {item.count}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+
+                      <Separator />
+
+                      <div>
+                        <p className="font-medium mb-3">
+                          Califica este producto
+                        </p>
+                        <StarRating
+                          rating={userRating}
+                          size="w-6 h-6"
+                          interactive={true}
+                          onRate={setUserRating}
+                        />
+                        {userRating > 0 && (
+                          <Button size="sm" className="mt-3 w-full">
+                            <LuMessageCircle className="w-4 h-4 mr-2" />
+                            Escribir reseña
+                          </Button>
+                        )}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* Lista de reseñas */}
+                <div className="lg:col-span-2 space-y-6">
+                  {reviews.map((review) => (
+                    <Card key={review.id}>
+                      <CardContent className="pt-6">
+                        <div className="flex items-start gap-4">
+                          <Avatar>
+                            <AvatarImage
+                              src={review.avatar || "/placeholder.svg"}
+                            />
+                            <AvatarFallback>
+                              {review.user
+                                .split(" ")
+                                .map((n) => n[0])
+                                .join("")}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="flex-1">
+                            <div className="flex items-center justify-between mb-2">
+                              <h4 className="font-medium text-gray-900">
+                                {review.user}
+                              </h4>
+                              <span className="text-sm text-gray-500">
+                                {review.date}
+                              </span>
+                            </div>
+                            <StarRating rating={review.rating} size="w-4 h-4" />
+                            <p className="text-gray-600 mt-3 leading-relaxed">
+                              {review.comment}
+                            </p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
                   ))}
-                </ul>
+                </div>
               </div>
             </TabsContent>
 
-            <TabsContent value="reviews" className="mt-8">
-              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg">
-                <div className="flex items-center justify-between mb-8">
-                  <h3 className="font-serif font-bold text-2xl text-gray-800">Reseñas de Clientas</h3>
-                  <Button className="bg-primary hover:bg-primary/90 text-white">
-                    Escribir Reseña
-                  </Button>
-                </div>
-
-                <div className="space-y-6">
-                  {reviews.map((review) => (
-                    <div key={review.id} className="border-b border-gray-200 pb-6 last:border-b-0">
-                      <div className="flex items-start justify-between mb-3">
-                        <div>
-                          <div className="flex items-center gap-2 mb-1">
-                            <span className="font-medium text-gray-800">{review.name}</span>
-                            {review.verified && (
-                              <span className="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">
-                                Compra verificada
-                              </span>
-                            )}
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <div className="flex">
-                              {[...Array(5)].map((_, i) => (
-                                <LuStar
-                                  key={i}
-                                  className={`w-4 h-4 ${i < review.rating ? "fill-amber-400 text-amber-400" : "fill-gray-200 text-gray-200"
-                                    }`}
-                                />
-                              ))}
-                            </div>
-                            <span className="text-sm text-gray-500">
-                              {new Date(review.date).toLocaleDateString('es-ES')}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                      <p className="text-gray-700 mt-2">{review.comment}</p>
+            <TabsContent value="details" className="mt-8">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Detalles del producto</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <h4 className="font-medium text-gray-900 mb-2">
+                        Especificaciones
+                      </h4>
+                      <ul className="space-y-2 text-sm text-gray-600">
+                        <li>
+                          <span className="font-medium">Material:</span> Plata
+                          ley 925
+                        </li>
+                        <li>
+                          <span className="font-medium">Acabado:</span> Lámina
+                          de oro
+                        </li>
+                        <li>
+                          <span className="font-medium">Peso aproximado:</span>{" "}
+                          8-12 gramos
+                        </li>
+                        <li>
+                          <span className="font-medium">Ancho:</span> 4mm
+                        </li>
+                        <li>
+                          <span className="font-medium">Grosor:</span> 1.5mm
+                        </li>
+                      </ul>
                     </div>
-                  ))}
-                  {reviews.length === 0 && (
-                    <div className="text-gray-500 text-center py-8">Aún no hay reseñas para este producto.</div>
-                  )}
-                </div>
-              </div>
+                    <div>
+                      <h4 className="font-medium text-gray-900 mb-2">
+                        Cuidados
+                      </h4>
+                      <ul className="space-y-2 text-sm text-gray-600">
+                        <li>• Evitar contacto con perfumes y químicos</li>
+                        <li>• Limpiar con paño suave y seco</li>
+                        <li>• Guardar en lugar seco</li>
+                        <li>• Evitar golpes y rayones</li>
+                        <li>• Mantenimiento profesional recomendado</li>
+                      </ul>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </TabsContent>
 
             <TabsContent value="shipping" className="mt-8">
-              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg">
-                <h3 className="font-serif font-bold text-2xl text-gray-800 mb-4">Envío y Devoluciones</h3>
-                <ul className="space-y-3 text-gray-700">
-                  <li>🚚 <b>Envío gratis</b> en pedidos mayores a $999 MXN.</li>
-                  <li>📦 Entrega estimada de 2-5 días hábiles en todo México.</li>
-                  <li>🔄 <b>Devoluciones fáciles</b> hasta 30 días después de la compra.</li>
-                  <li>💳 Pagos seguros con tarjeta, transferencia o efectivo.</li>
-                </ul>
-              </div>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Información de envío</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <h4 className="font-medium text-gray-900 mb-3">
+                        Tiempos de entrega
+                      </h4>
+                      <ul className="space-y-2 text-sm text-gray-600">
+                        <li>
+                          <span className="font-medium">Bogotá:</span> 1-2 días
+                          hábiles
+                        </li>
+                        <li>
+                          <span className="font-medium">
+                            Principales ciudades:
+                          </span>{" "}
+                          2-3 días hábiles
+                        </li>
+                        <li>
+                          <span className="font-medium">Resto del país:</span>{" "}
+                          3-5 días hábiles
+                        </li>
+                        <li>
+                          <span className="font-medium">Zonas especiales:</span>{" "}
+                          5-8 días hábiles
+                        </li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-gray-900 mb-3">
+                        Costos de envío
+                      </h4>
+                      <ul className="space-y-2 text-sm text-gray-600">
+                        <li>
+                          <span className="font-medium">Envío estándar:</span>{" "}
+                          $15.000
+                        </li>
+                        <li>
+                          <span className="font-medium">Envío express:</span>{" "}
+                          $25.000
+                        </li>
+                        <li>
+                          <span className="font-medium">Envío gratis:</span>{" "}
+                          Compras &gt; $500.000
+                        </li>
+                        <li>
+                          <span className="font-medium">
+                            Recogida en tienda:
+                          </span>{" "}
+                          Gratis
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <Separator />
+
+                  <div>
+                    <h4 className="font-medium text-gray-900 mb-3">
+                      Política de devoluciones
+                    </h4>
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                      Tienes 30 días calendario para realizar cambios o
+                      devoluciones. El producto debe estar en perfecto estado,
+                      sin uso y con su empaque original. Los gastos de envío
+                      para devoluciones corren por cuenta del cliente, excepto
+                      en casos de productos defectuosos o errores en el envío.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
             </TabsContent>
           </Tabs>
         </div>
-
-        {/* Related Products */}
-        <div className="mt-20">
-          <h2 className="text-2xl font-serif font-bold text-gray-800 mb-6">Te puede interesar</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {relatedProducts.map((item) => (
-              <Link
-                key={item.id}
-                to={`/products/${item.id}`}
-                className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all p-4 flex flex-col items-center group"
-              >
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-32 h-32 object-cover rounded-xl mb-3 group-hover:scale-105 transition-transform"
-                />
-                <div className="text-center">
-                  <span className="text-xs text-primary uppercase font-medium">{item.category}</span>
-                  <h3 className="font-semibold text-gray-800 mt-1">{item.name}</h3>
-                  <div className="flex items-center justify-center gap-1 mt-1">
-                    {[...Array(5)].map((_, i) => (
-                      <LuStar
-                        key={i}
-                        className={`w-4 h-4 ${i < Math.floor(item.rating) ? "fill-amber-400 text-amber-400" : "fill-gray-200 text-gray-200"}`}
-                      />
-                    ))}
-                  </div>
-                  <span className="block text-lg font-bold text-gray-800 mt-1">MXN ${item.price}</span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
       </div>
     </div>
-  )
+  );
 }

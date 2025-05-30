@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,12 +24,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-
+import { useParams } from "react-router-dom";
 import {
-  createProductSchema,
-  type CreateProductFormValues,
-} from "@/schemas/products/createProductSchema";
-import { useCreateProduct } from "@/hooks/products/useCreateProduct";
+  updateProductSchema,
+  type UpdateProductFormValues,
+} from "@/schemas/products/updateProductSchema";
+import { useUpdateProduct } from "@/hooks/products/useUpdateProduct";
+import { useProduct } from "@/hooks/products/useProduct";
+import { useProductImages } from "@/hooks/products/useProductImages";
 
 const availableColors = [
   { value: "blanco", label: "Blanco" },
@@ -45,21 +47,25 @@ const availableColors = [
   { value: "marron", label: "Marrón" },
 ];
 
-export default function CreateProduct() {
-  const navigate = useNavigate();
-  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
-  const [imageFiles, setImageFiles] = useState<File[]>([]);
+type ProductImage = {
+  id: number;
+  url: string;
+};
 
-  const { mutate: createProduct, isLoading } = useCreateProduct();
+export default function UpdateProduct() {
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const productId = Number(id);
 
   const {
     register,
     handleSubmit,
     setValue,
     watch,
+    reset,
     formState: { errors },
-  } = useForm<CreateProductFormValues>({
-    resolver: zodResolver(createProductSchema),
+  } = useForm<UpdateProductFormValues>({
+    resolver: zodResolver(updateProductSchema),
     defaultValues: {
       name: "",
       slug: "",
@@ -70,9 +76,34 @@ export default function CreateProduct() {
       description: "",
       in_stock: true,
       stock_count: "0",
-      images: [],
     },
   });
+
+  const { data: product, isLoading: isLoadingProduct } = useProduct(productId);
+  const [existingImages, setExistingImages] = useState<ProductImage[]>([]);
+  const { mutate: updateProduct, isLoading } = useUpdateProduct(productId);
+
+
+  const { uploadImages, deleteImage, isUploading, isDeleting } =
+    useProductImages(productId);
+
+  useEffect(() => {
+    if (product) {
+      reset({
+        name: product.name,
+        slug: product.slug,
+        price: product.price,
+        original_price: product.original_price ?? "",
+        size: product.size ?? "",
+        color: product.color ?? "",
+        description: product.description ?? "",
+        in_stock: !!product.in_stock,
+        stock_count: product.stock_count.toString(),
+      });
+
+      setExistingImages(product.images || []);
+    }
+  }, [product, reset]);
 
   const generateSlug = (name: string) =>
     name
@@ -82,46 +113,30 @@ export default function CreateProduct() {
       .replace(/-+/g, "-")
       .substring(0, 250);
 
-  const onSubmit = (data: CreateProductFormValues) => {
-    createProduct(
-      { data, images: imageFiles },
-      {
-        onSuccess: () => navigate("/admin/products"),
-      }
-    );
+  const onSubmit = (data: UpdateProductFormValues) => {
+    updateProduct(data, {
+      onSuccess: () => navigate("/admin/products"),
+    });
+  };
+
+  const handleDeleteImage = (imageId: number) => {
+    deleteImage(imageId, {
+      onSuccess: () =>
+        setExistingImages((prev) => prev.filter((img) => img.id !== imageId)),
+    });
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-    if (!files) return;
+    if (!files || files.length === 0) return;
 
-    const selectedFiles = Array.from(files);
-    setImageFiles(selectedFiles);
-    setValue("images", selectedFiles, { shouldValidate: true });
+    const fileArray = Array.from(files);
 
-    const previews: string[] = [];
-
-    selectedFiles.forEach((file) => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        if (reader.result) {
-          previews.push(reader.result.toString());
-          if (previews.length === selectedFiles.length) {
-            setImagePreviews(previews);
-          }
-        }
-      };
-      reader.readAsDataURL(file);
+    uploadImages(fileArray, {
+      onSuccess: (newImages) => {
+        setExistingImages((prev) => [...prev, ...newImages]);
+      },
     });
-  };
-
-  const removeImage = (index: number) => {
-    const updatedPreviews = [...imagePreviews];
-    const updatedFiles = [...imageFiles];
-    updatedPreviews.splice(index, 1);
-    updatedFiles.splice(index, 1);
-    setImagePreviews(updatedPreviews);
-    setImageFiles(updatedFiles);
   };
 
   return (
@@ -135,9 +150,7 @@ export default function CreateProduct() {
           <LuArrowLeft className="h-4 w-4" />
         </Button>
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">
-            Crear Nuevo Producto
-          </h1>
+          <h1 className="text-3xl font-bold tracking-tight">Editar Producto</h1>
           <p className="text-muted-foreground">
             Añade un nuevo producto a tu catálogo
           </p>
@@ -271,11 +284,6 @@ export default function CreateProduct() {
                   value={watch("size")}
                   onChange={(e) => setValue("size", e.target.value)}
                 />
-                {errors.size && (
-                  <p className="text-sm text-red-600">
-                    {errors.size.message}
-                  </p>
-                )}
               </div>
 
               <div className="space-y-2">
@@ -334,26 +342,25 @@ export default function CreateProduct() {
                       onClick={() =>
                         document.getElementById("image-upload")?.click()
                       }
+                      disabled={isUploading}
                     >
-                      Seleccionar Imágenes
+                      {isUploading ? "Subiendo..." : "Seleccionar Imágenes"}
                     </Button>
                   </div>
                 </div>
 
-                {imagePreviews.length > 0 && (
+                {existingImages.length > 0 && (
                   <div className="space-y-4">
                     <h3 className="font-medium">
-                      Imágenes seleccionadas ({imagePreviews.length})
+                      Imágenes actuales ({existingImages.length})
                     </h3>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                      {imagePreviews.map((image, index) => (
-                        <div key={index} className="relative group">
+                      {existingImages.map((image) => (
+                        <div key={image.id} className="relative group">
                           <div className="aspect-square rounded-md overflow-hidden border bg-background">
                             <img
-                              src={image || "/placeholder.svg"}
-                              alt={`Imagen ${index + 1}`}
-                              width={200}
-                              height={200}
+                              src={`http://localhost:8000${image.url}`}
+                              alt={`Imagen ${image.id}`}
                               className="object-cover w-full h-full"
                             />
                           </div>
@@ -362,7 +369,7 @@ export default function CreateProduct() {
                             variant="destructive"
                             size="icon"
                             className="absolute top-1 right-1 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
-                            onClick={() => removeImage(index)}
+                            onClick={() => handleDeleteImage(image.id)}
                           >
                             <LuX className="h-3 w-3" />
                           </Button>
@@ -371,15 +378,10 @@ export default function CreateProduct() {
                     </div>
                   </div>
                 )}
-                {errors.images && (
-                  <p className="text-sm text-red-600 mt-2">
-                    {errors.images.message as string}
-                  </p>
-                )}
-                {imageFiles.length === 0 && (
+                {existingImages.length === 0 && (
                   <div className="flex flex-col items-center justify-center p-8 text-center text-muted-foreground">
                     <LuBookImage className="h-10 w-10 mb-2" />
-                    <p>No hay imágenes seleccionadas</p>
+                    <p>No hay imágenes actuales</p>
                   </div>
                 )}
               </div>

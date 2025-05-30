@@ -57,20 +57,20 @@ export default function RegisterPage() {
           <CardContent>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="name" className="text-nurae-brown">
+                <Label htmlFor="first_name" className="text-nurae-brown">
                   Nombre
                 </Label>
                 <div className="relative">
                   <LuUser className="absolute left-3 top-3 h-4 w-4 text-secondary" />
                   <Input
-                    id="name"
+                    id="first_name"
                     placeholder="Nombre"
                     className="pl-10 border-warm-sand focus:border-nurae-brown"
-                    {...register("name")}
+                    {...register("first_name")}
                   />
-                  {errors.name && (
+                  {errors.first_name && (
                     <p className="text-sm text-red-600">
-                      {errors.name.message}
+                      {errors.first_name.message}
                     </p>
                   )}
                 </div>

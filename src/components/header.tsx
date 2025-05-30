@@ -22,7 +22,7 @@ import {
 import { MiniCart } from "@/components/mini-cart";
 import { SearchModal } from "@/components/search-modal";
 import { UserMenu } from "@/components/user-menu";
-import { useWishlist } from "@/providers/wishlist-provider";
+import { useWishlist } from "@/hooks/useWishlist";
 
 const collections = [
   {
@@ -48,7 +48,8 @@ const collections = [
 ];
 
 export function Header() {
-  const { itemCount } = useWishlist();
+  const { items } = useWishlist();
+  const itemCount = items.length;
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
