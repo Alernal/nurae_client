@@ -27,6 +27,7 @@ import AdminProductPage from "@/views/admin/products";
 import AdminProductCreate from "@/views/admin/products/create";
 import AdminProductUpdate from "@/views/admin/products/update";
 import ProductPage from "@/views/products";
+import CollectionsPage from "@/views/collections";
 
 export function Router() {
   return (
@@ -43,6 +44,7 @@ export function Router() {
         <Route index element={<Home />} />
         <Route path="cart" element={<CartPage />} />
         <Route path="about" element={<AboutPage />} />
+        <Route path="collections" element={<CollectionsPage />} />
 
         {/* PRODUCTO */}
         <Route path="products/:id" element={<ProductPage />} />

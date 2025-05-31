@@ -1,19 +1,34 @@
-import { useWishlist } from "@/hooks/useWishlist"; // <-- nuevo hook
+import { useWishlist } from "@/hooks/useWishlist";
+import { useCart } from "@/hooks/useCart";
 import { Button } from "./ui/button";
 import { LuHeart, LuShoppingBag, LuStar } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
 export default function ProductCard({ product }) {
-  const { add, remove, isInWishlist } = useWishlist(); // <-- nuevo hook
+  const { add, remove, isInWishlist } = useWishlist();
+  const { addToCart, getQuantity } = useCart();
+  const quantityInCart = getQuantity(product.id);
 
   const toggleWishlist = () => {
     if (isInWishlist(product.id)) {
-      remove(product.id); // solo se necesita el ID, petición incluida
+      remove(product.id);
     } else {
-      add(product.id); // solo se necesita el ID, petición incluida
+      add(product.id);
     }
   };
+
+  const handleAddToCart = () => {
+    addToCart(product.id, 1);
+  };
+
+  // Nuevos cálculos de precios
+  const regularPrice = Number(product.price);
+  const offerPrice = Number(product.original_price);
+  const isOnSale = offerPrice > 0 && offerPrice < regularPrice;
+  const discountPercentage = isOnSale
+    ? Math.round(((regularPrice - offerPrice) / regularPrice) * 100)
+    : 0;
 
   return (
     <div className="group relative bg-white rounded-3xl shadow-lg hover:shadow-2xl overflow-hidden transition-all duration-500 hover:-translate-y-2 flex flex-col">
@@ -32,9 +47,9 @@ export default function ProductCard({ product }) {
 
         {/* Badges */}
         <div className="absolute top-4 left-4 space-y-2">
-          {product.original_price && (
-            <span className="bg-[#D4AF37] text-white text-[10px] px-2 py-1 rounded-full font-semibold shadow">
-              OFERTA
+          {isOnSale && (
+            <span className="bg-red-600 text-white text-[10px] px-2 py-1 rounded-full font-semibold shadow">
+              -{discountPercentage}% OFF
             </span>
           )}
         </div>
@@ -60,16 +75,18 @@ export default function ProductCard({ product }) {
 
         {/* Botón Agregar al carrito */}
         <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition duration-300 translate-y-2 group-hover:translate-y-0">
-          <Button className="w-full bg-[#D4AF37] hover:opacity-90 text-white rounded-full shadow-lg text-sm font-semibold">
+          <Button
+            className="w-full bg-[#D4AF37] hover:opacity-90 text-white rounded-full shadow-lg text-sm font-semibold"
+            onClick={handleAddToCart}
+          >
             <LuShoppingBag className="mr-2 h-4 w-4" />
-            Añadir al carrito
+            {quantityInCart > 0 ? "Agregar otro" : "Añadir al carrito"}
           </Button>
         </div>
       </div>
 
       {/* Info */}
       <div className="p-5 flex flex-col flex-grow">
-        {/* Categoría y rating */}
         <div className="flex items-center justify-between text-xs text-muted-foreground font-medium mb-2">
           <Link
             to={`/collections/${product.category?.slug ?? "general"}`}
@@ -84,38 +101,35 @@ export default function ProductCard({ product }) {
           </div>
         </div>
 
-        {/* Nombre */}
         <Link to={`/products/${product.id}`}>
           <h3 className="text-lg md:text-xl font-serif font-bold text-[#2C1810] leading-snug group-hover:text-[#D4AF37] transition-colors line-clamp-2 mb-1">
             {product.name}
           </h3>
         </Link>
 
-        {/* Descripción */}
         {product.description && (
           <p className="text-sm text-gray-600 font-light line-clamp-2 mb-3">
             {product.description}
           </p>
         )}
 
-        {/* Espaciador */}
         <div className="flex-grow" />
 
-        {/* Precios y botón Comprar */}
         <div className="flex items-center justify-between mt-auto pt-3 border-t border-gray-200">
           <div>
             <p className="text-xl font-serif font-bold text-[#2C1810] leading-none">
-              ${Number(product.price).toLocaleString("es-CO")} COP
+              ${isOnSale ? offerPrice.toLocaleString("es-CO") : regularPrice.toLocaleString("es-CO")} COP
             </p>
-            {product.original_price && (
+            {isOnSale && (
               <p className="text-sm text-gray-400 line-through">
-                ${Number(product.original_price).toLocaleString("es-CO")} COP
+                ${regularPrice.toLocaleString("es-CO")} COP
               </p>
             )}
           </div>
           <Button
             size="sm"
             className="bg-[#D4AF37] hover:opacity-90 text-white rounded-full text-sm font-medium shadow"
+            onClick={handleAddToCart}
           >
             Comprar
           </Button>

@@ -1,14 +1,8 @@
 import { Link } from "react-router-dom";
 import {
-  LuHeart,
-  LuStar,
   LuSparkles,
-  LuShoppingBag,
-  LuEye,
 } from "react-icons/lu";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { useWishlist } from "@/providers/wishlist-provider";
 import { useProducts } from "@/hooks/products/useProducts";
 import ProductCard from "./product-card";
 

@@ -15,10 +15,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { LuEye, LuEyeOff, LuMail, LuLock } from "react-icons/lu";
-import { useWishlist } from "@/hooks/useWishlist";
 
 export default function LoginPage() {
-  const { fetchWishlist } = useWishlist();
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
@@ -34,8 +32,7 @@ export default function LoginPage() {
 
   const onSubmit = (data: LoginFormValues) => {
     loginMutate(data, {
-      onSuccess: () => {
-        fetchWishlist();
+      onSuccess: async () => {
         navigate("/");
       },
     });
