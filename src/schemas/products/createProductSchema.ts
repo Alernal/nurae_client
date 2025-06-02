@@ -19,9 +19,12 @@ export const createProductSchema = z.object({
     .min(1, "El slug es obligatorio")
     .max(250, "El slug no debe superar los 250 caracteres"),
 
-  price: z.string().refine((val) => !isNaN(Number(val)) && Number(val) >= 0, {
-    message: "El precio debe ser un número válido mayor o igual a 0",
-  }),
+  price: z
+    .string()
+    .min(1, "El precio es obligatorio")
+    .refine((val) => !isNaN(Number(val)) && Number(val) >= 0, {
+      message: "El precio debe ser un número válido mayor o igual a 0",
+    }),
 
   original_price: z
     .string()

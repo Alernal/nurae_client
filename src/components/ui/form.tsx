@@ -1,16 +1,21 @@
-"use client"
-
 import * as React from "react"
 import * as LabelPrimitive from "@radix-ui/react-label"
 import { Slot } from "@radix-ui/react-slot"
 import {
   Controller,
-  ControllerProps,
-  FieldPath,
-  FieldValues,
   FormProvider,
   useFormContext,
 } from "react-hook-form"
+
+import type {
+  ControllerProps,
+} from "react-hook-form/dist/types/controller"
+
+import type {
+  FieldPath,
+  FieldValues,
+} from "react-hook-form/dist/types"
+
 
 import { cn } from "@/lib/utils"
 import { Label } from "@/components/ui/label"
@@ -95,7 +100,7 @@ const FormLabel = React.forwardRef<
   return (
     <Label
       ref={ref}
-      className={cn(error && "text-destructive", className)}
+      className={cn(className)}
       htmlFor={formItemId}
       {...props}
     />

@@ -15,17 +15,21 @@ import { Separator } from "@/components/ui/separator";
 import { useParams } from "react-router-dom";
 import { useProduct } from "@/hooks/products/useProduct";
 import { useCart } from "@/hooks/useCart";
+import { useWishlist } from "@/hooks/useWishlist";
 
 export default function ProductView() {
   const { id } = useParams();
   const productId = id ? Number(id) : undefined;
   const { data: product, isLoading } = useProduct(productId);
   const [quantity, setQuantity] = useState(1);
-  const [isWishlisted, setIsWishlisted] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [showFullDescription, setShowFullDescription] = useState(false);
 
-  const { addToCart } = useCart();
+  const { addToCart, getQuantity } = useCart();
+  const { add, remove, isInWishlist } = useWishlist();
+
+  const isWishlisted = product ? isInWishlist(product.id) : false;
+  const quantityInCart = product ? getQuantity(product.id) : 0;
 
   useEffect(() => {
     if (product?.images?.length > 0) {
@@ -54,6 +58,23 @@ export default function ProductView() {
   const discountPercentage = isOnSale
     ? Math.round(((regularPrice - offerPrice) / regularPrice) * 100)
     : 0;
+
+  const toggleWishlist = () => {
+    if (isWishlisted) {
+      remove(product.id);
+    } else {
+      add(product.id);
+    }
+  };
+
+  const handleAddToCart = () => {
+    const maxAvailable = product.stock_count;
+    const totalAfterAdd = quantityInCart + quantity;
+
+    if (totalAfterAdd <= maxAvailable) {
+      addToCart(product.id, quantity);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -196,12 +217,12 @@ export default function ProductView() {
                     setQuantity(Math.min(product.stock_count, quantity + 1))
                   }
                   className="p-2 border border-gray-300 rounded-lg bg-white hover:bg-gray-100 shadow-sm"
-                  disabled={quantity >= product.stock_count}
+                  disabled={quantity + quantityInCart >= product.stock_count}
                 >
                   <LuPlus className="w-4 h-4 text-gray-700" />
                 </button>
                 <span className="text-sm text-gray-500 ml-2">
-                  {product.stock_count} disponibles
+                  {product.stock_count - quantityInCart} disponibles
                 </span>
               </div>
             </div>
@@ -211,18 +232,19 @@ export default function ProductView() {
               <Button
                 size="lg"
                 className="w-full bg-rose-600 hover:bg-rose-700"
-                onClick={() => addToCart(product.id, quantity)}
-                disabled={quantity > product.stock_count}
+                onClick={handleAddToCart}
+                disabled={quantity + quantityInCart > product.stock_count}
               >
                 Agregar al carrito
               </Button>
+
               <Button
                 size="lg"
                 variant="outline"
                 className={`w-full transition-all ${
                   isWishlisted ? "border-red-400 text-red-500" : ""
                 }`}
-                onClick={() => setIsWishlisted(!isWishlisted)}
+                onClick={toggleWishlist}
               >
                 <LuHeart
                   className={`w-4 h-4 mr-2 transition-all duration-200 ${

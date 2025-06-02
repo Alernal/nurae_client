@@ -1,33 +1,34 @@
 import { Routes, Route } from "react-router-dom";
 import MainLayout from "@/layouts/MainLayout";
+import AdminLayout from "@/layouts/AdminLayout";
+import ClientLayout from "@/layouts/ClientLayout";
+
 import ProtectedRoute from "@/router/ProtectedRoute";
 import GuestRoute from "@/router/GuestRoute";
+import AdminRoute from "@/router/AdminRoute";
+import ClientRoute from "@/router/ClientRoute";
 
-{/* Auth */}
 import LoginPage from "@/views/auth/login";
 import RegisterPage from "@/views/auth/register";
 
-{/* Publicas */}
 import Home from "@/views/Home";
 import AboutPage from "@/views/about";
 import CartPage from "@/views/cart";
+import ProductPage from "@/views/products";
+import CollectionsPage from "@/views/collections";
 
-// Privadas
 import WishlistPage from "@/views/wishlist";
 import CheckoutPage from "@/views/checkout";
 
-//ADMIN ROUTES
-import AdminLayout from "@/layouts/AdminLayout";
-
-// PROFILE
+/* Admin */
 import ProfilePage from "@/views/admin/profile";
-
-// PRODUCTS
 import AdminProductPage from "@/views/admin/products";
 import AdminProductCreate from "@/views/admin/products/create";
 import AdminProductUpdate from "@/views/admin/products/update";
-import ProductPage from "@/views/products";
-import CollectionsPage from "@/views/collections";
+
+/* Client */
+import ClientProfilePage from "@/views/client/profile";
+import ClientAddresses from "@/views/client/address";
 
 export function Router() {
   return (
@@ -38,31 +39,32 @@ export function Router() {
         <Route path="/register" element={<RegisterPage />} />
       </Route>
 
-      {/* Layout general */}
+      {/* Layout general con rutas públicas */}
       <Route path="/" element={<MainLayout />}>
-        {/* Rutas publicas */}
         <Route index element={<Home />} />
         <Route path="cart" element={<CartPage />} />
         <Route path="about" element={<AboutPage />} />
         <Route path="collections" element={<CollectionsPage />} />
-
-        {/* PRODUCTO */}
         <Route path="products/:id" element={<ProductPage />} />
 
-        {/* Rutas privadas */}
         <Route element={<ProtectedRoute />}>
           <Route path="wishlist" element={<WishlistPage />} />
           <Route path="checkout" element={<CheckoutPage />} />
         </Route>
       </Route>
 
-      {/* Rutas Administrativas */}
+      {/* Rutas privadas para clientes */}
+      <Route path="client" element={<ClientRoute />}>
+        <Route element={<ClientLayout />}>
+          <Route path="profile" element={<ClientProfilePage />} />
+          <Route path="addresses" element={<ClientAddresses />} />
+        </Route>
+      </Route>
+
+      {/* Rutas privadas administrativas */}
       <Route path="admin" element={<AdminLayout />}>
-        <Route element={<ProtectedRoute />}>
-
+        <Route element={<AdminRoute />}>
           <Route path="profile" element={<ProfilePage />} />
-
-          {/* Rutas de productos */}
           <Route path="products" element={<AdminProductPage />} />
           <Route path="products/create" element={<AdminProductCreate />} />
           <Route path="products/:id/edit" element={<AdminProductUpdate />} />

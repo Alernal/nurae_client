@@ -3,72 +3,59 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
-  LuLayoutDashboard,
+  LuMapPin,
+  LuCreditCard,
   LuPackage,
-  LuShoppingCart,
-  LuUsers,
   LuSettings,
   LuLogOut,
   LuMenu,
   LuX,
   LuUser,
-  LuChartBar,
-  LuPercent,
-  LuLayers,
+  LuHeadphones,
   LuHouse,
 } from "react-icons/lu";
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/stores/useAuthStore";
-import { useLogout } from "@/hooks/auth/useLogout";
 
 const navigation = [
   {
-    name: "Dashboard",
-    href: "/admin/dashboard",
-    icon: LuLayoutDashboard,
-  },
-  {
     name: "Perfil",
-    href: "/admin/profile",
+    path: "profile",
     icon: LuUser,
   },
   {
-    name: "Productos",
-    href: "/admin/products",
+    name: "Mis Pedidos",
+    path: "orders",
     icon: LuPackage,
   },
   {
-    name: "Categorías",
-    href: "/admin/categories",
-    icon: LuLayers,
+    name: "Direcciones",
+    path: "addresses",
+    icon: LuMapPin,
   },
   {
-    name: "Pedidos",
-    href: "/admin/orders",
-    icon: LuShoppingCart,
+    name: "Métodos de Pago",
+    path: "payments",
+    icon: LuCreditCard,
   },
   {
-    name: "Clientes",
-    href: "/admin/customers",
-    icon: LuUsers,
-  },
-  {
-    name: "Analíticas",
-    href: "/admin/analytics",
-    icon: LuChartBar,
+    name: "Soporte",
+    path: "support",
+    icon: LuHeadphones,
   },
   {
     name: "Configuración",
-    href: "/admin/settings",
+    path: "settings",
     icon: LuSettings,
   },
 ];
 
-export function AdminSidebar() {
+export function ClientSidebar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { pathname } = useLocation();
   const user = useAuthStore((state) => state.user);
-  const { mutate: logoutMutate, isPending } = useLogout();
+
+  const basePath = `/${user?.role || "client"}`; // fallback a 'client' si no está definido
 
   return (
     <>
@@ -84,7 +71,6 @@ export function AdminSidebar() {
         </Button>
       </div>
 
-      {/* Fondo oscuro en móvil */}
       {isMobileMenuOpen && (
         <div
           className="lg:hidden fixed inset-0 bg-black/50 z-40"
@@ -102,18 +88,18 @@ export function AdminSidebar() {
         <div className="flex flex-col h-full overflow-hidden">
           {/* Header */}
           <div className="flex items-center justify-between px-6 py-4 border-b border-nurae-sand">
-            <Link to="/admin/dashboard" className="flex items-center gap-3">
+            <Link to="/" className="flex items-center gap-3">
               <img src="/logo.png" alt="NURAE" className="h-8 object-contain" />
             </Link>
             <Badge
               variant="outline"
-              className="bg-nurae-gold text-nurae-charcoal border-nurae-gold"
+              className="bg-nurae-sand text-nurae-charcoal border-nurae-sand"
             >
-              Admin
+              {user?.role === "admin" ? "Admin" : "Cliente"}
             </Badge>
           </div>
 
-          {/* Info usuario */}
+          {/* Usuario */}
           <div className="px-6 py-4 border-b border-nurae-sand">
             <div className="flex items-center gap-3">
               {user?.profile_image_url ? (
@@ -128,7 +114,7 @@ export function AdminSidebar() {
                 </div>
               )}
               <div>
-                <Link to="/admin/profile" className="hover:underline">
+                <Link to={`${basePath}/profile`} className="hover:underline">
                   <p className="font-medium text-nurae-brown">
                     {user?.first_name} {user?.last_name}
                   </p>
@@ -141,11 +127,12 @@ export function AdminSidebar() {
           {/* Navegación */}
           <nav className="flex-1 px-6 py-4 space-y-2 overflow-y-auto">
             {navigation.map((item) => {
-              const isActive = pathname.startsWith(item.href); // Permite subrutas
+              const href = `${basePath}/${item.path}`;
+              const isActive = pathname === href;
               return (
                 <Link
                   key={item.name}
-                  to={item.href}
+                  to={href}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={cn(
                     "flex items-center justify-between px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200",
@@ -183,8 +170,6 @@ export function AdminSidebar() {
             <Button
               variant="outline"
               className="w-full justify-start border-destructive text-destructive hover:bg-destructive hover:text-white"
-              onClick={() => logoutMutate()}
-              disabled={isPending}
             >
               <LuLogOut className="w-4 h-4 mr-2" />
               Cerrar Sesión

@@ -22,7 +22,15 @@ import { useLogout } from "@/hooks/auth/useLogout";
 
 export function UserMenu() {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const user = useAuthStore((state) => state.user);
   const { mutate: logoutMutate, isPending } = useLogout();
+
+  const profilePath =
+    user?.role === "admin"
+      ? "/admin/profile"
+      : user?.role === "client"
+      ? "/client/profile"
+      : "/";
 
   return (
     <DropdownMenu>
@@ -47,7 +55,7 @@ export function UserMenu() {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link to="/admin/profile" className="flex items-center gap-2">
+              <Link to={profilePath} className="flex items-center gap-2">
                 <LuUser className="h-4 w-4" />
                 Perfil
               </Link>
