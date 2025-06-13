@@ -84,14 +84,14 @@ export default function AdminProducts() {
   const formatPrice = (price) => {
     return new Intl.NumberFormat("es-ES", {
       style: "currency",
-      currency: "EUR",
+      currency: "COP",
     }).format(price);
   };
 
   const getStockBadge = (product) => {
-    if (!product.in_stock)
+    if (!product.in_stock || product.stock_count == 0)
       return <Badge variant="destructive">Sin Stock</Badge>;
-    if (product.stock_count <= 10)
+    if (product.stock_count <= 5)
       return <Badge variant="secondary">Stock Bajo</Badge>;
     return <Badge variant="default">En Stock</Badge>;
   };

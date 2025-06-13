@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { AdminSidebar } from "@/components/admin-sidebar";
 
-export default function AdminLayout() {
+export default function ClientLayout() {
     return (
         <div className="min-h-screen flex flex-col md:flex-row bg-nurae-cream">
             {/* Sidebar responsivo */}

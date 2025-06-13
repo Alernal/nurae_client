@@ -12,6 +12,14 @@ export default function ProductCard({ product, viewMode = "grid" }) {
   const { addToCart, getQuantity } = useCart();
   const quantityInCart = getQuantity(product.id);
 
+  const reviews = product.reviews || [];
+  const avgRating =
+    reviews?.length > 0
+      ? (
+          reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
+        ).toFixed(1)
+      : "0.0";
+
   const toggleWishlist = () => {
     if (isInWishlist(product.id)) {
       remove(product.id);
@@ -69,15 +77,15 @@ export default function ProductCard({ product, viewMode = "grid" }) {
           <div>
             <div className="flex justify-between items-center text-xs text-muted-foreground font-medium mb-1">
               <Link
-                to={`/collections/${product.category?.slug ?? "general"}`}
+                to={`/collections?category=${product.category?.slug ?? "general"}`}
                 className="uppercase tracking-wide hover:underline"
               >
-                {product.category?.name ?? "General"}
+                {product.category ?? "General"}
               </Link>
               <div className="flex items-center gap-1">
                 <LuStar className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                <span>4.8</span>
-                <span className="text-gray-400">(10)</span>
+                <span>{avgRating}</span>
+                <span className="text-gray-400">({reviews?.length})</span>
               </div>
             </div>
 
@@ -204,15 +212,15 @@ export default function ProductCard({ product, viewMode = "grid" }) {
       <div className="p-5 flex flex-col flex-grow">
         <div className="flex items-center justify-between text-xs text-muted-foreground font-medium mb-2">
           <Link
-            to={`/collections/${product.category?.slug ?? "general"}`}
+            to={`/collections?category=${product.category ?? "general"}`}
             className="uppercase tracking-wide hover:underline"
           >
-            {product.category?.name ?? "General"}
+            {product.category ?? "General"}
           </Link>
           <div className="flex items-center gap-1">
             <LuStar className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-            <span>4.8</span>
-            <span className="text-gray-400">(10)</span>
+            <span>{avgRating}</span>
+            <span className="text-gray-400">({reviews.length})</span>
           </div>
         </div>
 

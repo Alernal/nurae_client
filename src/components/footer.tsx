@@ -25,8 +25,8 @@ export function Footer() {
                 <LuSparkles className="h-5 w-5 text-[#2C1810] absolute -top-1 -right-1 animate-pulse" />
               </div>
               <div>
-                <span className="font-serif text-3xl font-bold text-[#2C1810] tracking-wider block">LÚMINA</span>
-                <span className="text-xs text-[#5C4A42] font-display tracking-widest">LUXURY ACCESSIBLE</span>
+                <span className="font-serif text-3xl font-bold text-[#2C1810] tracking-wider block">NURAE</span>
+                <span className="text-xs text-[#5C4A42] font-display tracking-widest">ACCESORIOS</span>
               </div>
             </Link>
             <p className="text-[#5C4A42] leading-relaxed">
@@ -101,14 +101,14 @@ export function Footer() {
                       </li>
                       <li className="flex items-center gap-2">
                         <LuMail className="h-4 w-4 text-[#D4AF37]" />
-                        hola@lumina.co
+                        contacto@nurae.co
                       </li>
                       <li className="flex items-start gap-2">
                         <LuMapPin className="h-4 w-4 text-[#D4AF37] mt-1" />
                         <span>
-                          Carrera 11 #93-07
+                          Carrera 16 #15a-144
                           <br />
-                          Bogotá, Colombia 110221
+                          Sincelejo, Colombia 700001
                         </span>
                       </li>
                     </ul>
@@ -141,7 +141,7 @@ export function Footer() {
         {/* Parte inferior */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-6 border-t border-[#E7D8CE] pt-8">
           <p className="text-sm text-[#5C4A42] font-display text-center md:text-left">
-            © 2025 LÚMINA. Hecho con 💖 para mujeres extraordinarias.
+            © 2025 NURAE. Hecho con 💖 para mujeres extraordinarias.
           </p>
 
           <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6 text-sm">

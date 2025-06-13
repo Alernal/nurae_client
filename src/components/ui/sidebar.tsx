@@ -1,9 +1,7 @@
-"use client"
-
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
-import { VariantProps, cva } from "class-variance-authority"
-import { PanelLeft } from "lucide-react"
+import { cva } from "class-variance-authority"
+import { LuPanelLeft } from "react-icons/lu"
 
 import { useIsMobile } from "@/hooks/use-mobile"
 import { cn } from "@/lib/utils"
@@ -278,7 +276,7 @@ const SidebarTrigger = React.forwardRef<
       }}
       {...props}
     >
-      <PanelLeft />
+      <LuPanelLeft />
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   )
@@ -539,7 +537,9 @@ const SidebarMenuButton = React.forwardRef<
     asChild?: boolean
     isActive?: boolean
     tooltip?: string | React.ComponentProps<typeof TooltipContent>
-  } & VariantProps<typeof sidebarMenuButtonVariants>
+    variant?: "default" | "outline"
+    size?: "default" | "sm" | "lg"
+  }
 >(
   (
     {

@@ -7,14 +7,10 @@ import {
   LuPackage,
   LuShoppingCart,
   LuUsers,
-  LuSettings,
   LuLogOut,
   LuMenu,
   LuX,
   LuUser,
-  LuChartBar,
-  LuPercent,
-  LuLayers,
   LuHouse,
 } from "react-icons/lu";
 import { cn } from "@/lib/utils";
@@ -38,29 +34,14 @@ const navigation = [
     icon: LuPackage,
   },
   {
-    name: "Categorías",
-    href: "/admin/categories",
-    icon: LuLayers,
-  },
-  {
     name: "Pedidos",
     href: "/admin/orders",
     icon: LuShoppingCart,
   },
   {
     name: "Clientes",
-    href: "/admin/customers",
+    href: "/admin/users",
     icon: LuUsers,
-  },
-  {
-    name: "Analíticas",
-    href: "/admin/analytics",
-    icon: LuChartBar,
-  },
-  {
-    name: "Configuración",
-    href: "/admin/settings",
-    icon: LuSettings,
   },
 ];
 

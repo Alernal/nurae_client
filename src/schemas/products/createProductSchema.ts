@@ -42,13 +42,13 @@ export const createProductSchema = z.object({
 
   size: z
     .string()
-    .max(5, "La talla no debe superar los 5 caracteres")
+    .max(10, "La talla no debe superar los 10 caracteres")
     .regex(/^[\w\s]{1,10}$/i, "Formato de talla no válido")
     .optional(),
 
-  color: z
+  material: z
     .string()
-    .max(20, "El color no debe superar los 20 caracteres")
+    .max(20, "El material no debe superar los 50 caracteres")
     .optional(),
 
   description: z
@@ -70,6 +70,10 @@ export const createProductSchema = z.object({
           "La cantidad en stock debe ser un número entero mayor o igual a 0",
       }
     ),
+
+  category: z
+    .string()
+    .max(100, "La categoría no debe superar los 50 caracteres"),
 
   images: z
     .any()

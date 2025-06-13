@@ -25,13 +25,6 @@ export function UserMenu() {
   const user = useAuthStore((state) => state.user);
   const { mutate: logoutMutate, isPending } = useLogout();
 
-  const profilePath =
-    user?.role === "admin"
-      ? "/admin/profile"
-      : user?.role === "client"
-      ? "/client/profile"
-      : "/";
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -55,13 +48,13 @@ export function UserMenu() {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link to={profilePath} className="flex items-center gap-2">
+                <Link to={`/${user.role}/profile`} className="flex items-center gap-2">
                 <LuUser className="h-4 w-4" />
                 Perfil
-              </Link>
+                </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link to="/orders" className="flex items-center gap-2">
+              <Link to={`/${user.role}/orders`} className="flex items-center gap-2">
                 <LuPackage className="h-4 w-4" />
                 Mis Pedidos
               </Link>
@@ -73,7 +66,7 @@ export function UserMenu() {
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link to="/settings" className="flex items-center gap-2">
+              <Link to={`/${user.role}/settings`} className="flex items-center gap-2">
                 <LuSettings className="h-4 w-4" />
                 Configuración
               </Link>

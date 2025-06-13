@@ -6,7 +6,7 @@ export function CategoryShowcase() {
     {
       name: "Collares",
       description: "Elegancia que abraza tu cuello",
-      href: "/collections/necklaces",
+      href: "/collections?category=collares",
       icon: LuCrown,
       overlay: "bg-pink-600/60",
       statsColor: "text-pink-700",
@@ -15,7 +15,7 @@ export function CategoryShowcase() {
     {
       name: "Aretes",
       description: "Detalles que enmarcan tu belleza",
-      href: "/collections/earrings",
+      href: "/collections?category=aretes",
       icon: LuStar,
       overlay: "bg-purple-600/60",
       statsColor: "text-purple-700",
@@ -24,7 +24,7 @@ export function CategoryShowcase() {
     {
       name: "Pulseras",
       description: "Sofisticación en cada movimiento",
-      href: "/collections/bracelets",
+      href: "/collections?category=pulseras",
       icon: LuHeart,
       overlay: "bg-amber-600/60",
       statsColor: "text-amber-700",
@@ -33,7 +33,7 @@ export function CategoryShowcase() {
     {
       name: "Anillos",
       description: "Pequeñas obras de arte",
-      href: "/collections/rings",
+      href: "/collections?category=anillos",
       icon: LuGem,
       overlay: "bg-teal-600/60",
       statsColor: "text-teal-700",
@@ -67,7 +67,7 @@ export function CategoryShowcase() {
               >
                 <div className="p-6">
                   {/* Imagen con overlay */}
-                  <div className="relative aspect-[4/5] overflow-hidden rounded-2xl mb-6">
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
                     <img
                       src={category.image}
                       alt={category.name}
@@ -95,15 +95,6 @@ export function CategoryShowcase() {
                           </svg>
                         </div>
                       </div>
-                    </div>
-                  </div>
-
-                  {/* Stats */}
-                  <div className="flex items-center justify-between text-sm">
-                    <span className={`font-medium ${category.statsColor}`}>50+ productos</span>
-                    <div className="flex items-center gap-1">
-                      <LuStar className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                      <span className="font-medium text-gray-700">4.8</span>
                     </div>
                   </div>
                 </div>

@@ -1,4 +1,4 @@
-import { z } from "zod"
+import { z } from "zod";
 
 export const updateProductSchema = z.object({
   name: z
@@ -11,11 +11,9 @@ export const updateProductSchema = z.object({
     .min(1, "El slug es obligatorio")
     .max(250, "El slug no debe superar los 250 caracteres"),
 
-  price: z
-    .string()
-    .refine((val) => !isNaN(Number(val)) && Number(val) >= 0, {
-      message: "El precio debe ser un número válido mayor o igual a 0",
-    }),
+  price: z.string().refine((val) => !isNaN(Number(val)) && Number(val) >= 0, {
+    message: "El precio debe ser un número válido mayor o igual a 0",
+  }),
 
   original_price: z
     .string()
@@ -36,9 +34,9 @@ export const updateProductSchema = z.object({
     .max(10, "La talla no debe superar los 10 caracteres")
     .optional(),
 
-  color: z
+  material: z
     .string()
-    .max(20, "El color no debe superar los 20 caracteres")
+    .max(50, "El material no debe superar los 50 caracteres")
     .optional(),
 
   description: z
@@ -60,6 +58,11 @@ export const updateProductSchema = z.object({
           "La cantidad en stock debe ser un número entero mayor o igual a 0",
       }
     ),
-})
 
-export type UpdateProductFormValues = z.infer<typeof updateProductSchema>
+  category: z
+    .string()
+    .max(50, "La categoria no debe superar los 50 caracteres")
+    .optional(),
+});
+
+export type UpdateProductFormValues = z.infer<typeof updateProductSchema>;

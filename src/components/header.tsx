@@ -27,22 +27,22 @@ import { useWishlist } from "@/hooks/useWishlist";
 const collections = [
   {
     name: "Collares",
-    href: "/collections/necklaces",
+    href: "/collections?category=collares",
     description: "Elegancia que abraza tu cuello",
   },
   {
     name: "Aretes",
-    href: "/collections/earrings",
+    href: "/collections?category=aretes",
     description: "Detalles que enmarcan tu belleza",
   },
   {
     name: "Pulseras",
-    href: "/collections/bracelets",
+    href: "/collections?category=pulseras",
     description: "Sofisticación en cada movimiento",
   },
   {
     name: "Anillos",
-    href: "/collections/rings",
+    href: "/collections?category=anillos",
     description: "Pequeñas obras de arte",
   },
 ];
@@ -65,7 +65,7 @@ export function Header() {
             </div>
             <div className="flex items-center gap-2">
               <LuMail className="h-4 w-4" />
-              <span>hola@lumina.co</span>
+              <span>contacto@nurae.co</span>
             </div>
           </div>
           <div className="flex items-center gap-2 md:mx-0">

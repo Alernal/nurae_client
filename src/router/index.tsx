@@ -29,6 +29,14 @@ import AdminProductUpdate from "@/views/admin/products/update";
 /* Client */
 import ClientProfilePage from "@/views/client/profile";
 import ClientAddresses from "@/views/client/address";
+import ClientOrders from "@/views/client/orders";
+import AdminOrders from "@/views/admin/orders";
+import AdminUsers from "@/views/admin/users";
+import CheckoutResponsePage from "@/views/checkout/response";
+import BlogPage from "@/views/blog";
+import ContactPage from "@/views/contact";
+import NewPage from "@/views/new";
+import BestsellersPage from "@/views/bestsellers";
 
 export function Router() {
   return (
@@ -44,12 +52,17 @@ export function Router() {
         <Route index element={<Home />} />
         <Route path="cart" element={<CartPage />} />
         <Route path="about" element={<AboutPage />} />
+        <Route path="blog" element={<BlogPage />} />
+        <Route path="contact" element={<ContactPage />} />
+        <Route path="new" element={<NewPage />} />
+        <Route path="bestsellers" element={<BestsellersPage />} />
         <Route path="collections" element={<CollectionsPage />} />
         <Route path="products/:id" element={<ProductPage />} />
 
         <Route element={<ProtectedRoute />}>
           <Route path="wishlist" element={<WishlistPage />} />
           <Route path="checkout" element={<CheckoutPage />} />
+          <Route path="checkout/response" element={<CheckoutResponsePage />} />
         </Route>
       </Route>
 
@@ -58,6 +71,7 @@ export function Router() {
         <Route element={<ClientLayout />}>
           <Route path="profile" element={<ClientProfilePage />} />
           <Route path="addresses" element={<ClientAddresses />} />
+          <Route path="orders" element={<ClientOrders />} />
         </Route>
       </Route>
 
@@ -68,6 +82,10 @@ export function Router() {
           <Route path="products" element={<AdminProductPage />} />
           <Route path="products/create" element={<AdminProductCreate />} />
           <Route path="products/:id/edit" element={<AdminProductUpdate />} />
+
+          <Route path="orders" element={<AdminOrders />} />
+
+          <Route path="users" element={<AdminUsers />} />
         </Route>
       </Route>
     </Routes>

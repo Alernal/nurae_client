@@ -4,18 +4,16 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
   LuMapPin,
-  LuCreditCard,
   LuPackage,
-  LuSettings,
   LuLogOut,
   LuMenu,
   LuX,
   LuUser,
-  LuHeadphones,
   LuHouse,
 } from "react-icons/lu";
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/stores/useAuthStore";
+import { useLogout } from "@/hooks/auth/useLogout";
 
 const navigation = [
   {
@@ -33,27 +31,13 @@ const navigation = [
     path: "addresses",
     icon: LuMapPin,
   },
-  {
-    name: "Métodos de Pago",
-    path: "payments",
-    icon: LuCreditCard,
-  },
-  {
-    name: "Soporte",
-    path: "support",
-    icon: LuHeadphones,
-  },
-  {
-    name: "Configuración",
-    path: "settings",
-    icon: LuSettings,
-  },
 ];
 
 export function ClientSidebar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { pathname } = useLocation();
   const user = useAuthStore((state) => state.user);
+  const { mutate: logoutMutate, isPending } = useLogout();
 
   const basePath = `/${user?.role || "client"}`; // fallback a 'client' si no está definido
 
@@ -67,7 +51,11 @@ export function ClientSidebar() {
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           className="bg-white border-nurae-sand shadow-lg"
         >
-          {isMobileMenuOpen ? <LuX className="h-5 w-5" /> : <LuMenu className="h-5 w-5" />}
+          {isMobileMenuOpen ? (
+            <LuX className="h-5 w-5" />
+          ) : (
+            <LuMenu className="h-5 w-5" />
+          )}
         </Button>
       </div>
 
@@ -99,7 +87,7 @@ export function ClientSidebar() {
             </Badge>
           </div>
 
-          {/* Usuario */}
+          {/* Info usuario */}
           <div className="px-6 py-4 border-b border-nurae-sand">
             <div className="flex items-center gap-3">
               {user?.profile_image_url ? (
@@ -114,7 +102,7 @@ export function ClientSidebar() {
                 </div>
               )}
               <div>
-                <Link to={`${basePath}/profile`} className="hover:underline">
+                <Link to="/client/profile" className="hover:underline">
                   <p className="font-medium text-nurae-brown">
                     {user?.first_name} {user?.last_name}
                   </p>
@@ -170,6 +158,8 @@ export function ClientSidebar() {
             <Button
               variant="outline"
               className="w-full justify-start border-destructive text-destructive hover:bg-destructive hover:text-white"
+              onClick={() => logoutMutate()}
+              disabled={isPending}
             >
               <LuLogOut className="w-4 h-4 mr-2" />
               Cerrar Sesión

@@ -1,17 +1,17 @@
-import type React from "react"
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { LuSparkles, LuCrown, LuGift, LuStar, LuHeart } from "react-icons/lu"
+import type React from "react";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { LuSparkles, LuCrown, LuGift, LuStar, LuHeart } from "react-icons/lu";
 
 export function Newsletter() {
-  const [email, setEmail] = useState("")
-  const [submitted, setSubmitted] = useState(false)
+  const [email, setEmail] = useState("");
+  const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (email) setSubmitted(true)
-  }
+    e.preventDefault();
+    if (email) setSubmitted(true);
+  };
 
   return (
     <section className="w-full py-20 md:py-28 bg-[#F5EFE7] relative overflow-hidden text-[#2C1810]">
@@ -34,16 +34,16 @@ export function Newsletter() {
           <div className="space-y-8 max-w-4xl">
             <div className="inline-flex items-center gap-3 rounded-full bg-white px-6 py-3 text-sm font-medium shadow-md border border-[#D4AF37]/30 text-[#2C1810]">
               <LuGift className="h-5 w-5" />
-              <span className="font-display text-base">Únete a nuestra comunidad VIP</span>
+              <span className="font-display text-base">Mantente al tanto</span>
               <LuSparkles className="h-5 w-5 animate-pulse" />
             </div>
 
             <h2 className="text-5xl md:text-6xl font-serif font-bold leading-tight text-[#2C1810]">
-              Sé la primera en brillar
+              Suscríbete a nuestras novedades
             </h2>
 
             <p className="text-xl md:text-2xl text-[#5C4A42] leading-relaxed font-light">
-              Accede a colecciones exclusivas, descuentos especiales y tips para brillar cada día.
+              Sé parte de nuestra comunidad y entérate cuando lancemos nuevas colecciones, productos en promoción y más.
             </p>
           </div>
 
@@ -63,7 +63,7 @@ export function Newsletter() {
                   type="submit"
                   className="w-full h-14 bg-[#D4AF37] hover:bg-[#c79e2f] text-white rounded-xl text-lg font-medium shadow-md transition duration-300 group"
                 >
-                  Unirme a LÚMINA VIP
+                  Suscribirme
                   <LuCrown className="ml-2 h-5 w-5 group-hover:animate-bounce" />
                 </Button>
               </form>
@@ -71,15 +71,15 @@ export function Newsletter() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
                 <div className="flex flex-col items-center gap-2 p-4 bg-white/80 rounded-xl border border-[#D4AF37]/20 shadow-sm">
                   <div className="h-2 w-2 bg-[#D4AF37] rounded-full" />
-                  <span>Ofertas exclusivas hasta 40% OFF</span>
+                  <span>Lanzamientos de colecciones</span>
                 </div>
                 <div className="flex flex-col items-center gap-2 p-4 bg-white/80 rounded-xl border border-[#D4AF37]/20 shadow-sm">
                   <div className="h-2 w-2 bg-[#2C1810] rounded-full" />
-                  <span>Acceso anticipado a colecciones</span>
+                  <span>Ofertas y descuentos puntuales</span>
                 </div>
                 <div className="flex flex-col items-center gap-2 p-4 bg-white/80 rounded-xl border border-[#D4AF37]/20 shadow-sm">
                   <div className="h-2 w-2 bg-[#5C4A42] rounded-full" />
-                  <span>Tips de estilo y contenido VIP</span>
+                  <span>Novedades de NURAE</span>
                 </div>
               </div>
             </div>
@@ -89,13 +89,13 @@ export function Newsletter() {
                 <div className="mx-auto w-16 h-16 bg-[#D4AF37] rounded-full flex items-center justify-center">
                   <LuCrown className="h-8 w-8 text-white" />
                 </div>
-                <h3 className="font-serif text-2xl font-bold text-[#2C1810]">¡Bienvenida a LÚMINA VIP!</h3>
+                <h3 className="font-serif text-2xl font-bold text-[#2C1810]">¡Gracias por suscribirte!</h3>
                 <p className="text-base text-[#5C4A42] leading-relaxed">
-                  Gracias por unirte. Pronto recibirás correos con contenido exclusivo solo para ti.
+                  Te mantendremos informada cuando tengamos novedades o promociones especiales.
                 </p>
                 <div className="flex items-center justify-center gap-2 text-sm text-[#D4AF37] font-medium bg-[#FDF5D7] rounded-full px-4 py-2">
                   <LuSparkles className="h-4 w-4" />
-                  <span>Revisa tu email para confirmar tu suscripción</span>
+                  <span>Revisa tu correo para confirmar tu suscripción</span>
                   <LuSparkles className="h-4 w-4" />
                 </div>
               </div>
@@ -104,5 +104,5 @@ export function Newsletter() {
         </div>
       </div>
     </section>
-  )
+  );
 }

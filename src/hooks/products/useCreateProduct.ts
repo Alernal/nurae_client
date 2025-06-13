@@ -1,49 +1,60 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import api from "@/api/client"
-import { toast } from "sonner"
-import type { CreateProductFormValues } from "@/schemas/products/createProductSchema"
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import api from "@/api/client";
+import { toast } from "sonner";
+import type { CreateProductFormValues } from "@/schemas/products/createProductSchema";
 
 export function useCreateProduct() {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ data, images }: { data: CreateProductFormValues; images: File[] }) => {
-      // 1. Crear producto
-      const productRes = await api.post("/products", {
-        ...data,
-        price: parseFloat(data.price),
-        original_price: data.original_price ? parseFloat(data.original_price) : null,
-        stock_count: parseInt(data.stock_count, 10),
-      })
+    mutationFn: async ({
+      data,
+      images,
+    }: {
+      data: CreateProductFormValues;
+      images: File[];
+    }) => {
+      const formData = new FormData();
 
-      const productId = productRes.data.data.product.id
+      // Campos que requieren conversión manual
+      formData.append("in_stock", data.in_stock ? "1" : "0");
+      formData.append("price", parseFloat(data.price).toString());
+      formData.append(
+        "original_price",
+        data.original_price ? parseFloat(data.original_price).toString() : ""
+      );
+      formData.append("stock_count", parseInt(data.stock_count, 10).toString());
 
-      // 2. Si hay imágenes, subirlas
-      if (images && images.length > 0) {
-        const formData = new FormData()
-        images.forEach((image) => {
-          formData.append("images[]", image)
-        })
+      // Otros campos
+      formData.append("slug", data.slug);
+      formData.append("name", data.name);
+      formData.append("size", data.size || "");
+      formData.append("color", data.color || "");
+      formData.append("description", data.description || "");
 
-        await api.post(`/products/${productId}/images`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-      }
+      // Imágenes
+      images.forEach((image) => {
+        formData.append("images[]", image);
+      });
 
-      return productRes.data
+      const res = await api.post("/products", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      return res.data;
     },
 
     onSuccess: () => {
-      toast.success("Producto creado correctamente")
-      queryClient.invalidateQueries(["products"])
+      toast.success("Producto creado correctamente");
+      queryClient.invalidateQueries(["products"]);
     },
 
     onError: (error: any) => {
       const message =
-        error.response?.data?.message || "Error al crear el producto"
-      toast.error(message)
+        error.response?.data?.message || "Error al crear el producto";
+      toast.error(message);
     },
-  })
+  });
 }

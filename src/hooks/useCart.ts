@@ -82,7 +82,7 @@ export function useCart() {
       decrementCloud.mutate(productId);
     } else if (quantity > currentQty) {
       const diff = quantity - currentQty;
-      syncItem.mutate({ productId, quantity: diff }); // ✅ solo lo que se sumó
+      syncItem.mutate({ productId, quantity: diff });
     }
   }
 

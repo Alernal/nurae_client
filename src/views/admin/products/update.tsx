@@ -33,18 +33,31 @@ import { useUpdateProduct } from "@/hooks/products/useUpdateProduct";
 import { useProduct } from "@/hooks/products/useProduct";
 import { useProductImages } from "@/hooks/products/useProductImages";
 
-const availableColors = [
-  { value: "blanco", label: "Blanco" },
-  { value: "negro", label: "Negro" },
-  { value: "gris", label: "Gris" },
-  { value: "rojo", label: "Rojo" },
-  { value: "azul", label: "Azul" },
-  { value: "verde", label: "Verde" },
-  { value: "amarillo", label: "Amarillo" },
-  { value: "naranja", label: "Naranja" },
-  { value: "rosa", label: "Rosa" },
-  { value: "morado", label: "Morado" },
-  { value: "marron", label: "Marrón" },
+const availableMaterials = [
+  { value: "oro", label: "Oro" },
+  { value: "plata", label: "Plata" },
+  { value: "platino", label: "Platino" },
+  { value: "acero_inoxidable", label: "Acero Inoxidable" },
+  { value: "titanio", label: "Titanio" },
+  { value: "rodio", label: "Rodio" },
+  { value: "paladio", label: "Paladio" },
+  { value: "cobre", label: "Cobre" },
+  { value: "laton", label: "Latón" },
+  { value: "bronce", label: "Bronce" },
+  { value: "niquel", label: "Níquel" },
+];
+
+const availableCategories = [
+  { value: "anillos", label: "Anillos" },
+  { value: "collares", label: "Collares" },
+  { value: "pulseras", label: "Pulseras" },
+  { value: "aretes", label: "Aretes" },
+  { value: "dijes", label: "Dijes" },
+  { value: "relojes", label: "Relojes" },
+  { value: "broches", label: "Broches" },
+  { value: "piercings", label: "Piercings" },
+  { value: "gemelos", label: "Gemelos" },
+  { value: "otros", label: "Otros" },
 ];
 
 type ProductImage = {
@@ -72,17 +85,17 @@ export default function UpdateProduct() {
       price: "",
       original_price: "",
       size: "2 cm",
-      color: "blanco",
+      material: "oro",
       description: "",
       in_stock: true,
       stock_count: "0",
+      category: "pulseras",
     },
   });
 
   const { data: product, isLoading: isLoadingProduct } = useProduct(productId);
   const [existingImages, setExistingImages] = useState<ProductImage[]>([]);
   const { mutate: updateProduct, isLoading } = useUpdateProduct(productId);
-
 
   const { uploadImages, deleteImage, isUploading, isDeleting } =
     useProductImages(productId);
@@ -95,10 +108,11 @@ export default function UpdateProduct() {
         price: product.price,
         original_price: product.original_price ?? "",
         size: product.size ?? "",
-        color: product.color ?? "",
+        material: product.material ?? "",
         description: product.description ?? "",
         in_stock: !!product.in_stock,
         stock_count: product.stock_count.toString(),
+        category: product.category ?? "",
       });
 
       setExistingImages(product.images || []);
@@ -287,18 +301,37 @@ export default function UpdateProduct() {
               </div>
 
               <div className="space-y-2">
-                <Label>Color</Label>
+                <Label>Material</Label>
                 <Select
-                  value={watch("color")}
-                  onValueChange={(val) => setValue("color", val)}
+                  value={watch("material")}
+                  onValueChange={(val) => setValue("material", val)}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Selecciona un color" />
+                    <SelectValue placeholder="Selecciona un material" />
                   </SelectTrigger>
                   <SelectContent>
-                    {availableColors.map((color) => (
-                      <SelectItem key={color.value} value={color.value}>
-                        {color.label}
+                    {availableMaterials.map((material) => (
+                      <SelectItem key={material.value} value={material.value}>
+                        {material.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label>Categoria</Label>
+                <Select
+                  value={watch("category")}
+                  onValueChange={(val) => setValue("category", val)}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecciona una categoria" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {availableCategories.map((category) => (
+                      <SelectItem key={category.value} value={category.value}>
+                        {category.label}
                       </SelectItem>
                     ))}
                   </SelectContent>

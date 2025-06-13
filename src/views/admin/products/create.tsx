@@ -31,18 +31,31 @@ import {
 } from "@/schemas/products/createProductSchema";
 import { useCreateProduct } from "@/hooks/products/useCreateProduct";
 
-const availableColors = [
-  { value: "blanco", label: "Blanco" },
-  { value: "negro", label: "Negro" },
-  { value: "gris", label: "Gris" },
-  { value: "rojo", label: "Rojo" },
-  { value: "azul", label: "Azul" },
-  { value: "verde", label: "Verde" },
-  { value: "amarillo", label: "Amarillo" },
-  { value: "naranja", label: "Naranja" },
-  { value: "rosa", label: "Rosa" },
-  { value: "morado", label: "Morado" },
-  { value: "marron", label: "Marrón" },
+const availableMaterials = [
+  { value: "oro", label: "Oro" },
+  { value: "plata", label: "Plata" },
+  { value: "platino", label: "Platino" },
+  { value: "acero_inoxidable", label: "Acero Inoxidable" },
+  { value: "titanio", label: "Titanio" },
+  { value: "rodio", label: "Rodio" },
+  { value: "paladio", label: "Paladio" },
+  { value: "cobre", label: "Cobre" },
+  { value: "laton", label: "Latón" },
+  { value: "bronce", label: "Bronce" },
+  { value: "niquel", label: "Níquel" },
+];
+
+const availableCategories = [
+  { value: "anillos", label: "Anillos" },
+  { value: "collares", label: "Collares" },
+  { value: "pulseras", label: "Pulseras" },
+  { value: "aretes", label: "Aretes" },
+  { value: "dijes", label: "Dijes" },
+  { value: "relojes", label: "Relojes" },
+  { value: "broches", label: "Broches" },
+  { value: "piercings", label: "Piercings" },
+  { value: "gemelos", label: "Gemelos" },
+  { value: "otros", label: "Otros" },
 ];
 
 export default function CreateProduct() {
@@ -66,10 +79,11 @@ export default function CreateProduct() {
       price: "",
       original_price: "",
       size: "2 cm",
-      color: "blanco",
+      material: "oro",
       description: "",
       in_stock: true,
       stock_count: "0",
+      category: "pulseras",
       images: [],
     },
   });
@@ -272,25 +286,42 @@ export default function CreateProduct() {
                   onChange={(e) => setValue("size", e.target.value)}
                 />
                 {errors.size && (
-                  <p className="text-sm text-red-600">
-                    {errors.size.message}
-                  </p>
+                  <p className="text-sm text-red-600">{errors.size.message}</p>
                 )}
               </div>
 
               <div className="space-y-2">
-                <Label>Color</Label>
+                <Label>Material</Label>
                 <Select
-                  value={watch("color")}
-                  onValueChange={(val) => setValue("color", val)}
+                  value={watch("material")}
+                  onValueChange={(val) => setValue("material", val)}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Selecciona un color" />
+                    <SelectValue placeholder="Selecciona un material" />
                   </SelectTrigger>
                   <SelectContent>
-                    {availableColors.map((color) => (
-                      <SelectItem key={color.value} value={color.value}>
-                        {color.label}
+                    {availableMaterials.map((material) => (
+                      <SelectItem key={material.value} value={material.value}>
+                        {material.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label>Categoria</Label>
+                <Select
+                  value={watch("category")}
+                  onValueChange={(val) => setValue("category", val)}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecciona una categoria" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {availableCategories.map((category) => (
+                      <SelectItem key={category.value} value={category.value}>
+                        {category.label}
                       </SelectItem>
                     ))}
                   </SelectContent>
