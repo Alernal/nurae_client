@@ -27,7 +27,7 @@ export default function ContactPage() {
   }
 
   return (
-    <div>
+    <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative py-20 md:py-28 overflow-hidden">
         <div className="absolute inset-0 bg-luxury-gradient opacity-10"></div>
@@ -46,7 +46,7 @@ export default function ContactPage() {
               <LuSparkles className="h-5 w-5 animate-pulse" />
             </div>
 
-            <h1 className="text-5xl md:text-7xl font-serif font-bold bg-luxury-gradient bg-clip-text text-transparent leading-tight">
+            <h1 className="text-5xl md:text-7xl font-serif font-bold text-[var(--color-marron)] leading-tight">
               Hablemos
             </h1>
 
@@ -65,7 +65,7 @@ export default function ContactPage() {
             {/* Contact Information */}
             <div className="space-y-8">
               <div className="space-y-6">
-                <h2 className="text-3xl md:text-4xl font-serif font-bold bg-luxury-gradient bg-clip-text text-transparent">
+                <h2 className="text-3xl md:text-4xl font-serif font-bold">
                   Información de Contacto
                 </h2>
                 <p className="text-lg text-gray-600 leading-relaxed">

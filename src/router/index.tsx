@@ -30,6 +30,8 @@ import AdminProductUpdate from "@/views/admin/products/update";
 import ClientProfilePage from "@/views/client/profile";
 import ClientAddresses from "@/views/client/address";
 import ClientOrders from "@/views/client/orders";
+
+
 import AdminOrders from "@/views/admin/orders";
 import AdminUsers from "@/views/admin/users";
 import CheckoutResponsePage from "@/views/checkout/response";
@@ -37,6 +39,11 @@ import BlogPage from "@/views/blog";
 import ContactPage from "@/views/contact";
 import NewPage from "@/views/new";
 import BestsellersPage from "@/views/bestsellers";
+import FAQPage from "@/views/faq";
+import ShippingPage from "@/views/shipping";
+import ReturnsPage from "@/views/returns";
+import CarePage from "@/views/care";
+import CareersPage from "@/views/careers";
 
 export function Router() {
   return (
@@ -58,6 +65,11 @@ export function Router() {
         <Route path="bestsellers" element={<BestsellersPage />} />
         <Route path="collections" element={<CollectionsPage />} />
         <Route path="products/:id" element={<ProductPage />} />
+        <Route path="faq" element={<FAQPage />} />        
+        <Route path="shipping" element={<ShippingPage />} />       
+        <Route path="returns" element={<ReturnsPage />} />      
+        <Route path="care" element={<CarePage />} />     
+        <Route path="careers" element={<CareersPage />} />
 
         <Route element={<ProtectedRoute />}>
           <Route path="wishlist" element={<WishlistPage />} />

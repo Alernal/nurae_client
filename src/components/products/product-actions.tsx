@@ -111,7 +111,7 @@ export function ProductActions({
       <div className="space-y-3">
         <Button
           size="lg"
-          className="w-full h-12 text-base font-semibold"
+          className="w-full h-12 text-base border font-semibold"
           onClick={handleAddToCart}
           disabled={!product.in_stock || isAddingToCart || !!cartItem}
         >

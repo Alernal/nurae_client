@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button"
 
 export function Footer() {
   return (
-    <footer className="w-full bg-[#F5EFE7] border-t border-[#E7D8CE] py-16 md:py-20">
+    <footer className="w-full bg-white py-16 md:py-20">
       <div className="container px-4 md:px-6 flex flex-col gap-16">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
           {/* Marca */}

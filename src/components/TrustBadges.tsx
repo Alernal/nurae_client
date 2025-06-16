@@ -12,7 +12,7 @@ export function TrustBadges() {
     {
       icon: LuShield,
       title: "Compra Segura",
-      description: "Protección SSL 256-bit",
+      description: "Pasarela de pago wompi",
     },
     {
       icon: LuTruck,
@@ -21,7 +21,7 @@ export function TrustBadges() {
     },
     {
       icon: LuCreditCard,
-      title: "Hasta 12 Cuotas",
+      title: "Hasta 4 Cuotas",
       description: "Sin intereses",
     },
     {
@@ -42,7 +42,7 @@ export function TrustBadges() {
   ];
 
   return (
-    <section className="w-full py-6 bg-white border-y border-[#D4AF37]">
+    <section className="w-full py-6 bg-white">
       <div className="container px-4 md:px-6">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
           {badges.map((badge, index) => {

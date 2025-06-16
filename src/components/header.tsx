@@ -54,7 +54,7 @@ export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md border-b border-pink-100 shadow-xl">
+    <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md shadow-xl">
       {/* Top Bar */}
       <div className="bg-[#D4AF37] text-white py-2 px-4">
         <div className="container flex items-center justify-between text-sm">
@@ -126,7 +126,7 @@ export function Header() {
                 <div className="space-y-2">
                   <Link
                     to="/collections"
-                    className="text-lg font-medium text-gray-700 hover:text-primary transition-colors block"
+                    className="text-lg font-medium text-neutral-700 hover:text-primary transition-colors block"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Colecciones
@@ -136,7 +136,7 @@ export function Header() {
                       <Link
                         key={collection.name}
                         to={collection.href}
-                        className="text-sm text-gray-600 hover:text-primary transition-colors block"
+                        className="text-sm text-neutral-600 hover:text-primary transition-colors block"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
                         {collection.name}
@@ -199,47 +199,50 @@ export function Header() {
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
-                className="font-display font-medium text-gray-700 hover:text-primary transition-all duration-300 relative group p-0 h-auto"
+                className="font-display font-medium text-neutral-700 hover:text-primary transition-all duration-300 relative group p-0 h-auto"
               >
                 Colecciones
                 <LuChevronDown className="ml-1 h-4 w-4" />
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-luxury-gradient transition-all duration-300 group-hover:w-full"></span>
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-nurae-gradient transition-all duration-300 group-hover:w-full"></span>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-80 bg-white/95 backdrop-blur-md border border-pink-100 shadow-xl rounded-2xl p-4">
-              <div className="grid grid-cols-1 gap-2">
+            <DropdownMenuContent className="w-[400px] bg-nurae-cream/95 backdrop-blur-md shadow-lg rounded-2xl p-6">
+              <div className="space-y-4">
                 <DropdownMenuItem asChild className="p-0">
                   <Link
                     to="/collections"
-                    className="flex flex-col items-start p-3 rounded-xl hover:bg-pink-50 transition-colors"
+                    className="flex flex-col items-center p-4 rounded-xl hover:bg-gray-400/20 transition-colors text-center"
                   >
-                    <span className="font-medium text-gray-800">
+                    <span className="font-medium text-neutral-800 text-lg">
                       Ver Todas las Colecciones
                     </span>
-                    <span className="text-sm text-gray-500">
+                    <span className="text-sm text-neutral-600">
                       Explora nuestra colección completa
                     </span>
                   </Link>
                 </DropdownMenuItem>
-                {collections.map((collection) => (
-                  <DropdownMenuItem
-                    key={collection.name}
-                    asChild
-                    className="p-0"
-                  >
-                    <Link
-                      to={collection.href}
-                      className="flex flex-col items-start p-3 rounded-xl hover:bg-pink-50 transition-colors"
+
+                <div className="grid grid-cols-3 gap-4">
+                  {collections.map((collection) => (
+                    <DropdownMenuItem
+                      key={collection.name}
+                      asChild
+                      className="p-0"
                     >
-                      <span className="font-medium text-gray-800">
-                        {collection.name}
-                      </span>
-                      <span className="text-sm text-gray-500">
-                        {collection.description}
-                      </span>
-                    </Link>
-                  </DropdownMenuItem>
-                ))}
+                      <Link
+                        to={collection.href}
+                        className="flex flex-col items-center p-4 rounded-xl hover:bg-gray-400/20 transition-colors text-center"
+                      >
+                        <span className="font-medium text-neutral-800">
+                          {collection.name}
+                        </span>
+                        <span className="text-xs text-neutral-600 mt-1">
+                          {collection.description}
+                        </span>
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
+                </div>
               </div>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -296,7 +299,7 @@ export function Header() {
             >
               <LuHeart className="h-5 w-5" />
               {itemCount > 0 && (
-                <span className="absolute -top-1 -right-1 h-5 w-5 bg-primary text-white text-xs rounded-full flex items-center justify-center font-bold">
+                <span className="absolute -top-1 -right-1 h-5 w-5 bg-black text-white text-xs rounded-full flex items-center justify-center font-bold">
                   {itemCount}
                 </span>
               )}

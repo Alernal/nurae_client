@@ -63,7 +63,7 @@ export function MiniCart() {
           className="relative hover:bg-primary/10 hover:text-primary transition-all"
         >
           <LuShoppingBag className="h-5 w-5" />
-          <span className="absolute -top-1 -right-1 h-5 w-5 bg-primary text-white text-xs rounded-full flex items-center justify-center font-bold">
+          <span className="absolute -top-1 -right-1 h-5 w-5 bg-black text-white text-xs rounded-full flex items-center justify-center font-bold">
             {items.length}
           </span>
           <span className="sr-only">Carrito de compras</span>
@@ -215,19 +215,19 @@ export function MiniCart() {
 
             <div className="pt-2 flex flex-col gap-2">
               <Link to="/checkout" onClick={() => setIsOpen(false)}>
-                <Button className="w-full bg-primary text-white hover:bg-primary/90 h-12 text-lg font-medium">
+                <Button className="w-full border border-gray-400 bg-primary text-black hover:bg-gray-400/90 h-12 text-lg font-medium">
                   Proceder al Checkout
                 </Button>
               </Link>
               <Link to="/cart" onClick={() => setIsOpen(false)}>
-                <Button variant="outline" className="w-full border-primary/30">
+                <Button variant="outline" className="w-full border-gray-400 hover:bg-gray-400/90">
                   Ver Carrito Completo
                 </Button>
               </Link>
               <Button
                 variant="ghost"
                 size="sm"
-                className="text-red-600 hover:text-red-700 w-full"
+                className="text-red-600 border hover:text-red-700 w-full"
                 onClick={clearCartCloud}
               >
                 Vaciar carrito

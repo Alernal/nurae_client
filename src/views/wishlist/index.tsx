@@ -33,8 +33,8 @@ export default function WishlistPage() {
 
   if (wishlistItems.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50 px-4 py-16 md:px-6 md:py-24 text-center space-y-8 max-w-2xl mx-auto flex flex-col items-center justify-center">
-        <div className="w-32 h-32 mx-auto bg-gradient-to-br from-pink-100 to-purple-100 rounded-full flex items-center justify-center shadow-md">
+      <div className="min-h-screen px-4 py-16 md:px-6 md:py-24 text-center space-y-8 max-w-2xl mx-auto flex flex-col items-center justify-center">
+        <div className="w-32 h-32 mx-auto rounded-full flex items-center justify-center shadow-md">
           <LuHeart className="h-16 w-16 text-gray-400" />
         </div>
         <h1 className="text-4xl md:text-5xl font-serif font-bold text-gray-800">
@@ -63,9 +63,9 @@ export default function WishlistPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 px-4 py-8 md:px-6 md:py-12">
+    <div className="min-h-screen px-4 py-8 md:px-6 md:py-12">
       <div className="text-center space-y-4 mb-12">
-        <h1 className="text-4xl md:text-5xl font-serif font-bold bg-gradient-to-r from-rose-500 to-pink-400 bg-clip-text text-transparent">
+        <h1 className="text-4xl md:text-5xl font-serif font-bold text-[var(--color-marron)]">
           Mi Lista de Deseos
         </h1>
         <p className="text-xl text-gray-600">{wishlistItems.length} producto(s) favorito(s)</p>
