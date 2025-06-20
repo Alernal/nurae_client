@@ -29,7 +29,8 @@ export function useCreateProduct() {
       formData.append("slug", data.slug);
       formData.append("name", data.name);
       formData.append("size", data.size || "");
-      formData.append("color", data.color || "");
+      formData.append("material", data.material || "");
+      formData.append("category", data.category || "");
       formData.append("description", data.description || "");
 
       // Imágenes

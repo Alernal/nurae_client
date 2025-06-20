@@ -10,8 +10,6 @@ import {
 } from "react-icons/lu";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Header } from "@/components/header";
-import { Footer } from "@/components/footer";
 
 const blogPosts = [
   {
@@ -138,29 +136,8 @@ export default function BlogPage() {
         </div>
       </section>
 
-      {/* Categories */}
-      <section className="py-8">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-wrap justify-center gap-4">
-            {categories.map((category) => (
-              <Button
-                key={category}
-                variant={category === "Todos" ? "default" : "outline"}
-                className={`rounded-full px-6 py-2 ${
-                  category === "Todos"
-                    ? "bg-[#9A6D4E] text-white"
-                    : "bg-white border-[#E8D9CF] text-[#9A6D4E] hover:bg-[#9A6D4E] hover:text-white"
-                }`}
-              >
-                {category}
-              </Button>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Featured Posts */}
-      <section className="py-16">
+      <section className="py-12">
         <div className="container px-4 md:px-6">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-[#5E4536]">
             Artículos Destacados

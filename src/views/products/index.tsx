@@ -1,14 +1,26 @@
 import { useParams } from "react-router-dom";
+import { useProducts } from "@/hooks/products/useProducts"; // <-- Corrige el import
 import { useProduct } from "@/hooks/products/useProduct";
 import { ProductPage } from "@/components/products/product-page";
 
 export default function ProductPageRoute() {
   const { id } = useParams();
-  const productId = Number(id);
 
-  const { data: product, isLoading } = useProduct(productId);
+  const { data: allProducts = [], isLoading: loadingProducts } = useProducts();
 
-  if (!product) return <div>Producto no encontrado.</div>;
+  const matchedProduct = allProducts.find((p) => p.slug === id);
+
+  const {
+    data: product,
+    isLoading: loadingProduct,
+    isError,
+  } = useProduct(matchedProduct?.id, {
+    enabled: !!matchedProduct?.id,
+  });
+
+  if (loadingProducts || loadingProduct) return <div>Cargando...</div>;
+  if (!matchedProduct || !product) return <div>Producto no encontrado.</div>;
+  if (isError) return <div>Error al cargar el producto.</div>;
 
   return (
     <ProductPage
@@ -24,7 +36,8 @@ export default function ProductPageRoute() {
         in_stock: product.in_stock,
         stock_count: product.stock_count,
         category: product.category,
-        images: product.images?.map((img) => `http://localhost:8000${img.url}`) || [],
+        images:
+          product.images?.map((img) => `http://localhost:8000${img.url}`) || [],
       }}
       reviews={
         product.reviews?.map((r) => ({

@@ -16,21 +16,9 @@ import { useAuthStore } from "@/stores/useAuthStore";
 import { useLogout } from "@/hooks/auth/useLogout";
 
 const navigation = [
-  {
-    name: "Perfil",
-    path: "profile",
-    icon: LuUser,
-  },
-  {
-    name: "Mis Pedidos",
-    path: "orders",
-    icon: LuPackage,
-  },
-  {
-    name: "Direcciones",
-    path: "addresses",
-    icon: LuMapPin,
-  },
+  { name: "Perfil", path: "profile", icon: LuUser },
+  { name: "Mis Pedidos", path: "orders", icon: LuPackage },
+  { name: "Direcciones", path: "addresses", icon: LuMapPin },
 ];
 
 export function ClientSidebar() {
@@ -39,23 +27,19 @@ export function ClientSidebar() {
   const user = useAuthStore((state) => state.user);
   const { mutate: logoutMutate, isPending } = useLogout();
 
-  const basePath = `/${user?.role || "client"}`; // fallback a 'client' si no está definido
+  const basePath = `/${user?.role || "client"}`;
 
   return (
     <>
-      {/* Botón menú móvil */}
+      {/* Menú móvil */}
       <div className="lg:hidden fixed top-4 left-4 z-50">
         <Button
           variant="outline"
           size="icon"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="bg-white border-nurae-sand shadow-lg"
+          className="bg-white border border-gray-200 shadow-md"
         >
-          {isMobileMenuOpen ? (
-            <LuX className="h-5 w-5" />
-          ) : (
-            <LuMenu className="h-5 w-5" />
-          )}
+          {isMobileMenuOpen ? <LuX className="h-5 w-5" /> : <LuMenu className="h-5 w-5" />}
         </Button>
       </div>
 
@@ -67,28 +51,25 @@ export function ClientSidebar() {
       )}
 
       {/* Sidebar */}
-      <div
+      <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-50 w-72 h-screen bg-white border-r border-nurae-sand transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static",
+          "fixed inset-y-0 left-0 z-50 w-72 h-screen bg-white border-r border-gray-200 transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static",
           isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
-        <div className="flex flex-col h-full overflow-hidden">
+        <div className="flex flex-col h-full">
           {/* Header */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-nurae-sand">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
             <Link to="/" className="flex items-center gap-3">
-              <img src="/logo.png" alt="NURAE" className="h-8 object-contain" />
+              <img src="/logo.png" alt="Logo" className="h-8 object-contain" />
             </Link>
-            <Badge
-              variant="outline"
-              className="bg-nurae-sand text-nurae-charcoal border-nurae-sand"
-            >
+            <Badge variant="outline" className="text-sm text-gray-700 border-gray-300">
               {user?.role === "admin" ? "Admin" : "Cliente"}
             </Badge>
           </div>
 
           {/* Info usuario */}
-          <div className="px-6 py-4 border-b border-nurae-sand">
+          <div className="px-6 py-4 border-b border-gray-200">
             <div className="flex items-center gap-3">
               {user?.profile_image_url ? (
                 <img
@@ -97,17 +78,17 @@ export function ClientSidebar() {
                   className="w-10 h-10 rounded-full object-cover"
                 />
               ) : (
-                <div className="w-10 h-10 bg-nurae-gradient rounded-full flex items-center justify-center">
+                <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
                   <LuUser className="w-5 h-5 text-white" />
                 </div>
               )}
               <div>
-                <Link to="/client/profile" className="hover:underline">
-                  <p className="font-medium text-nurae-brown">
+                <Link to={`${basePath}/profile`} className="hover:underline">
+                  <p className="font-medium text-gray-800">
                     {user?.first_name} {user?.last_name}
                   </p>
                 </Link>
-                <p className="text-sm text-neutral-500">{user?.email}</p>
+                <p className="text-sm text-gray-500">{user?.email}</p>
               </div>
             </div>
           </div>
@@ -117,56 +98,53 @@ export function ClientSidebar() {
             {navigation.map((item) => {
               const href = `${basePath}/${item.path}`;
               const isActive = pathname === href;
+
               return (
                 <Link
                   key={item.name}
                   to={href}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={cn(
-                    "flex items-center justify-between px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200",
+                    "flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200",
                     isActive
-                      ? "bg-nurae-gradient text-white shadow-lg"
-                      : "text-neutral-700 hover:bg-nurae-sand hover:text-nurae-brown"
+                      ? "bg-blue-600 text-white shadow"
+                      : "text-gray-700 hover:bg-gray-100"
                   )}
                 >
-                  <div className="flex items-center gap-3">
-                    <item.icon className="w-5 h-5" />
-                    <span>{item.name}</span>
-                  </div>
+                  <item.icon className="w-5 h-5 mr-3" />
+                  {item.name}
                 </Link>
               );
             })}
           </nav>
 
-          {/* Acciones rápidas */}
-          <div className="p-6 border-t border-nurae-sand">
-            <div className="space-y-3">
-              <Link to="/" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button
-                  variant="outline"
-                  className="w-full justify-start border-nurae-sand text-nurae-brown"
-                >
-                  <LuHouse className="w-4 h-4 mr-2" />
-                  Ver tienda
-                </Button>
-              </Link>
-            </div>
+          {/* Ver tienda */}
+          <div className="p-6 border-t border-gray-200">
+            <Link to="/" onClick={() => setIsMobileMenuOpen(false)}>
+              <Button
+                variant="outline"
+                className="w-full justify-start text-gray-700 border-gray-300"
+              >
+                <LuHouse className="w-4 h-4 mr-2" />
+                Ver tienda
+              </Button>
+            </Link>
           </div>
 
-          {/* Logout */}
-          <div className="p-6 border-t border-nurae-sand">
+          {/* Cerrar sesión */}
+          <div className="p-6 border-t border-gray-200">
             <Button
               variant="outline"
-              className="w-full justify-start border-destructive text-destructive hover:bg-destructive hover:text-white"
+              className="w-full justify-start text-red-600 border-red-300 hover:bg-red-600 hover:text-white"
               onClick={() => logoutMutate()}
               disabled={isPending}
             >
               <LuLogOut className="w-4 h-4 mr-2" />
-              Cerrar Sesión
+              {isPending ? "Cerrando sesión..." : "Cerrar Sesión"}
             </Button>
           </div>
         </div>
-      </div>
+      </aside>
     </>
   );
 }

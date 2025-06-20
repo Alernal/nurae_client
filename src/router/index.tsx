@@ -44,6 +44,7 @@ import ShippingPage from "@/views/shipping";
 import ReturnsPage from "@/views/returns";
 import CarePage from "@/views/care";
 import CareersPage from "@/views/careers";
+import AdminDashboard from "@/views/admin/dashboard";
 
 export function Router() {
   return (
@@ -90,6 +91,7 @@ export function Router() {
       {/* Rutas privadas administrativas */}
       <Route path="admin" element={<AdminLayout />}>
         <Route element={<AdminRoute />}>
+        <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="profile" element={<ProfilePage />} />
           <Route path="products" element={<AdminProductPage />} />
           <Route path="products/create" element={<AdminProductCreate />} />

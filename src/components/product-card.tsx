@@ -89,7 +89,7 @@ export default function ProductCard({ product, viewMode = "grid" }) {
               </div>
             </div>
 
-            <Link to={`/products/${product.id}`}>
+            <Link to={`/products/${product.slug}`}>
               <h3 className="text-lg font-serif font-bold text-[#2C1810] leading-snug hover:text-[#D4AF37] transition-colors line-clamp-2 mb-1">
                 {product.name}
               </h3>
@@ -224,7 +224,7 @@ export default function ProductCard({ product, viewMode = "grid" }) {
           </div>
         </div>
 
-        <Link to={`/products/${product.id}`}>
+        <Link to={`/products/${product.slug}`}>
           <h3 className="text-lg md:text-xl font-serif font-bold text-[#2C1810] leading-snug group-hover:text-[#D4AF37] transition-colors line-clamp-2 mb-1">
             {product.name}
           </h3>

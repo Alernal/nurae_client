@@ -23,11 +23,11 @@ export default function AdminUsers() {
   const { data: users = [], isLoading, isError } = useUsers();
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <div className="container mx-auto px-4 py-8 space-y-8">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Usuarios</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-3xl font-bold text-gray-800">Usuarios</h1>
+          <p className="text-gray-500 text-sm">
             Administración general de usuarios registrados
           </p>
         </div>
@@ -35,20 +35,20 @@ export default function AdminUsers() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Listado</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-gray-800">Listado</CardTitle>
+          <CardDescription className="text-gray-500 text-sm">
             {users.length} usuario(s) registrado(s)
           </CardDescription>
         </CardHeader>
         <CardContent>
           {isLoading ? (
-            <p className="text-center py-8 text-muted-foreground">Cargando...</p>
+            <p className="text-center text-gray-500 py-8">Cargando...</p>
           ) : isError ? (
-            <p className="text-center py-8 text-red-600">
+            <p className="text-center text-red-600 py-8">
               Error al cargar usuarios
             </p>
           ) : (
-            <div className="rounded-md border">
+            <div className="rounded-md border border-gray-200">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -64,29 +64,29 @@ export default function AdminUsers() {
                 <TableBody>
                   {users.map((user) => (
                     <TableRow key={user.id}>
-                      <TableCell className="font-medium">#{user.id}</TableCell>
-                      <TableCell>
+                      <TableCell className="font-medium text-gray-800">#{user.id}</TableCell>
+                      <TableCell className="text-gray-800">
                         {user.first_name} {user.last_name ?? ""}
-                        <div className="text-xs text-muted-foreground">
+                        <div className="text-xs text-gray-500">
                           {user.phone ?? "Sin teléfono"}
                         </div>
                       </TableCell>
-                      <TableCell>{user.email}</TableCell>
+                      <TableCell className="text-gray-800">{user.email}</TableCell>
                       <TableCell>
-                        <Badge variant="outline">{user.role}</Badge>
+                        <Badge className="bg-blue-100 text-blue-700">{user.role}</Badge>
                       </TableCell>
                       <TableCell>
                         {user.is_verified ? (
-                          <Badge variant="success">Sí</Badge>
+                          <Badge className="bg-green-100 text-green-700">Sí</Badge>
                         ) : (
-                          <Badge variant="secondary">No</Badge>
+                          <Badge className="bg-gray-100 text-gray-600">No</Badge>
                         )}
                       </TableCell>
                       <TableCell>
                         {user.status ? (
-                          <Badge variant="success">Activo</Badge>
+                          <Badge className="bg-green-100 text-green-700">Activo</Badge>
                         ) : (
-                          <Badge variant="destructive">Inactivo</Badge>
+                          <Badge className="bg-red-100 text-red-700">Inactivo</Badge>
                         )}
                       </TableCell>
                       <TableCell className="text-right">
@@ -101,10 +101,8 @@ export default function AdminUsers() {
                 </TableBody>
               </Table>
               {users.length === 0 && (
-                <div className="text-center py-8">
-                  <p className="text-muted-foreground">
-                    No hay usuarios registrados.
-                  </p>
+                <div className="text-center py-8 text-gray-500">
+                  No hay usuarios registrados.
                 </div>
               )}
             </div>

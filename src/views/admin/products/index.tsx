@@ -56,6 +56,8 @@ import {
 import { useProducts } from "@/hooks/products/useProducts";
 import { useDeleteProduct } from "@/hooks/products/useDeleteProduct";
 
+// ... imports idénticos a los actuales ...
+
 export default function AdminProducts() {
   const navigate = useNavigate();
   const { data: products = [], isLoading, isError } = useProducts();
@@ -74,64 +76,52 @@ export default function AdminProducts() {
       stockFilter === "all" ||
       (stockFilter === "in_stock" && product.in_stock) ||
       (stockFilter === "out_of_stock" && !product.in_stock) ||
-      (stockFilter === "low_stock" &&
-        product.in_stock &&
-        product.stock_count <= 10);
+      (stockFilter === "low_stock" && product.in_stock && product.stock_count <= 10);
 
     return matchesSearch && matchesStock;
   });
 
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat("es-ES", {
+  const formatPrice = (price: number) =>
+    new Intl.NumberFormat("es-CO", {
       style: "currency",
       currency: "COP",
     }).format(price);
-  };
 
   const getStockBadge = (product) => {
-    if (!product.in_stock || product.stock_count == 0)
-      return <Badge variant="destructive">Sin Stock</Badge>;
+    if (!product.in_stock || product.stock_count === 0)
+      return <Badge className="bg-red-100 text-red-700">Sin Stock</Badge>;
     if (product.stock_count <= 5)
-      return <Badge variant="secondary">Stock Bajo</Badge>;
-    return <Badge variant="default">En Stock</Badge>;
+      return <Badge className="bg-yellow-100 text-yellow-700">Stock Bajo</Badge>;
+    return <Badge className="bg-green-100 text-green-700">En Stock</Badge>;
   };
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <div className="container mx-auto px-4 py-8 space-y-8">
+      {/* Encabezado */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">
-            Gestión de Productos
-          </h1>
-          <p className="text-muted-foreground">
-            Administra tu catálogo de productos
-          </p>
+          <h1 className="text-3xl font-bold text-gray-800">Gestión de Productos</h1>
+          <p className="text-gray-500 text-sm">Administra tu catálogo y controla tu inventario.</p>
         </div>
-        <Button
-          onClick={() => navigate("/admin/products/create")}
-          className="w-full sm:w-auto"
-        >
+        <Button onClick={() => navigate("/admin/products/create")} className="bg-blue-600 hover:bg-blue-700 text-white">
           <LuPlus className="mr-2 h-4 w-4" />
           Agregar Producto
         </Button>
       </div>
 
-      {/* Stats Cards */}
+      {/* Estadísticas */}
       <div className="grid gap-4 md:grid-cols-4">
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Total Productos
-            </CardTitle>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-gray-700">Total Productos</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{products.length}</div>
+            <div className="text-2xl font-bold text-gray-800">{products.length}</div>
           </CardContent>
         </Card>
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">En Stock</CardTitle>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-gray-700">En Stock</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-green-600">
@@ -140,8 +130,8 @@ export default function AdminProducts() {
           </CardContent>
         </Card>
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Sin Stock</CardTitle>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-gray-700">Sin Stock</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-red-600">
@@ -150,8 +140,8 @@ export default function AdminProducts() {
           </CardContent>
         </Card>
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Stock Bajo</CardTitle>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-gray-700">Stock Bajo</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-yellow-600">
@@ -161,34 +151,32 @@ export default function AdminProducts() {
         </Card>
       </div>
 
-      {/* Filters */}
+      {/* Filtros */}
       <Card>
         <CardHeader>
-          <CardTitle>Filtros</CardTitle>
-          <CardDescription>
-            Filtra y busca productos en tu inventario
+          <CardTitle className="text-gray-800">Filtros</CardTitle>
+          <CardDescription className="text-gray-500 text-sm">
+            Filtra y encuentra productos fácilmente
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="flex-1">
-              <div className="relative">
-                <LuSearch className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                <Input
-                  placeholder="Buscar productos..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-8"
-                />
-              </div>
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="relative w-full md:flex-1">
+              <LuSearch className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+              <Input
+                placeholder="Buscar productos..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10"
+              />
             </div>
             <Select value={stockFilter} onValueChange={setStockFilter}>
-              <SelectTrigger className="w-full sm:w-[200px]">
+              <SelectTrigger className="md:w-[200px]">
                 <LuFilter className="mr-2 h-4 w-4" />
                 <SelectValue placeholder="Filtrar por stock" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Todos los productos</SelectItem>
+                <SelectItem value="all">Todos</SelectItem>
                 <SelectItem value="in_stock">En stock</SelectItem>
                 <SelectItem value="out_of_stock">Sin stock</SelectItem>
                 <SelectItem value="low_stock">Stock bajo</SelectItem>
@@ -198,32 +186,28 @@ export default function AdminProducts() {
         </CardContent>
       </Card>
 
-      {/* Product Table */}
+      {/* Tabla de productos */}
       <Card>
         <CardHeader>
-          <CardTitle>Lista de Productos</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-gray-800">Lista de Productos</CardTitle>
+          <CardDescription className="text-gray-500 text-sm">
             {filteredProducts.length} producto(s) encontrado(s)
           </CardDescription>
         </CardHeader>
         <CardContent>
           {isLoading ? (
-            <p className="text-center py-8 text-muted-foreground">
-              Cargando productos...
-            </p>
+            <p className="text-center text-gray-500 py-8">Cargando productos...</p>
           ) : isError ? (
-            <p className="text-center py-8 text-red-600">
-              Error al cargar productos
-            </p>
+            <p className="text-center text-red-600 py-8">Error al cargar productos</p>
           ) : (
-            <div className="rounded-md border">
+            <div className="rounded-md border border-gray-200">
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-[80px]">Imagen</TableHead>
+                    <TableHead>Imagen</TableHead>
                     <TableHead>Producto</TableHead>
                     <TableHead>Precio</TableHead>
-                    <TableHead>Talla/Color</TableHead>
+                    <TableHead>Talla / Color</TableHead>
                     <TableHead>Stock</TableHead>
                     <TableHead>Estado</TableHead>
                     <TableHead className="text-right">Acciones</TableHead>
@@ -235,61 +219,44 @@ export default function AdminProducts() {
                       <TableCell>
                         <img
                           src={
-                            product.images && product.images.length > 0
+                            product.images?.[0]?.url
                               ? `http://localhost:8000${product.images[0].url}`
-                              : "https://static1.squarespace.com/static/530cd931e4b0e49b19b254ec/t/63c6068bcdde5a79958619df/1673922187854/final+logo++copy-1+%281%29.png?format=1500w"
+                              : "/placeholder.svg"
                           }
                           alt={product.name}
-                          width={60}
-                          height={60}
-                          className="rounded-md object-cover"
+                          className="w-14 h-14 rounded object-cover"
                         />
                       </TableCell>
                       <TableCell>
-                        <div className="space-y-1">
-                          <div className="font-medium">{product.name}</div>
-                          {product.description && (
-                            <div className="text-sm text-muted-foreground max-w-[200px] truncate">
-                              {product.description}
-                            </div>
-                          )}
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="space-y-1">
-                          <div className="font-medium">
-                            {formatPrice(product.price)}
+                        <div className="font-medium text-gray-800">{product.name}</div>
+                        {product.description && (
+                          <div className="text-sm text-gray-500 max-w-[200px] truncate">
+                            {product.description}
                           </div>
-                          {product.original_price && (
-                            <div className="text-sm text-muted-foreground line-through">
-                              {formatPrice(product.original_price)}
-                            </div>
-                          )}
-                        </div>
+                        )}
                       </TableCell>
                       <TableCell>
-                        <div className="space-y-1">
-                          {product.size && (
-                            <div className="text-sm">Talla: {product.size}</div>
-                          )}
-                          {product.color && (
-                            <div className="text-sm">
-                              Color: {product.color}
-                            </div>
-                          )}
+                        <div className="text-gray-800 font-medium">
+                          {formatPrice(product.price)}
                         </div>
+                        {product.original_price && (
+                          <div className="text-sm text-gray-400 line-through">
+                            {formatPrice(product.original_price)}
+                          </div>
+                        )}
                       </TableCell>
-                      <TableCell>
-                        <div className="font-medium">
-                          {product.stock_count} unidades
-                        </div>
+                      <TableCell className="text-sm text-gray-700">
+                        {product.size && <div>Talla: {product.size}</div>}
+                        {product.color && <div>Color: {product.color}</div>}
+                      </TableCell>
+                      <TableCell className="font-medium text-gray-800">
+                        {product.stock_count} unidades
                       </TableCell>
                       <TableCell>{getStockBadge(product)}</TableCell>
                       <TableCell className="text-right">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
                             <Button variant="ghost" className="h-8 w-8 p-0">
-                              <span className="sr-only">Abrir menú</span>
                               <LuFlipHorizontal2 className="h-4 w-4" />
                             </Button>
                           </DropdownMenuTrigger>
@@ -320,19 +287,13 @@ export default function AdminProducts() {
                               </AlertDialogTrigger>
                               <AlertDialogContent>
                                 <AlertDialogHeader>
-                                  <AlertDialogTitle>
-                                    ¿Estás seguro?
-                                  </AlertDialogTitle>
+                                  <AlertDialogTitle>¿Estás seguro?</AlertDialogTitle>
                                   <AlertDialogDescription>
-                                    Esta acción no se puede deshacer. Esto
-                                    eliminará permanentemente el producto "
-                                    {product.name}" del inventario.
+                                    Esta acción eliminará permanentemente "{product.name}" del inventario.
                                   </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
-                                  <AlertDialogCancel>
-                                    Cancelar
-                                  </AlertDialogCancel>
+                                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
                                   <AlertDialogAction
                                     onClick={() => {
                                       setDeletingId(product.id);
@@ -341,11 +302,9 @@ export default function AdminProducts() {
                                       });
                                     }}
                                     disabled={deletingId === product.id}
-                                    className="bg-red-600 hover:bg-red-700"
+                                    className="bg-red-600 hover:bg-red-700 text-white"
                                   >
-                                    {deletingId === product.id
-                                      ? "Eliminando..."
-                                      : "Eliminar"}
+                                    {deletingId === product.id ? "Eliminando..." : "Eliminar"}
                                   </AlertDialogAction>
                                 </AlertDialogFooter>
                               </AlertDialogContent>
@@ -358,11 +317,7 @@ export default function AdminProducts() {
                 </TableBody>
               </Table>
               {filteredProducts.length === 0 && (
-                <div className="text-center py-8">
-                  <p className="text-muted-foreground">
-                    No se encontraron productos
-                  </p>
-                </div>
+                <div className="text-center py-8 text-gray-500">No se encontraron productos.</div>
               )}
             </div>
           )}

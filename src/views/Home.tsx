@@ -1,8 +1,4 @@
-import { Link } from "react-router-dom";
-import { LuSparkles, LuCrown } from "react-icons/lu";
-
 import { TrustBadges } from "@/components/TrustBadges";
-import { Button } from "@/components/ui/button";
 import { FeaturedProducts } from "@/components/featured-products";
 import { Newsletter } from "@/components/newsletter";
 import { CategoryShowcase } from "@/components/category-showcase";
