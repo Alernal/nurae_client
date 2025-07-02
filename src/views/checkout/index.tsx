@@ -1,18 +1,27 @@
-import { useState } from "react";
+import { useState, useMemo, useEffect } from "react";
 import BillingInfoForm from "@/components/checkout/billing-info-form";
-import ShippingOptions from "@/components/checkout/shipping-options";
 import CartSummary from "@/components/checkout/cart-summary";
 import { useCartStore } from "@/stores/useCartStore";
 import { useProducts } from "@/hooks/products/useProducts";
 import { useGeneratePaymentLink } from "@/hooks/useGeneratePaymentLink";
+import { toast } from "sonner";
+import { caribbeanDepartments } from "@/lib/caribbeanRegions";
+import type { Address } from "@/components/checkout/address-selector";
 
 export default function CheckoutPage() {
   const { data: products = [] } = useProducts();
   const { items: cartItems } = useCartStore();
+  const { mutate: generatePaymentLink } = useGeneratePaymentLink();
   const [wompiLink, setWompiLink] = useState<string | null>(null);
-  const { mutate: generatePaymentLink, isLoading } = useGeneratePaymentLink();
-  const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
 
+  const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
+  const [discountCode, setDiscountCode] = useState("");
+  const [appliedDiscount, setAppliedDiscount] = useState(0);
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [dataProcessingAccepted, setDataProcessingAccepted] = useState(false);
+  const [showWompiModal, setShowWompiModal] = useState(false);
+
+  // Construye los items del carrito
   const detailedCartItems = cartItems.map((item) => {
     const product = products.find((p) => p.id === item.productId);
     return {
@@ -22,7 +31,7 @@ export default function CheckoutPage() {
       original_price: product?.original_price,
       slug: product?.slug,
       size: product?.size,
-      color: product?.color,
+      material: product?.material,
       description: product?.description,
       in_stock: product?.in_stock,
       stock_count: product?.stock_count,
@@ -32,88 +41,95 @@ export default function CheckoutPage() {
     };
   });
 
-  const [billingData, setBillingData] = useState({
-    fullName: "",
-    cedula: "",
-    address: "",
-    city: "",
-    department: "",
-    postalCode: "",
-    phone: "",
-    email: "",
-  });
+  // Cálculos del subtotal e IVA
+  const subtotal = useMemo(
+    () =>
+      detailedCartItems.reduce((sum, item) => {
+        const unitPrice =
+          item.original_price &&
+          item.original_price > 0 &&
+          item.original_price < item.price
+            ? item.original_price
+            : item.price;
+        return sum + (unitPrice / 1.19) * item.quantity;
+      }, 0),
+    [detailedCartItems]
+  );
 
-  const [shippingData, setShippingData] = useState({
-    isDefault: true,
-    shippingType: "standard",
-    observations: "",
-  });
-
-  const [discountCode, setDiscountCode] = useState("");
-  const [appliedDiscount, setAppliedDiscount] = useState(0);
-  const [termsAccepted, setTermsAccepted] = useState(false);
-  const [dataProcessingAccepted, setDataProcessingAccepted] = useState(false);
-
-  const [showWompiModal, setShowWompiModal] = useState(false); // <== NUEVO
-
-  const subtotal = detailedCartItems.reduce((sum, item) => {
-    const unitPrice =
-      item.original_price &&
-      item.original_price > 0 &&
-      item.original_price < item.price
-        ? item.original_price
-        : item.price;
-    const baseUnitPrice = unitPrice / 1.19;
-    return sum + baseUnitPrice * item.quantity;
-  }, 0);
-
-  const iva = detailedCartItems.reduce((sum, item) => {
-    const unitPrice =
-      item.original_price &&
-      item.original_price > 0 &&
-      item.original_price < item.price
-        ? item.original_price
-        : item.price;
-    const baseUnitPrice = unitPrice / 1.19;
-    const ivaUnit = unitPrice - baseUnitPrice;
-    return sum + ivaUnit * item.quantity;
-  }, 0);
+  const iva = useMemo(
+    () =>
+      detailedCartItems.reduce((sum, item) => {
+        const unitPrice =
+          item.original_price &&
+          item.original_price > 0 &&
+          item.original_price < item.price
+            ? item.original_price
+            : item.price;
+        const baseUnitPrice = unitPrice / 1.19;
+        return sum + (unitPrice - baseUnitPrice) * item.quantity;
+      }, 0),
+    [detailedCartItems]
+  );
 
   const totalBruto = subtotal + iva;
-  const shipping = totalBruto >= 150000 ? 0 : 15000;
 
-  const total = totalBruto + shipping - appliedDiscount;
+  // Lógica para calcular el shipping
+  function calculateShipping(
+    address: Address | null,
+    totalBruto: number
+  ): number {
+    if (totalBruto >= 150000) return 0;
+    if (!address) return 15000;
+
+    const addressDepartment = address.state?.toLowerCase() || "";
+    const isCaribbeanDepartment = caribbeanDepartments
+      .map((d) => d.toLowerCase())
+      .some((d) => addressDepartment.includes(d));
+    return isCaribbeanDepartment ? 9000 : 15000;
+  }
+
+  // Usamos useMemo para que solo recalcule cuando cambie selectedAddress o totalBruto
+  const shipping = useMemo(
+    () => calculateShipping(selectedAddress, totalBruto),
+    [selectedAddress, totalBruto]
+  );
+
+  const total = useMemo(
+    () => totalBruto + shipping - appliedDiscount,
+    [totalBruto, shipping, appliedDiscount]
+  );
+
+  // Para depuración opcional:
+  useEffect(() => {
+    if (selectedAddress) {
+      console.log(
+        `Shipping recalculado para el estado: ${selectedAddress.state} → ${shipping}`
+      );
+    }
+  }, [selectedAddress, shipping]);
 
   const handleFinalizePurchase = () => {
     if (detailedCartItems.length === 0) {
-      alert("Tu carrito está vacío. Agrega productos antes de continuar.");
+      toast.error(
+        "Tu carrito está vacío. Agrega productos antes de continuar."
+      );
       return;
     }
 
     if (!selectedAddress) {
-      alert("Debes seleccionar una dirección de envío.");
-      return;
-    }
-
-    if (!shippingData.shippingType) {
-      alert("Debes seleccionar un método de envío.");
+      toast.error("Debes seleccionar una dirección de envío.");
       return;
     }
 
     if (!termsAccepted || !dataProcessingAccepted) {
-      alert(
+      toast.error(
         "Debes aceptar los términos y condiciones y el tratamiento de datos personales para continuar."
       );
       return;
     }
 
     generatePaymentLink(
-      {
-        subtotal,
-        iva,
-        shipping,
-        total,
-      },
+      { subtotal, iva, shipping, total },
       {
         onSuccess: (data) => {
           setWompiLink(data.url);
@@ -124,23 +140,13 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
       <div className="container mx-auto px-4 py-8">
         <div className="grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
             <BillingInfoForm
               selectedAddress={selectedAddress}
-              onAddressSelect={setSelectedAddress}
-            />
-            <ShippingOptions
-              shippingType={shippingData.shippingType}
-              onShippingTypeChange={(type) =>
-                setShippingData((prev) => ({ ...prev, shippingType: type }))
-              }
-              observations={shippingData.observations}
-              onObservationsChange={(obs) =>
-                setShippingData((prev) => ({ ...prev, observations: obs }))
-              }
+              onAddressSelect={(address) => setSelectedAddress({ ...address })}
             />
           </div>
 

@@ -14,7 +14,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { LuEye, LuEyeOff, LuMail, LuLock, LuUser } from "react-icons/lu";
+import {
+  LuEye,
+  LuEyeOff,
+  LuMail,
+  LuLock,
+  LuUser,
+} from "react-icons/lu";
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -37,83 +43,87 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-nurae-gradient flex items-center justify-center p-4">
+    <div className="min-h-screen bg-white flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        <div className="text-center mb-20">
-          <div className="relative w-48 h-16 mx-auto mb-4">
-            <img src="/logo.jpg" alt="NURAE" className="object-contain" />
+        {/* Logo */}
+        <div className="text-center mb-8">
+          <div className="w-50 h-20 mx-auto mb-4">
+            <img
+              src="/logo.png"
+              alt="LÚMINA"
+              className="object-contain mx-auto"
+            />
           </div>
         </div>
 
-        <Card className="border-warm-sand/20 shadow-2xl bg-white/95 backdrop-blur-sm">
+        <Card className="shadow-lg border border-gray-100">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl text-nurae-brown">
-              Registrarse
+            <CardTitle className="text-2xl text-gray-800 font-semibold">
+              Crear cuenta
             </CardTitle>
-            <CardDescription className="text-secondary">
-              Ingresa tus datos para crear una cuenta
+            <CardDescription className="text-gray-500">
+              Ingresa tus datos para registrarte
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+              {/* Nombre */}
               <div className="space-y-2">
-                <Label htmlFor="first_name" className="text-nurae-brown">
+                <Label htmlFor="first_name" className="text-gray-700">
                   Nombre
                 </Label>
                 <div className="relative">
-                  <LuUser className="absolute left-3 top-3 h-4 w-4 text-secondary" />
+                  <LuUser className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                   <Input
                     id="first_name"
-                    placeholder="Nombre"
-                    className="pl-10 border-warm-sand focus:border-nurae-brown"
+                    placeholder="Tu nombre"
+                    className="pl-10"
                     {...register("first_name")}
                   />
-                  {errors.first_name && (
-                    <p className="text-sm text-red-600">
-                      {errors.first_name.message}
-                    </p>
-                  )}
                 </div>
+                {errors.first_name && (
+                  <p className="text-sm text-red-600">{errors.first_name.message}</p>
+                )}
               </div>
 
+              {/* Email */}
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-nurae-brown">
+                <Label htmlFor="email" className="text-gray-700">
                   Email
                 </Label>
                 <div className="relative">
-                  <LuMail className="absolute left-3 top-3 h-4 w-4 text-secondary" />
+                  <LuMail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                   <Input
                     id="email"
                     type="email"
                     placeholder="tu@email.com"
-                    className="pl-10 border-warm-sand focus:border-nurae-brown"
+                    className="pl-10"
                     {...register("email")}
                   />
-                  {errors.email && (
-                    <p className="text-sm text-red-600">
-                      {errors.email.message}
-                    </p>
-                  )}
                 </div>
+                {errors.email && (
+                  <p className="text-sm text-red-600">{errors.email.message}</p>
+                )}
               </div>
 
+              {/* Contraseña */}
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-nurae-brown">
+                <Label htmlFor="password" className="text-gray-700">
                   Contraseña
                 </Label>
                 <div className="relative">
-                  <LuLock className="absolute left-3 top-3 h-4 w-4 text-secondary" />
+                  <LuLock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                   <Input
                     id="password"
                     type={showPassword ? "text" : "password"}
                     placeholder="••••••••"
-                    className="pl-10 pr-10 border-warm-sand focus:border-nurae-brown"
+                    className="pl-10 pr-10"
                     {...register("password")}
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-3 text-secondary hover:text-nurae-brown"
+                    className="absolute right-3 top-3 text-gray-400 hover:text-yellow-600"
                   >
                     {showPassword ? (
                       <LuEyeOff className="h-4 w-4" />
@@ -121,31 +131,30 @@ export default function RegisterPage() {
                       <LuEye className="h-4 w-4" />
                     )}
                   </button>
-                  {errors.password && (
-                    <p className="text-sm text-red-600">
-                      {errors.password.message}
-                    </p>
-                  )}
                 </div>
+                {errors.password && (
+                  <p className="text-sm text-red-600">{errors.password.message}</p>
+                )}
               </div>
 
+              {/* Confirmar contraseña */}
               <div className="space-y-2">
-                <Label htmlFor="password_confirmation" className="text-nurae-brown">
+                <Label htmlFor="password_confirmation" className="text-gray-700">
                   Confirmar Contraseña
                 </Label>
                 <div className="relative">
-                  <LuLock className="absolute left-3 top-3 h-4 w-4 text-secondary" />
+                  <LuLock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                   <Input
                     id="password_confirmation"
                     type={showPassword ? "text" : "password"}
                     placeholder="••••••••"
-                    className="pl-10 pr-10 border-warm-sand focus:border-nurae-brown"
+                    className="pl-10 pr-10"
                     {...register("password_confirmation")}
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-3 text-secondary hover:text-nurae-brown"
+                    className="absolute right-3 top-3 text-gray-400 hover:text-yellow-600"
                   >
                     {showPassword ? (
                       <LuEyeOff className="h-4 w-4" />
@@ -153,62 +162,57 @@ export default function RegisterPage() {
                       <LuEye className="h-4 w-4" />
                     )}
                   </button>
-                  {errors.password_confirmation && (
-                    <p className="text-sm text-red-600">
-                      {errors.password_confirmation.message}
-                    </p>
-                  )}
                 </div>
+                {errors.password_confirmation && (
+                  <p className="text-sm text-red-600">
+                    {errors.password_confirmation.message}
+                  </p>
+                )}
               </div>
 
+              {/* Aceptar términos */}
               <div className="flex items-start space-x-2">
                 <input
                   type="checkbox"
                   id="termsAccepted"
-                  className="rounded border-warm-sand mt-1"
+                  className="rounded border-gray-300 mt-1"
                   {...register("termsAccepted")}
                 />
-                <label
-                  htmlFor="termsAccepted"
-                  className="text-sm text-secondary"
-                >
+                <label htmlFor="termsAccepted" className="text-sm text-gray-600">
                   Acepto los{" "}
-                  <Link
-                    to="/terms"
-                    className="text-nurae-brown hover:underline"
-                  >
+                  <Link to="/terms" className="text-[#D4AF37] hover:underline">
                     términos y condiciones
                   </Link>{" "}
                   y la{" "}
-                  <Link
-                    to="/privacy-policy"
-                    className="text-nurae-brown hover:underline"
-                  >
+                  <Link to="/privacy-policy" className="text-[#D4AF37] hover:underline">
                     política de privacidad
                   </Link>
                 </label>
               </div>
               {errors.termsAccepted && (
-                <p className="text-sm text-red-600">
-                  {errors.termsAccepted.message}
-                </p>
+                <p className="text-sm text-red-600">{errors.termsAccepted.message}</p>
               )}
 
+              {/* Submit */}
               <Button
                 type="submit"
-                className="w-full bg-nurae-gradient hover:opacity-90 text-nurae-charcoal"
+                className="w-full bg-[#D4AF37] hover:bg-yellow-600 text-white font-medium transition disabled:opacity-70"
                 disabled={isPending}
               >
-                {isPending ? "Creando cuenta..." : "Crear Cuenta"}
+                {isPending ? "Registrando..." : "Registrarse"}
               </Button>
             </form>
           </CardContent>
         </Card>
 
+        {/* Ya tienes cuenta */}
         <div className="text-center mt-6">
-          <p className="text-nurae-cream text-sm">
+          <p className="text-sm text-gray-600">
             ¿Ya tienes cuenta?{" "}
-            <Link to="/login" className="text-nurae-charcoal hover:underline">
+            <Link
+              to="/login"
+              className="text-[#D4AF37] font-medium hover:underline"
+            >
               Inicia sesión
             </Link>
           </p>

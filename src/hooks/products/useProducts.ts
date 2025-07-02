@@ -9,6 +9,7 @@ type Filters = {
   price_max?: number;
   sort?: string;
   page?: number;
+  search?: string;  // Nuevo campo de búsqueda
 };
 
 export function useProducts(filters: Filters = {}) {
@@ -18,7 +19,8 @@ export function useProducts(filters: Filters = {}) {
     filters.price_min !== undefined ||
     filters.price_max !== undefined ||
     filters.sort ||
-    filters.page !== undefined;
+    filters.page !== undefined ||
+    filters.search !== undefined; // Se incluye el filtro de búsqueda
 
   return useQuery({
     queryKey: ["products", filters],
@@ -30,6 +32,7 @@ export function useProducts(filters: Filters = {}) {
       if (filters.price_max !== undefined) params.price_max = filters.price_max;
       if (filters.sort) params.sort = filters.sort;
       if (filters.page !== undefined) params.page = filters.page;
+      if (filters.search) params.search = filters.search;  // Se agrega el campo de búsqueda
 
       const res = await api.get("/products", { params });
 

@@ -2,101 +2,83 @@ import type React from "react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { LuSparkles, LuCrown, LuGift, LuStar, LuHeart } from "react-icons/lu";
+import {
+  LuSparkles,
+  LuCircleCheck,
+  LuGift,
+  LuStar,
+  LuHeart,
+} from "react-icons/lu";
+import { useCreateSubscriber } from "@/hooks/useCreateSubscriber";
 
 export function Newsletter() {
   const [email, setEmail] = useState("");
+  const { mutate: createSubscriber, isLoading, error } = useCreateSubscriber();
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) setSubmitted(true);
+
+    if (!email || !email.includes("@")) return;
+
+    createSubscriber(
+      { email },
+      {
+        onSuccess: () => {
+          setSubmitted(true);
+          setEmail(""); // limpiar el campo
+        },
+      }
+    );
   };
 
   return (
-    <section className="w-full py-20 md:py-28 bg-[#F5EFE7] relative overflow-hidden text-[#2C1810]">
-      {/* Floating Icons */}
-      <div className="absolute top-12 left-10 text-[#D4AF37] opacity-40 animate-float">
-        <LuSparkles className="h-10 w-10" />
-      </div>
-      <div className="absolute bottom-12 right-10 text-[#D4AF37] opacity-30 animate-float" style={{ animationDelay: "1s" }}>
-        <LuCrown className="h-12 w-12" />
-      </div>
-      <div className="absolute top-1/3 right-1/4 text-[#D4AF37] opacity-30 animate-float" style={{ animationDelay: "2s" }}>
-        <LuStar className="h-8 w-8" />
-      </div>
-      <div className="absolute bottom-1/3 left-1/4 text-[#D4AF37] opacity-30 animate-float" style={{ animationDelay: "0.5s" }}>
-        <LuHeart className="h-6 w-6" />
-      </div>
-
+    <section className="w-full py-20 md:py-28 relative overflow-hidden text-[#7D5840] bg-[#FAF6F2]">
       <div className="container px-4 md:px-6 relative">
-        <div className="flex flex-col items-center justify-center text-center space-y-12">
-          <div className="space-y-8 max-w-4xl">
-            <div className="inline-flex items-center gap-3 rounded-full bg-white px-6 py-3 text-sm font-medium shadow-md border border-[#D4AF37]/30 text-[#2C1810]">
-              <LuGift className="h-5 w-5" />
-              <span className="font-display text-base">Mantente al tanto</span>
-              <LuSparkles className="h-5 w-5 animate-pulse" />
-            </div>
-
-            <h2 className="text-5xl md:text-6xl font-serif font-bold leading-tight text-[#2C1810]">
-              Suscríbete a nuestras novedades
+        <div className="flex flex-col items-center justify-center text-center gap-6">
+          <div className="max-w-4xl">
+            <h2 className="text-5xl font-medium leading-tight text-[#7D5840]">
+              Suscríbete a nuestro Boletin
             </h2>
-
-            <p className="text-xl md:text-2xl text-[#5C4A42] leading-relaxed font-light">
-              Sé parte de nuestra comunidad y entérate cuando lancemos nuevas colecciones, productos en promoción y más.
-            </p>
           </div>
 
           {!submitted ? (
-            <div className="w-full max-w-lg space-y-8">
-              <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="max-w-md mx-auto">
+              <form className="flex gap-2" onSubmit={handleSubmit}>
                 <Input
                   type="email"
                   placeholder="tu-email@ejemplo.com"
-                  className="h-14 rounded-xl border border-[#D4AF37]/30 bg-white px-6 text-base text-[#2C1810] placeholder:text-[#5C4A42] shadow-sm focus:border-[#D4AF37]"
+                  className="h-12 w-60 rounded-xl border-2 border-[#E8D9CF] bg-white focus:border-[#9A6D4E]"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  required
                 />
-
                 <Button
                   type="submit"
-                  className="w-full h-14 bg-[#D4AF37] hover:bg-[#c79e2f] text-white rounded-xl text-lg font-medium shadow-md transition duration-300 group"
+                  className="bg-[#9A6D4E] hover:bg-[#7D5840] text-white h-12 px-6 rounded-xl"
+                  disabled={isLoading}
                 >
-                  Suscribirme
-                  <LuCrown className="ml-2 h-5 w-5 group-hover:animate-bounce" />
+                  Suscribirse
                 </Button>
               </form>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
-                <div className="flex flex-col items-center gap-2 p-4 bg-white/80 rounded-xl border border-[#D4AF37]/20 shadow-sm">
-                  <div className="h-2 w-2 bg-[#D4AF37] rounded-full" />
-                  <span>Lanzamientos de colecciones</span>
-                </div>
-                <div className="flex flex-col items-center gap-2 p-4 bg-white/80 rounded-xl border border-[#D4AF37]/20 shadow-sm">
-                  <div className="h-2 w-2 bg-[#2C1810] rounded-full" />
-                  <span>Ofertas y descuentos puntuales</span>
-                </div>
-                <div className="flex flex-col items-center gap-2 p-4 bg-white/80 rounded-xl border border-[#D4AF37]/20 shadow-sm">
-                  <div className="h-2 w-2 bg-[#5C4A42] rounded-full" />
-                  <span>Novedades de NURAE</span>
-                </div>
-              </div>
+              <p className="text-xs text-[#9A6D4E] mt-2">
+                Recibe nuestros últimos artículos en tu email
+              </p>
             </div>
           ) : (
-            <div className="bg-white p-10 rounded-3xl max-w-lg w-full shadow-lg border border-[#D4AF37]/30">
+            <div className="bg-white p-10 max-w-lg w-full shadow-lg border-[#5E4536]/30">
               <div className="text-center space-y-6">
-                <div className="mx-auto w-16 h-16 bg-[#D4AF37] rounded-full flex items-center justify-center">
-                  <LuCrown className="h-8 w-8 text-white" />
+                <div className="mx-auto w-16 h-16 bg-[#5E4536] rounded-full flex items-center justify-center">
+                  <LuCircleCheck className="h-8 w-8 text-white" />
                 </div>
-                <h3 className="font-serif text-2xl font-bold text-[#2C1810]">¡Gracias por suscribirte!</h3>
+                <h3 className=" text-2xl font-bold text-[#7D5840]">
+                  ¡Gracias por suscribirte!
+                </h3>
                 <p className="text-base text-[#5C4A42] leading-relaxed">
-                  Te mantendremos informada cuando tengamos novedades o promociones especiales.
+                  Te mantendremos informada cuando tengamos novedades o
+                  promociones especiales.
                 </p>
-                <div className="flex items-center justify-center gap-2 text-sm text-[#D4AF37] font-medium bg-[#FDF5D7] rounded-full px-4 py-2">
-                  <LuSparkles className="h-4 w-4" />
+                <div className="flex items-center justify-center gap-2 text-sm text-[#5E4536] font-medium bg-[#FDF5D7] rounded-full px-4 py-2">
                   <span>Revisa tu correo para confirmar tu suscripción</span>
-                  <LuSparkles className="h-4 w-4" />
                 </div>
               </div>
             </div>

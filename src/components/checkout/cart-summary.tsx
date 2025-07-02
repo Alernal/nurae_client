@@ -15,7 +15,7 @@ interface CartItem {
   productId: number;
   name: string;
   size: string;
-  color: string;
+  material: string;
   quantity: number;
   price: number;
   image: string;
@@ -63,9 +63,9 @@ export default function CartSummary({
   };
 
   return (
-    <Card className="border-amber-200 shadow-lg sticky top-4">
-      <CardHeader className="bg-gradient-to-r from-amber-50 to-amber-100 border-b border-amber-200">
-        <CardTitle className="flex items-center space-x-2 text-amber-900">
+    <Card className="">
+      <CardHeader className="">
+        <CardTitle className="flex items-center space-x-2 text-black">
           <LuShoppingCart className="w-5 h-5" />
           <span>Resumen del Pedido</span>
         </CardTitle>
@@ -78,7 +78,7 @@ export default function CartSummary({
               <p className="text-gray-500 mb-4">Tu carrito está vacío.</p>
               <Button
                 onClick={() => (window.location.href = "/collections")}
-                className="bg-amber-700 hover:bg-amber-800 text-white font-semibold"
+                className="bg-[#5E4536] hover:bg-[#5E4536]/80 text-white font-semibold"
               >
                 Explorar productos
               </Button>
@@ -88,7 +88,7 @@ export default function CartSummary({
               {items.map((item) => (
                 <div
                   key={item.productId}
-                  className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg"
+                  className="flex items-center space-x-3 p-3 border border-gray-200"
                 >
                   <img
                     src={item.image || "/placeholder.svg"}
@@ -102,7 +102,7 @@ export default function CartSummary({
                       {item.name}
                     </h4>
                     <p className="text-xs text-gray-600">
-                      Talla: {item.size} | Color: {item.color}
+                      Talla: {item.size} | Material: {item.material}
                     </p>
                     <div className="flex items-center justify-between mt-2">
                       <div className="flex items-center space-x-2">
@@ -134,12 +134,12 @@ export default function CartSummary({
                           <span className="text-sm text-gray-400 line-through">
                             {formatPrice(item.price * item.quantity)}
                           </span>
-                          <span className="font-medium text-amber-700">
+                          <span className="font-medium">
                             {formatPrice(item.original_price * item.quantity)}
                           </span>
                         </div>
                       ) : (
-                        <span className="font-medium text-amber-700">
+                        <span className="font-medium">
                           {formatPrice(item.price * item.quantity)}
                         </span>
                       )}
@@ -187,20 +187,20 @@ export default function CartSummary({
         <div className="space-y-3">
           <div className="flex justify-between text-sm">
             <span className="text-gray-600">Subtotal</span>
-            <span className="font-medium">{formatPrice(subtotal)}</span>
+            <span className="font-regular">{formatPrice(subtotal)}</span>
           </div>
           <div className="flex justify-between text-sm">
             <span className="text-gray-600">Envío</span>
-            <span className="font-medium">{formatPrice(shipping)}</span>
+            <span className="font-regular">{formatPrice(shipping)}</span>
           </div>
           <div className="flex justify-between text-sm">
             <span className="text-gray-600">IVA (19%)</span>
-            <span className="font-medium">{formatPrice(iva)}</span>
+            <span className="font-regular">{formatPrice(iva)}</span>
           </div>
           {appliedDiscount > 0 && (
             <div className="flex justify-between text-sm">
               <span className="text-green-600">Descuento</span>
-              <span className="font-medium text-green-600">
+              <span className="font-regular text-green-600">
                 -{formatPrice(appliedDiscount)}
               </span>
             </div>
@@ -210,12 +210,12 @@ export default function CartSummary({
 
           <div className="flex justify-between text-lg font-bold">
             <span className="text-gray-900">Total a Pagar</span>
-            <span className="text-amber-700">{formatPrice(total)}</span>
+            <span className="">{formatPrice(total)}</span>
           </div>
         </div>
 
         {/* Aceptación de términos y condiciones */}
-        <div className="space-y-4 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+        <div className="space-y-4 p-4 rounded-lg">
           <div className="flex items-start space-x-3">
             <Checkbox
               id="terms"
@@ -223,7 +223,7 @@ export default function CartSummary({
               onCheckedChange={(checked) =>
                 onTermsAcceptedChange(checked as boolean)
               }
-              className="border-amber-400 data-[state=checked]:bg-amber-600 data-[state=checked]:border-amber-600 mt-1"
+              className="border-gray-200 mt-1"
             />
             <div className="flex-1">
               <Label
@@ -232,10 +232,10 @@ export default function CartSummary({
               >
                 Acepto los{" "}
                 <a
-                  href="/terminos-y-condiciones"
+                  href="https://wompi.com/assets/downloadble/reglamento-Usuarios-Colombia.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-amber-700 hover:text-amber-800 underline font-medium inline-flex items-center"
+                  className="text-[#5E4536] underline font-bold inline-flex items-center"
                 >
                   Términos y Condiciones
                   <LuExternalLink className="w-3 h-3 ml-1" />
@@ -252,7 +252,7 @@ export default function CartSummary({
               onCheckedChange={(checked) =>
                 onDataProcessingAcceptedChange(checked as boolean)
               }
-              className="border-amber-400 data-[state=checked]:bg-amber-600 data-[state=checked]:border-amber-600 mt-1"
+              className="border-gray-200 mt-1"
             />
             <div className="flex-1">
               <Label
@@ -261,10 +261,10 @@ export default function CartSummary({
               >
                 Autorizo el{" "}
                 <a
-                  href="/politica-de-privacidad"
+                  href="http://localhost:8000/storage/Politica-de-privacidad.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-amber-700 hover:text-amber-800 underline font-medium inline-flex items-center"
+                  className="text-[#5E4536] underline font-bold inline-flex items-center"
                 >
                   tratamiento de mis datos personales
                   <LuExternalLink className="w-3 h-3 ml-1" />
@@ -274,7 +274,7 @@ export default function CartSummary({
             </div>
           </div>
 
-          <div className="text-xs text-gray-600 bg-white p-3 rounded border border-amber-200">
+          <div className="text-xs text-gray-600 bg-white">
             <p className="mb-2">
               <strong>Tratamiento de Datos Personales:</strong> Sus datos serán
               utilizados para:

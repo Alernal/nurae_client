@@ -10,12 +10,14 @@ import {
   LuX,
   LuUser,
   LuHouse,
+  LuLayoutDashboard
 } from "react-icons/lu";
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { useLogout } from "@/hooks/auth/useLogout";
 
 const navigation = [
+  { name: "Dashboard", path: "dashboard", icon: LuLayoutDashboard },
   { name: "Perfil", path: "profile", icon: LuUser },
   { name: "Mis Pedidos", path: "orders", icon: LuPackage },
   { name: "Direcciones", path: "addresses", icon: LuMapPin },
@@ -39,7 +41,11 @@ export function ClientSidebar() {
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           className="bg-white border border-gray-200 shadow-md"
         >
-          {isMobileMenuOpen ? <LuX className="h-5 w-5" /> : <LuMenu className="h-5 w-5" />}
+          {isMobileMenuOpen ? (
+            <LuX className="h-5 w-5" />
+          ) : (
+            <LuMenu className="h-5 w-5" />
+          )}
         </Button>
       </div>
 
@@ -63,7 +69,10 @@ export function ClientSidebar() {
             <Link to="/" className="flex items-center gap-3">
               <img src="/logo.png" alt="Logo" className="h-8 object-contain" />
             </Link>
-            <Badge variant="outline" className="text-sm text-gray-700 border-gray-300">
+            <Badge
+              variant="outline"
+              className="text-sm text-gray-700 border-gray-300"
+            >
               {user?.role === "admin" ? "Admin" : "Cliente"}
             </Badge>
           </div>

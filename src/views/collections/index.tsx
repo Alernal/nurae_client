@@ -28,10 +28,11 @@ export default function CollectionsPage() {
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
+  const [search, setSearch] = useState("");  // Estado para la búsqueda
 
   useEffect(() => {
     setPage(1);
-  }, [sortBy, selectedCategories, selectedMaterials, appliedPriceRange]);
+  }, [sortBy, selectedCategories, selectedMaterials, appliedPriceRange, search]);
 
   const { data: productsData, isLoading } = useProducts({
     categories: selectedCategories.length ? selectedCategories : undefined,
@@ -40,6 +41,7 @@ export default function CollectionsPage() {
     price_max: appliedPriceRange?.[1],
     sort: sortBy !== "featured" ? sortBy : undefined,
     page,
+    search: search.length > 0 ? search : undefined, // Pasar el valor de búsqueda al hook
   });
 
   const products = productsData?.data || [];
@@ -99,7 +101,7 @@ export default function CollectionsPage() {
   return (
     <div className="container px-4 py-8 md:px-6 md:py-12">
       <div className="mb-8">
-        <h1 className="text-4xl md:text-5xl font-serif font-bold text-black mb-4">
+        <h1 className="text-4xl md:text-5xl font-bold text-black mb-4">
           Toda la Colección
         </h1>
         <p className="text-lg text-gray-600 max-w-2xl">
@@ -109,8 +111,20 @@ export default function CollectionsPage() {
       </div>
 
       <div className="flex flex-col lg:flex-row gap-8">
-        <aside className="w-full lg:w-64 border rounded-xl p-4 bg-white shadow-sm">
+        <aside className="w-full lg:w-64 bg-white">
           <h3 className="font-semibold text-lg mb-4">Filtros</h3>
+
+          {/* Campo de búsqueda */}
+          <div className="mb-6">
+            <h4 className="text-sm font-medium mb-2">Buscar Productos</h4>
+            <input
+              type="text"
+              placeholder="Buscar por nombre..."
+              className="w-full px-4 py-2 border border-gray-200 rounded-md"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
 
           <div className="mb-6">
             <h4 className="text-sm font-medium mb-2">Categorías</h4>
@@ -127,7 +141,7 @@ export default function CollectionsPage() {
                     )
                   }
                 />
-                <Label htmlFor={cat.value} className="text-sm">
+                <Label htmlFor={cat.value} className="text-sm font-light">
                   {cat.label}
                 </Label>
               </div>
@@ -149,7 +163,7 @@ export default function CollectionsPage() {
                     )
                   }
                 />
-                <Label htmlFor={mat.value} className="text-sm">
+                <Label htmlFor={mat.value} className="text-sm font-light">
                   {mat.label}
                 </Label>
               </div>
@@ -161,8 +175,8 @@ export default function CollectionsPage() {
             <Slider
               value={priceRange}
               onValueChange={(value) => {
-                hasInteractedRef.current = true;
-                setPriceRange(value);
+              hasInteractedRef.current = true;
+              setPriceRange(value);
               }}
               max={1500000}
               step={10000}
@@ -182,6 +196,7 @@ export default function CollectionsPage() {
               setSelectedMaterials([]);
               setPriceRange([0, 1500000]);
               setAppliedPriceRange(undefined);
+              setSearch("");  // Limpiar búsqueda
             }}
           >
             Limpiar filtros
@@ -190,7 +205,7 @@ export default function CollectionsPage() {
 
         {/* Productos */}
         <div className="flex-1">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8 bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-pink-100">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8 bg-white/80 backdrop-blur-sm rounded-2xl">
             <div className="flex items-center gap-4">
               <span className="text-sm text-gray-600">
                 {isLoading
@@ -199,16 +214,16 @@ export default function CollectionsPage() {
               </span>
               <div className="flex items-center gap-2">
                 <Button
-                  variant={viewMode === "grid" ? "default" : "outline"}
                   size="sm"
                   onClick={() => setViewMode("grid")}
+                  className="bg-gray-200"
                 >
                   <LuGrid2X2 className="h-4 w-4" />
                 </Button>
                 <Button
-                  variant={viewMode === "list" ? "default" : "outline"}
                   size="sm"
                   onClick={() => setViewMode("list")}
+                  className="bg-gray-200"
                 >
                   <LuList className="h-4 w-4" />
                 </Button>

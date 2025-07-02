@@ -1,103 +1,124 @@
-import { LuHeart, LuUsers, LuAward, LuSparkles, LuCrown, LuStar, LuGlobe } from "react-icons/lu"
-import { Button } from "@/components/ui/button"
-import { Header } from "@/components/header"
-import { Footer } from "@/components/footer"
+import {
+  LuHeart,
+  LuUsers,
+  LuAward,
+  LuSparkles,
+  LuCrown,
+  LuStar,
+  LuGlobe,
+} from "react-icons/lu";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const teamMembers = [
   {
-    name: "Isabella Martínez",
+    name: "Jencky Tapia",
     role: "Fundadora & CEO",
-    image: "/placeholder.svg?height=300&width=300",
-    description: "Visionaria apasionada por democratizar el lujo y empoderar a las mujeres a través del estilo.",
+    image: "/images/inicio.png",
+    description:
+      "Visionaria apasionada por democratizar el lujo y empoderar a las mujeres a través del estilo.",
   },
   {
-    name: "Sofía Hernández",
-    role: "Directora de Diseño",
-    image: "/placeholder.svg?height=300&width=300",
-    description: "Artista con más de 10 años de experiencia creando piezas únicas que celebran la feminidad.",
+    name: "Andres Felipe Arrieta",
+    role: "Financiero & CFO",
+    image: "",
+    description:
+      "Especialista en finanzas con amplia experiencia en gestión estratégica y optimización de recursos.",
   },
   {
-    name: "Carmen López",
-    role: "Directora de Calidad",
-    image: "/placeholder.svg?height=300&width=300",
-    description: "Experta en materiales premium que garantiza la excelencia en cada pieza que creamos.",
+    name: "Juan Pablo Rios",
+    role: "Developer & Engineer",
+    image: "",
+    description:
+      "Desarrollador web enfocado en crear experiencias digitales innovadoras y funcionales.",
   },
-]
+];
 
 const values = [
   {
     icon: LuHeart,
     title: "Pasión",
-    description: "Amamos lo que hacemos y se refleja en cada detalle de nuestros diseños.",
+    description:
+      "Amamos lo que hacemos y se refleja en cada detalle de nuestros diseños.",
   },
   {
     icon: LuUsers,
     title: "Comunidad",
-    description: "Creamos una comunidad de mujeres que se apoyan y celebran su individualidad.",
+    description:
+      "Creamos una comunidad de mujeres que se apoyan y celebran su individualidad.",
   },
   {
     icon: LuAward,
     title: "Calidad",
-    description: "Utilizamos solo materiales premium para garantizar durabilidad y belleza.",
+    description:
+      "Utilizamos solo materiales premium para garantizar durabilidad y belleza.",
   },
   {
     icon: LuGlobe,
     title: "Accesibilidad",
-    description: "Hacemos el lujo accesible para todas las mujeres, sin comprometer la calidad.",
+    description:
+      "Hacemos el lujo accesible para todas las mujeres, sin comprometer la calidad.",
   },
-]
+];
 
 const milestones = [
   {
     year: "2020",
     title: "Nace NURAE",
-    description: "Isabella funda NURAE con la visión de democratizar el lujo en accesorios femeninos.",
+    description:
+      "Jencky funda NURAE con la visión de democratizar el lujo en accesorios femeninos.",
   },
   {
     year: "2021",
     title: "Primera Colección",
-    description: "Lanzamos nuestra primera colección con 25 piezas únicas que se agotaron en 48 horas.",
+    description:
+      "Lanzamos nuestra primera colección con 25 piezas únicas que se agotaron en 48 horas.",
   },
   {
     year: "2022",
     title: "10,000 Clientas",
-    description: "Alcanzamos las 10,000 clientas felices y expandimos nuestro catálogo a 100+ productos.",
+    description:
+      "Alcanzamos las 10,000 clientas felices y expandimos nuestro catálogo a 100+ productos.",
   },
   {
     year: "2023",
     title: "Reconocimiento Nacional",
-    description: "NURAE es reconocida como 'Mejor Marca Emergente' en los Premios de Moda Mexicana.",
+    description:
+      "NURAE es reconocida como 'Mejor Marca Emergente' en los Premios de Moda Mexicana.",
   },
   {
     year: "2024",
     title: "Expansión Digital",
-    description: "Lanzamos nuestra plataforma digital renovada y alcanzamos 50,000+ seguidoras.",
+    description:
+      "Lanzamos nuestra plataforma digital renovada y alcanzamos 50,000+ seguidoras.",
   },
   {
     year: "2025",
     title: "Futuro Brillante",
-    description: "Continuamos innovando y expandiendo para llegar a más mujeres en toda Latinoamérica.",
+    description:
+      "Continuamos innovando y expandiendo para llegar a más mujeres en toda Latinoamérica.",
   },
-]
+];
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-[#FDF8F4]">
-      <section className="relative py-20 md:py-28 overflow-hidden">
+    <div className="min-h-screen">
+      <section className="relative md:py-14 py-10 overflow-hidden">
         <div className="container px-4 md:px-6 relative">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               <div className="inline-flex items-center gap-3 rounded-full bg-white px-6 py-3 text-sm font-medium text-[#9A6D4E] shadow-sm border border-[#E8D9CF]">
-                <LuSparkles className="h-5 w-5" />
                 <span className="font-medium">Nuestra Historia</span>
-                <LuHeart className="h-5 w-5" />
               </div>
 
-              <h1 className="text-5xl md:text-7xl font-bold text-[#5E4536] leading-tight">Sobre NURAE</h1>
+              <h1 className="text-5xl md:text-7xl font-bold text-[#5E4536] leading-tight">
+                Sobre NURAE
+              </h1>
 
               <p className="text-xl md:text-2xl text-[#9A6D4E] font-light leading-relaxed">
-                Somos más que una marca de accesorios. Somos un movimiento que celebra la individualidad de cada mujer y
-                democratiza el acceso al lujo auténtico.
+                Somos más que una marca de accesorios. Somos un movimiento que
+                celebra la individualidad de cada mujer y democratiza el acceso
+                al lujo auténtico.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
@@ -116,15 +137,12 @@ export default function AboutPage() {
             <div className="relative">
               <div className="relative mx-auto w-full max-w-[500px]">
                 <img
-                  src="/placeholder.svg?height=600&width=500"
-                  width={500}
-                  height={600}
+                  src="/images/inicio.png"
+                  width={400}
+                  height={500}
                   alt="Fundadora de NURAE"
                   className="mx-auto aspect-[5/6] overflow-hidden rounded-3xl object-cover shadow-2xl"
                 />
-                <div className="absolute -top-4 -right-4 bg-[#E8B059] text-white p-4 rounded-full shadow-lg">
-                  <LuCrown className="h-8 w-8" />
-                </div>
               </div>
             </div>
           </div>
@@ -132,33 +150,40 @@ export default function AboutPage() {
       </section>
 
       {/* Mission Section */}
-      <section className="py-16 md:py-24 bg-[#F5EEE8]">
+      <section className="py-16 md:py-24">
         <div className="container px-4 md:px-6">
           <div className="text-center space-y-8 mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-[#5E4536]">Nuestra Misión</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#5E4536]">
+              Nuestra Misión
+            </h2>
             <p className="text-xl text-[#9A6D4E] max-w-4xl mx-auto leading-relaxed">
-              Creemos que cada mujer merece sentirse extraordinaria. Por eso creamos accesorios únicos que combinan
-              diseño excepcional, calidad premium y precios accesibles, para que puedas brillar con tu propia luz sin
-              límites.
+              Creemos que cada mujer merece sentirse extraordinaria. Por eso
+              creamos accesorios únicos que combinan diseño excepcional, calidad
+              premium y precios accesibles, para que puedas brillar con tu
+              propia luz sin límites.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {values.map((value, index) => {
-              const IconComponent = value.icon
+              const IconComponent = value.icon;
               return (
                 <div
                   key={value.title}
-                  className="group text-center space-y-4 p-6 bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
+                  className="group text-center space-y-4 p-6 bg-white shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  <div className="mx-auto w-16 h-16 bg-gradient-to-br from-[#E8B059] to-[#C8A080] rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <div className="mx-auto w-16 h-16 bg-[#d4af37] rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                     <IconComponent className="h-8 w-8 text-white" />
                   </div>
-                  <h3 className="font-bold text-xl text-[#5E4536]">{value.title}</h3>
-                  <p className="text-[#9A6D4E] leading-relaxed">{value.description}</p>
+                  <h3 className="font-bold text-xl text-[#5E4536]">
+                    {value.title}
+                  </h3>
+                  <p className="text-[#9A6D4E] leading-relaxed">
+                    {value.description}
+                  </p>
                 </div>
-              )
+              );
             })}
           </div>
         </div>
@@ -169,84 +194,92 @@ export default function AboutPage() {
         <div className="container px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-8">
-              <h2 className="text-4xl md:text-5xl font-bold text-[#5E4536]">Nuestra Historia</h2>
+              <h2 className="text-4xl md:text-5xl font-bold text-[#5E4536]">
+                Nuestra Historia
+              </h2>
               <div className="space-y-6 text-lg text-[#9A6D4E] leading-relaxed">
                 <p>
-                  NURAE nació en 2020 del sueño de Isabella Martínez de crear una marca que celebrara la belleza única
-                  de cada mujer. Después de años trabajando en la industria de la moda de lujo, Isabella se dio cuenta
-                  de que los accesorios excepcionales estaban reservados solo para unos pocos.
+                  NURAE nació en 2020 del sueño de Isabella Martínez de crear
+                  una marca que celebrara la belleza única de cada mujer.
+                  Después de años trabajando en la industria de la moda de lujo,
+                  Isabella se dio cuenta de que los accesorios excepcionales
+                  estaban reservados solo para unos pocos.
                 </p>
                 <p>
-                  "¿Por qué el lujo auténtico no puede ser accesible para todas las mujeres?" se preguntó. Esta pregunta
-                  se convirtió en la misión de NURAE: democratizar el acceso a accesorios de calidad premium sin
-                  comprometer el diseño ni la exclusividad.
+                  "¿Por qué el lujo auténtico no puede ser accesible para todas
+                  las mujeres?" se preguntó. Esta pregunta se convirtió en la
+                  misión de NURAE: democratizar el acceso a accesorios de
+                  calidad premium sin comprometer el diseño ni la exclusividad.
                 </p>
                 <p>
-                  Hoy, más de 50,000 mujeres forman parte de nuestra comunidad, y cada día trabajamos para crear piezas
-                  que no solo complementen su estilo, sino que las empoderen a brillar con confianza.
+                  Hoy, más de 50,000 mujeres forman parte de nuestra comunidad,
+                  y cada día trabajamos para crear piezas que no solo
+                  complementen su estilo, sino que las empoderen a brillar con
+                  confianza.
                 </p>
               </div>
-              <Button className="bg-[#9A6D4E] hover:bg-[#7D5840] text-white px-8 py-3 rounded-full text-lg font-medium shadow-md hover:shadow-lg transition-all duration-300">
-                Lee Nuestra Historia Completa
-              </Button>
             </div>
 
             <div className="relative">
               <img
-                src="/placeholder.svg?height=500&width=600"
+                src="/images/inicio.png"
                 width={600}
                 height={500}
                 alt="Historia de NURAE"
                 className="rounded-3xl shadow-2xl"
               />
-              <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-xl">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-[#E8B059] to-[#C8A080] rounded-full flex items-center justify-center">
-                    <LuHeart className="h-6 w-6 text-white" />
-                  </div>
-                  <div>
-                    <div className="font-bold text-2xl text-[#5E4536]">50K+</div>
-                    <div className="text-sm text-[#9A6D4E]">Mujeres empoderadas</div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Timeline */}
-      <section className="py-16 md:py-24 bg-[#F5EEE8]">
+      <section className="py-16 md:py-24">
         <div className="container px-4 md:px-6">
           <div className="text-center space-y-8 mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-[#5E4536]">Nuestro Camino</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#5E4536]">
+              Nuestro Camino
+            </h2>
             <p className="text-xl text-[#9A6D4E] max-w-3xl mx-auto">
-              Desde nuestros humildes comienzos hasta convertirnos en una marca reconocida, cada paso ha sido guiado por
-              nuestra pasión por empoderar a las mujeres.
+              Desde nuestros humildes comienzos hasta convertirnos en una marca
+              reconocida, cada paso ha sido guiado por nuestra pasión por
+              empoderar a las mujeres.
             </p>
           </div>
 
           <div className="relative">
             {/* Timeline Line */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-[#E8B059] to-[#C8A080] rounded-full"></div>
+            <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-[#d4af37] rounded-full"></div>
 
             <div className="space-y-16">
               {milestones.map((milestone, index) => (
                 <div
                   key={milestone.year}
-                  className={`flex items-center gap-8 ${index % 2 === 0 ? "flex-row" : "flex-row-reverse"}`}
+                  className={`flex items-center gap-8 ${
+                    index % 2 === 0 ? "flex-row" : "flex-row-reverse"
+                  }`}
                   style={{ animationDelay: `${index * 0.2}s` }}
                 >
-                  <div className={`flex-1 ${index % 2 === 0 ? "text-right" : "text-left"}`}>
+                  <div
+                    className={`flex-1 ${
+                      index % 2 === 0 ? "text-right" : "text-left"
+                    }`}
+                  >
                     <div className="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg transition-all duration-300">
-                      <div className="text-3xl font-bold text-[#E8B059] mb-2">{milestone.year}</div>
-                      <h3 className="text-xl font-bold text-[#5E4536] mb-3">{milestone.title}</h3>
-                      <p className="text-[#9A6D4E] leading-relaxed">{milestone.description}</p>
+                      <div className="text-3xl font-bold text-[#d4af37] mb-2">
+                        {milestone.year}
+                      </div>
+                      <h3 className="text-xl font-bold text-[#000] mb-3">
+                        {milestone.title}
+                      </h3>
+                      <p className="text-[#000] leading-relaxed">
+                        {milestone.description}
+                      </p>
                     </div>
                   </div>
 
                   {/* Timeline Dot */}
-                  <div className="relative z-10 w-6 h-6 bg-gradient-to-r from-[#E8B059] to-[#C8A080] rounded-full border-4 border-white shadow-lg"></div>
+                  <div className="relative z-10 w-6 h-6 bg-[#5E4536] rounded-full border-4 border-white shadow-lg"></div>
 
                   <div className="flex-1"></div>
                 </div>
@@ -260,9 +293,12 @@ export default function AboutPage() {
       <section className="py-16 md:py-24">
         <div className="container px-4 md:px-6">
           <div className="text-center space-y-8 mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-[#5E4536]">Nuestro Equipo</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#5E4536]">
+              Nuestro Equipo
+            </h2>
             <p className="text-xl text-[#9A6D4E] max-w-3xl mx-auto">
-              Conoce a las mujeres extraordinarias que hacen posible la magia de NURAE cada día.
+              Conoce a las mujeres extraordinarias que hacen posible la magia de
+              NURAE cada día.
             </p>
           </div>
 
@@ -270,23 +306,27 @@ export default function AboutPage() {
             {teamMembers.map((member, index) => (
               <div
                 key={member.name}
-                className="group text-center space-y-6 bg-white rounded-2xl p-8 shadow-md hover:shadow-lg transition-all duration-500 transform hover:-translate-y-1"
+                className="group text-center space-y-6 bg-white p-8 shadow-md hover:shadow-lg transition-all duration-500 transform hover:-translate-y-1"
                 style={{ animationDelay: `${index * 0.2}s` }}
               >
                 <div className="relative mx-auto w-48 h-48">
                   <img
-                    src={member.image || "/placeholder.svg"}
+                    src={
+                      member.image ||
+                      "https://definicion.de/wp-content/uploads/2019/07/perfil-de-usuario.png"
+                    }
                     alt={member.name}
                     className="rounded-full object-cover border-4 border-white shadow-lg group-hover:scale-105 transition-transform duration-300"
                   />
-                  <div className="absolute -bottom-2 -right-2 w-12 h-12 bg-gradient-to-r from-[#E8B059] to-[#C8A080] rounded-full flex items-center justify-center shadow-lg">
-                    <LuStar className="h-6 w-6 text-white" />
-                  </div>
                 </div>
-                <div className="space-y-3">
-                  <h3 className="font-bold text-2xl text-[#5E4536]">{member.name}</h3>
+                <div className="space-y-4">
+                  <h3 className="font-bold mt-20 text-2xl text-[#5E4536]">
+                    {member.name}
+                  </h3>
                   <p className="text-[#E8B059] font-medium">{member.role}</p>
-                  <p className="text-[#9A6D4E] leading-relaxed">{member.description}</p>
+                  <p className="text-[#9A6D4E] leading-relaxed">
+                    {member.description}
+                  </p>
                 </div>
               </div>
             ))}
@@ -298,25 +338,32 @@ export default function AboutPage() {
       <section className="py-16 md:py-24 bg-gradient-to-br from-[#E8B059]/10 to-[#C8A080]/10">
         <div className="container px-4 md:px-6">
           <div className="text-center space-y-8 max-w-4xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-bold text-[#5E4536]">Únete a Nuestra Comunidad</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#5E4536]">
+              Únete a Nuestra Comunidad
+            </h2>
             <p className="text-xl text-[#9A6D4E] leading-relaxed">
-              Forma parte de una comunidad de mujeres que celebran su individualidad y se apoyan mutuamente. Juntas,
-              brillamos más fuerte.
+              Forma parte de una comunidad de mujeres que celebran su
+              individualidad y se apoyan mutuamente. Juntas, brillamos más
+              fuerte.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button className="bg-[#9A6D4E] hover:bg-[#7D5840] text-white px-8 py-3 rounded-full text-lg font-medium shadow-md hover:shadow-lg transition-all duration-300">
+              <Link
+                to="/collections"
+                className="bg-[#9A6D4E] hover:bg-[#7D5840] text-white px-8 py-3 rounded-full text-lg font-medium shadow-md hover:shadow-lg transition-all duration-300"
+              >
                 Explorar Colección
-              </Button>
-              <Button
-                variant="outline"
+              </Link>
+              <Link
+                to="https://instagram.com/nurae"
+                target="_blank"
                 className="border-2 border-[#9A6D4E] text-[#9A6D4E] hover:bg-[#9A6D4E] hover:text-white px-8 py-3 rounded-full text-lg font-medium"
               >
                 Síguenos en Instagram
-              </Button>
+              </Link>
             </div>
           </div>
         </div>
       </section>
     </div>
-  )
+  );
 }

@@ -59,12 +59,13 @@ export default function ProductCard({ product, viewMode = "grid" }) {
   // 👇 LIST VIEW
   if (viewMode === "list") {
     return (
-      <div className="flex flex-col sm:flex-row bg-white rounded-3xl shadow-md border border-pink-100 overflow-hidden transition-all">
-        <div className="w-full sm:w-48 h-64 sm:h-auto relative flex-shrink-0 bg-gray-100 overflow-hidden">
+      <div className="flex flex-col sm:flex-row bg-white border border-gray-100 overflow-hidden transition-all">
+        <div className="w-full sm:w-48 h-64 sm:h-auto aspect-[3/4] relative flex-shrink-0 bg-gray-100 overflow-hidden">
           <img
             src={imageUrl}
             alt={product.name}
             className="object-cover w-full h-full"
+            style={{ aspectRatio: "3 / 4", width: "100%", height: "100%" }}
           />
           {isOnSale && (
             <span className="absolute top-2 left-2 bg-red-600 text-white text-[10px] px-2 py-1 rounded-full font-semibold shadow">
@@ -77,7 +78,9 @@ export default function ProductCard({ product, viewMode = "grid" }) {
           <div>
             <div className="flex justify-between items-center text-xs text-muted-foreground font-medium mb-1">
               <Link
-                to={`/collections?category=${product.category?.slug ?? "general"}`}
+                to={`/collections?category=${
+                  product.category?.slug ?? "general"
+                }`}
                 className="uppercase tracking-wide hover:underline"
               >
                 {product.category ?? "General"}
@@ -90,7 +93,7 @@ export default function ProductCard({ product, viewMode = "grid" }) {
             </div>
 
             <Link to={`/products/${product.slug}`}>
-              <h3 className="text-lg font-serif font-bold text-[#2C1810] leading-snug hover:text-[#D4AF37] transition-colors line-clamp-2 mb-1">
+              <h3 className="text-lg font-medium leading-snug hover:text-[#D4AF37] transition-colors line-clamp-2 mb-1">
                 {product.name}
               </h3>
             </Link>
@@ -104,21 +107,23 @@ export default function ProductCard({ product, viewMode = "grid" }) {
 
           <div className="flex items-center justify-between gap-4 mt-4">
             <div>
-              <p className="text-xl font-serif font-bold text-[#2C1810]">
-                $
-                {isOnSale
-                  ? offerPrice.toLocaleString("es-CO")
-                  : regularPrice.toLocaleString("es-CO")}{" "}
-                COP
+              <p className="text-xl font-medium">
+                {new Intl.NumberFormat("es-CO", {
+                  style: "currency",
+                  currency: "COP",
+                }).format(isOnSale ? offerPrice : regularPrice)}
               </p>
               {isOnSale && (
                 <p className="text-sm text-gray-400 line-through">
-                  ${regularPrice.toLocaleString("es-CO")} COP
+                  {new Intl.NumberFormat("es-CO", {
+                    style: "currency",
+                    currency: "COP",
+                  }).format(regularPrice)}
                 </p>
               )}
             </div>
 
-            <div className="flex gap-2">
+            <div className="flex items-center gap-2">
               <Button
                 variant="ghost"
                 size="icon"
@@ -129,19 +134,19 @@ export default function ProductCard({ product, viewMode = "grid" }) {
                   className={cn(
                     "h-5 w-5 transition-colors",
                     isInWishlist(product.id)
-                      ? "fill-[#D4AF37] text-[#D4AF37]"
+                      ? "fill-[#d01e23] text-[#d01e23]"
                       : "text-gray-600"
                   )}
                 />
               </Button>
               <Button
                 size="sm"
-                className="bg-[#D4AF37] hover:opacity-90 text-white rounded-full text-sm font-medium shadow"
+                className="bg-[#5E4536] hover:opacity-90 text-white rounded-full text-sm font-medium shadow"
                 onClick={handleAddToCart}
-                disabled={isMaxReached}
+                disabled={isMaxReached || quantityInCart > 0}
               >
                 <LuShoppingBag className="mr-2 h-4 w-4" />
-                {quantityInCart > 0 ? "Agregar otro" : "Añadir"}
+                {quantityInCart > 0 ? "Agregado" : "Añadir"}
               </Button>
             </div>
           </div>
@@ -157,22 +162,24 @@ export default function ProductCard({ product, viewMode = "grid" }) {
 
   // 👇 GRID VIEW
   return (
-    <div className="group relative bg-white rounded-3xl shadow-lg hover:shadow-2xl overflow-hidden transition-all duration-500 hover:-translate-y-2 flex flex-col">
+    <div className="group relative h-120 bg-white shadow-lg hover:shadow-2xl overflow-hidden transition-all duration-500 hover:-translate-y-2 flex flex-col">
       <div className="relative aspect-[3/4] overflow-hidden">
-        <img
-          src={imageUrl}
-          alt={product.name}
-          className="object-cover w-full h-full transition-transform group-hover:scale-110 duration-700"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <Link to={`/products/${product.slug}`}>
+          <img
+            src={imageUrl}
+            alt={product.name}
+            className="object-cover w-full h-full transition-transform group-hover:scale-110 duration-700"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-        <div className="absolute top-4 left-4 space-y-2">
-          {isOnSale && (
-            <span className="bg-red-600 text-white text-[10px] px-2 py-1 rounded-full font-semibold shadow">
-              -{discountPercentage}% OFF
-            </span>
-          )}
-        </div>
+          <div className="absolute top-4 left-4 space-y-2">
+            {isOnSale && (
+              <span className="bg-red-600 text-white text-[10px] px-2 py-1 rounded-full font-semibold shadow">
+                -{discountPercentage}% OFF
+              </span>
+            )}
+          </div>
+        </Link>
 
         <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition duration-300 translate-x-2 group-hover:translate-x-0">
           <Button
@@ -185,7 +192,7 @@ export default function ProductCard({ product, viewMode = "grid" }) {
               className={cn(
                 "h-5 w-5 transition-colors",
                 isInWishlist(product.id)
-                  ? "fill-[#D4AF37] text-[#D4AF37]"
+                  ? "fill-[#5E4536] text-[#5E4536]"
                   : "text-gray-600"
               )}
             />
@@ -194,12 +201,12 @@ export default function ProductCard({ product, viewMode = "grid" }) {
 
         <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition duration-300 translate-y-2 group-hover:translate-y-0">
           <Button
-            className="w-full bg-[#D4AF37] hover:opacity-90 text-white rounded-full shadow-lg text-sm font-semibold"
+            className="w-full bg-[#5E4536] hover:opacity-90 text-white rounded-full shadow-lg text-sm font-semibold"
             onClick={handleAddToCart}
-            disabled={isMaxReached}
+            disabled={isMaxReached || quantityInCart > 0}
           >
             <LuShoppingBag className="mr-2 h-4 w-4" />
-            {quantityInCart > 0 ? "Agregar otro" : "Añadir al carrito"}
+            {quantityInCart > 0 ? "Agregado" : "Añadir al carrito"}
           </Button>
           {isMaxReached && (
             <p className="text-xs text-red-500 mt-2 text-center">
@@ -225,41 +232,36 @@ export default function ProductCard({ product, viewMode = "grid" }) {
         </div>
 
         <Link to={`/products/${product.slug}`}>
-          <h3 className="text-lg md:text-xl font-serif font-bold text-[#2C1810] leading-snug group-hover:text-[#D4AF37] transition-colors line-clamp-2 mb-1">
+          <h3 className="text-sm text-[#2C1810] leading-snug group-hover:text-[#5E4536] transition-colors line-clamp-2 mb-1">
             {product.name}
           </h3>
         </Link>
 
-        {product.description && (
+        {/* {product.description && (
           <p className="text-sm text-gray-600 font-light line-clamp-2 mb-3">
             {product.description}
           </p>
-        )}
+        )} */}
 
         <div className="flex-grow" />
 
-        <div className="flex items-center justify-between mt-auto pt-3 border-t border-gray-200">
+        <div className="flex items-center justify-between mt-2 border-gray-200">
           <div>
-            <p className="text-xl font-serif font-bold text-[#2C1810] leading-none">
-              $
-              {isOnSale
-                ? offerPrice.toLocaleString("es-CO")
-                : regularPrice.toLocaleString("es-CO")}{" "}
-              COP
+            <p className="text-sm text-[#2C1810] leading-none">
+              {new Intl.NumberFormat("es-CO", {
+                style: "currency",
+                currency: "COP",
+              }).format(isOnSale ? offerPrice : regularPrice)}
             </p>
             {isOnSale && (
               <p className="text-sm text-gray-400 line-through">
-                ${regularPrice.toLocaleString("es-CO")} COP
+                {new Intl.NumberFormat("es-CO", {
+                  style: "currency",
+                  currency: "COP",
+                }).format(regularPrice)}
               </p>
             )}
           </div>
-          <Button
-            size="sm"
-            className="bg-[#D4AF37] hover:opacity-90 text-white rounded-full text-sm font-medium shadow"
-            onClick={handleBuyNow}
-          >
-            Comprar
-          </Button>
         </div>
       </div>
     </div>

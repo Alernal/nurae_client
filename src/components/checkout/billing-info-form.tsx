@@ -56,9 +56,10 @@ export default function BillingInfoForm({
     updateAddress(
       { id: editingAddress.id, data },
       {
-        onSuccess: () => {
+        onSuccess: (updatedData) => {
           setOpenDialog(false);
           setEditingAddress(null);
+          onAddressSelect({ ...updatedData.data.address });
         },
       }
     );
@@ -83,9 +84,9 @@ export default function BillingInfoForm({
   };
 
   return (
-    <Card className="border-amber-200 shadow-lg">
-      <CardHeader className="bg-gradient-to-r from-amber-50 to-amber-100 border-b border-amber-200">
-        <CardTitle className="flex items-center space-x-2 text-amber-900">
+    <Card className="">
+      <CardHeader className="">
+        <CardTitle className="flex items-center space-x-2 text-black">
           <LuMapPin className="w-5 h-5" />
           <span>Datos de Facturación y Envío</span>
         </CardTitle>

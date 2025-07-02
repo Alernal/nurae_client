@@ -72,7 +72,7 @@ export function MiniCart() {
 
       <SheetContent className="w-full sm:max-w-lg bg-white flex flex-col">
         <SheetHeader>
-          <SheetTitle className="flex items-center gap-2 text-xl font-serif">
+          <SheetTitle className="flex items-center gap-2 text-xl ">
             <LuShoppingBag className="h-6 w-6 text-primary" />
             Tu Carrito
           </SheetTitle>
@@ -83,12 +83,12 @@ export function MiniCart() {
             <div className="flex-1 flex flex-col items-center justify-center text-center space-y-4 text-secondary-500">
               <LuShoppingBag className="h-14 w-14 text-secondary-300" />
               <p className="text-lg font-medium">Tu carrito está vacío</p>
-              <Button
-                className="bg-primary text-white hover:bg-primary/90"
+              <Link to="/collections"
+                className="bg-[#5E4536] p-2 rounded-xl text-white hover:bg-[#5E4536]/90"
                 onClick={() => setIsOpen(false)}
               >
                 Explorar productos
-              </Button>
+              </Link>
             </div>
           ) : (
             <>
@@ -99,7 +99,7 @@ export function MiniCart() {
                 return (
                   <div
                     key={item.productId}
-                    className="flex gap-4 p-4 bg-muted rounded-lg border"
+                    className="flex gap-4 p-4 bg-muted rounded-lg border border-gray-200"
                   >
                     <div className="w-20 h-20 bg-terra-warm/10 rounded overflow-hidden flex-shrink-0">
                       <img
@@ -117,7 +117,7 @@ export function MiniCart() {
                         {item.name}
                       </h4>
                       <div className="text-xs text-secondary-500">
-                        <p>Color: {item.color}</p>
+                        <p>Material: {item.material}</p>
                         <p>Tamaño: {item.size}</p>
                       </div>
                       <div className="flex items-center justify-between mt-2">
@@ -159,14 +159,14 @@ export function MiniCart() {
                                   Number(item.price) * item.quantity
                                 )}
                               </p>
-                              <p className="font-serif font-bold text-primary">
+                              <p className=" font-bold text-primary">
                                 {formatPrice(
                                   Number(item.original_price) * item.quantity
                                 )}
                               </p>
                             </>
                           ) : (
-                            <p className="font-serif font-bold text-primary">
+                            <p className=" font-bold text-primary">
                               {formatPrice(Number(item.price) * item.quantity)}
                             </p>
                           )}
@@ -208,29 +208,24 @@ export function MiniCart() {
               </p>
             )}
             <Separator />
-            <div className="flex justify-between font-serif text-lg font-bold">
+            <div className="flex justify-between  text-lg font-bold">
               <span>Total</span>
               <span className="text-primary">{formatPrice(total)}</span>
             </div>
 
-            <div className="pt-2 flex flex-col gap-2">
-              <Link to="/checkout" onClick={() => setIsOpen(false)}>
-                <Button className="w-full border border-gray-400 bg-primary text-black hover:bg-gray-400/90 h-12 text-lg font-medium">
-                  Proceder al Checkout
-                </Button>
-              </Link>
-              <Link to="/cart" onClick={() => setIsOpen(false)}>
-                <Button variant="outline" className="w-full border-gray-400 hover:bg-gray-400/90">
-                  Ver Carrito Completo
-                </Button>
+            <div className="pt-2 flex flex-row gap-2">
+              <Link to="/checkout" onClick={() => setIsOpen(false)} className="flex-1">
+              <Button className="w-full border border-gray-400 bg-primary text-black hover:bg-gray-400/90 h-12 font-medium">
+                Proceder al Checkout
+              </Button>
               </Link>
               <Button
-                variant="ghost"
-                size="sm"
-                className="text-red-600 border hover:text-red-700 w-full"
-                onClick={clearCartCloud}
+              variant="ghost"
+              className="border border-red-500 text-red-500 hover:text-destructive/70 h-12 w-10"
+              onClick={clearCartCloud}
+              title="Vaciar carrito"
               >
-                Vaciar carrito
+              <LuTrash2 className="w-5 h-5" />
               </Button>
             </div>
           </div>

@@ -29,8 +29,7 @@ import AdminProductUpdate from "@/views/admin/products/update";
 /* Client */
 import ClientProfilePage from "@/views/client/profile";
 import ClientAddresses from "@/views/client/address";
-import ClientOrders from "@/views/client/orders";
-
+import ClientOrdersPage from "@/views/client/orders";
 
 import AdminOrders from "@/views/admin/orders";
 import AdminUsers from "@/views/admin/users";
@@ -45,6 +44,11 @@ import ReturnsPage from "@/views/returns";
 import CarePage from "@/views/care";
 import CareersPage from "@/views/careers";
 import AdminDashboard from "@/views/admin/dashboard";
+import ClientDashboard from "@/views/client/dashboard";
+import BlogPostPage from "@/views/blog/blog";
+import ShowProduct from "@/views/admin/products/show";
+import ShowUser from "@/views/admin/users/show";
+import Terms from "@/views/terms";
 
 export function Router() {
   return (
@@ -61,16 +65,18 @@ export function Router() {
         <Route path="cart" element={<CartPage />} />
         <Route path="about" element={<AboutPage />} />
         <Route path="blog" element={<BlogPage />} />
+        <Route path="/blog/:slug" element={<BlogPostPage />} />
         <Route path="contact" element={<ContactPage />} />
         <Route path="new" element={<NewPage />} />
         <Route path="bestsellers" element={<BestsellersPage />} />
         <Route path="collections" element={<CollectionsPage />} />
         <Route path="products/:id" element={<ProductPage />} />
-        <Route path="faq" element={<FAQPage />} />        
-        <Route path="shipping" element={<ShippingPage />} />       
-        <Route path="returns" element={<ReturnsPage />} />      
-        <Route path="care" element={<CarePage />} />     
+        <Route path="faq" element={<FAQPage />} />
+        <Route path="shipping" element={<ShippingPage />} />
+        <Route path="returns" element={<ReturnsPage />} />
+        <Route path="care" element={<CarePage />} />
         <Route path="careers" element={<CareersPage />} />
+        <Route path="terms" element={<Terms />} />
 
         <Route element={<ProtectedRoute />}>
           <Route path="wishlist" element={<WishlistPage />} />
@@ -82,20 +88,23 @@ export function Router() {
       {/* Rutas privadas para clientes */}
       <Route path="client" element={<ClientRoute />}>
         <Route element={<ClientLayout />}>
+          <Route path="dashboard" element={<ClientDashboard />} />
           <Route path="profile" element={<ClientProfilePage />} />
           <Route path="addresses" element={<ClientAddresses />} />
-          <Route path="orders" element={<ClientOrders />} />
+          <Route path="orders" element={<ClientOrdersPage />} />
         </Route>
       </Route>
 
       {/* Rutas privadas administrativas */}
       <Route path="admin" element={<AdminLayout />}>
         <Route element={<AdminRoute />}>
-        <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="profile" element={<ProfilePage />} />
+          <Route path="users/:id" element={<ShowUser />} />
           <Route path="products" element={<AdminProductPage />} />
           <Route path="products/create" element={<AdminProductCreate />} />
           <Route path="products/:id/edit" element={<AdminProductUpdate />} />
+          <Route path="products/:id" element={<ShowProduct />} />
 
           <Route path="orders" element={<AdminOrders />} />
 

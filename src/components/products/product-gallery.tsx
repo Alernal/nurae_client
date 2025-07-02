@@ -20,11 +20,11 @@ export function ProductGallery({ images, selectedImage, onImageSelect, productNa
   return (
     <div className="space-y-4">
       {/* Main Image */}
-      <div className="relative aspect-square bg-gradient-to-br from-slate-100 to-slate-200 rounded-2xl overflow-hidden group">
+      <div className="relative aspect-square overflow-hidden group">
         <img
           src={images[selectedImage] || "/placeholder.svg"}
           alt={`${productName} - Vista ${selectedImage + 1}`}
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
         />
 
         {/* Navigation Arrows */}

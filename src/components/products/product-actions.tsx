@@ -3,8 +3,9 @@ import { Input } from "@/components/ui/input";
 import { LuHeart, LuShoppingCart, LuMinus, LuPlus } from "react-icons/lu";
 import { useCart } from "@/hooks/useCart";
 import { useWishlist } from "@/hooks/useWishlist";
-import { toast } from "sonner"; // Asegúrate de importar esto si usas toast
+import { toast } from "sonner";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface Product {
   id: number;
@@ -24,6 +25,7 @@ export function ProductActions({
   onQuantityChange,
 }: ProductActionsProps) {
   const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const navigate = useNavigate();
 
   const { items, addToCart, updateQuantity } = useCart();
   const { add, remove, isInWishlist } = useWishlist();
@@ -65,12 +67,38 @@ export function ProductActions({
     }
   };
 
+  const handleBuyNow = async () => {
+    if (isAddingToCart) return; // Previene múltiples clics
+
+    const totalAfterAdd = quantityInCart + quantity;
+    const maxAvailable = product.stock_count ?? 1;
+
+    if (totalAfterAdd > maxAvailable) {
+      toast.error(`Solo hay ${maxAvailable} unidades disponibles`);
+      return;
+    }
+
+    setIsAddingToCart(true);
+
+    try {
+      if (!cartItem) {
+        await addToCart(product.id, 1);
+      }
+      navigate("/checkout");
+    } catch (error) {
+      console.error("Error al comprar:", error);
+      toast.error("Ocurrió un error al intentar comprar.");
+    } finally {
+      setIsAddingToCart(false);
+    }
+  };
+
   return (
-    <div className="space-y-6 p-6 bg-white border border-gray-200 rounded-xl shadow-sm">
+    <div className="space-y-6 bg-white">
       {/* Quantity Selector */}
-      <div className="space-y-3">
-        <label className="text-sm font-medium text-gray-700">Cantidad</label>
+      <div className="space-x-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
+          <label className="text-sm font-medium text-gray-700">Cantidad</label>
           <div className="flex items-center border border-gray-300 rounded-lg">
             <Button
               variant="ghost"
@@ -101,41 +129,56 @@ export function ProductActions({
               <LuPlus className="h-4 w-4" />
             </Button>
           </div>
-          <span className="text-sm text-muted-foreground">
-            {product.stock_count} disponibles
-          </span>
         </div>
-      </div>
 
-      {/* Action Buttons */}
-      <div className="space-y-3">
-        <Button
-          size="lg"
-          className="w-full h-12 text-base border font-semibold"
-          onClick={handleAddToCart}
-          disabled={!product.in_stock || isAddingToCart || !!cartItem}
-        >
-          <LuShoppingCart className="w-5 h-5 mr-2" />
-          {isAddingToCart
-            ? "Agregando..."
-            : cartItem
-            ? "Ya está en el carrito"
-            : "Agregar al Carrito"}
-        </Button>
+        <div className="space-x-3 flex items-center">
+          <Button
+            className="border h-12 w-20 font-semibold text-green-500"
+            onClick={handleBuyNow}
+            title={
+              isAddingToCart
+                ? "Agregando..."
+                : cartItem
+                ? "Ya está en el carrito"
+                : "Agregar al Carrito"
+            }
+          >
+            Comprar
+          </Button>
+          {/* Add to Cart Button */}
+          <Button
+            size="icon"
+            className="h-12 w-12 border font-semibold"
+            onClick={handleAddToCart}
+            disabled={!product.in_stock || isAddingToCart || !!cartItem}
+            title={
+              isAddingToCart
+                ? "Agregando..."
+                : cartItem
+                ? "Ya está en el carrito"
+                : "Agregar al Carrito"
+            }
+          >
+            <LuShoppingCart className="w-6 h-6" />
+          </Button>
 
-        <Button
-          variant="outline"
-          size="lg"
-          className="w-full h-12 text-base font-semibold"
-          onClick={toggleWishlist}
-        >
-          <LuHeart
-            className={`w-5 h-5 mr-2 ${
-              isInWishlist(product.id) ? "fill-red-500 text-red-500" : ""
-            }`}
-          />
-          {isInWishlist(product.id) ? "En Favoritos" : "Agregar a Favoritos"}
-        </Button>
+          {/* Wishlist Icon */}
+          <Button
+            variant="outline"
+            size="icon"
+            className="h-12 w-12 font-semibold"
+            onClick={toggleWishlist}
+            title={
+              isInWishlist(product.id) ? "En Favoritos" : "Agregar a Favoritos"
+            }
+          >
+            <LuHeart
+              className={`w-6 h-6 ${
+                isInWishlist(product.id) ? "fill-red-500 text-red-500" : ""
+              }`}
+            />
+          </Button>
+        </div>
       </div>
 
       {/* Stock Warning */}
@@ -143,6 +186,15 @@ export function ProductActions({
         <div className="p-3 bg-orange-50 border border-orange-200 rounded-lg">
           <p className="text-sm text-orange-800 font-medium">
             ¡Últimas {product.stock_count} piezas disponibles!
+          </p>
+        </div>
+      )}
+
+      {/* No Stock Message */}
+      {!product.in_stock && (
+        <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
+          <p className="text-sm text-red-800 font-medium">
+            No hay stock disponible
           </p>
         </div>
       )}

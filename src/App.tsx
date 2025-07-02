@@ -1,6 +1,6 @@
 import { BrowserRouter } from "react-router-dom";
-import { Router } from "@/router";
-import { AuthGuard } from "./guard/AuthGuard";
+import { Router } from "@/router/index";
+import { AuthGuard } from "@/guard/AuthGuard";
 import "@/App.css";
 
 export default function App() {

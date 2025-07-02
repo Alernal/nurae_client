@@ -27,24 +27,19 @@ export function TrustBadges() {
     {
       icon: LuHeartHandshake,
       title: "Garantía",
-      description: "30 días de devolución",
-    },
-    {
-      icon: LuAward,
-      title: "Calidad Premium",
-      description: "Materiales certificados",
+      description: "15 días de devolución",
     },
     {
       icon: LuSparkles,
       title: "Diseño Único",
-      description: "Exclusivo LÚMINA",
+      description: "Exclusivo NURAE",
     },
   ];
 
   return (
     <section className="w-full py-6 bg-white">
       <div className="container px-4 md:px-6">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
           {badges.map((badge, index) => {
             const IconComponent = badge.icon;
             return (

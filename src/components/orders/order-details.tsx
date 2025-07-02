@@ -185,20 +185,53 @@ export function OrderDetails({
           </CardHeader>
           <CardContent className="space-y-3">
             <div>
-              <p className="font-semibold">{order.user.first_name}</p>
-              <p className="text-sm text-gray-600">{order.user.email}</p>
+              <p className="font-semibold">
+                {order.user?.first_name} {order.user?.last_name || ""}
+              </p>
+              <p className="text-sm text-gray-600">{order.user?.email}</p>
+              <p className="text-sm text-gray-600">
+                {order.user?.phone || "Sin teléfono"}
+              </p>
+              <p className="text-sm text-gray-600 capitalize">
+                {order.user?.gender || "Sin género especificado"}
+              </p>
             </div>
 
             {order.address && (
-              <div className="flex items-start gap-2">
-                <LuMapPin className="h-4 w-4 mt-1 text-gray-400" />
-                <div>
-                  <p className="text-sm font-medium">Dirección de envío</p>
-                  <p className="text-sm text-gray-600">
-                    {order.address.street_address}, {order.address.city},{" "}
-                    {order.address.country}
+              <div className="space-y-1 text-sm text-gray-600">
+                <p>
+                  <strong>Nombre:</strong> {order.address?.first_name}{" "}
+                  {order.address?.last_name}
+                </p>
+                <p>
+                  <strong>Email:</strong> {order.address?.email}
+                </p>
+                <p>
+                  <strong>Teléfono:</strong> {order.address?.phone}
+                </p>
+                <p>
+                  <strong>Empresa:</strong> {order.address?.company || "N/A"}
+                </p>
+                <p>
+                  <strong>Documento:</strong> {order.address?.document_type}{" "}
+                  {order.address?.document_number}
+                </p>
+                <p>
+                  <strong>Razón Fiscal:</strong> {order.address?.fiscal_name}
+                </p>
+                <p>
+                  <strong>Dirección:</strong> {order.address?.street_address},{" "}
+                  {order.address?.city}, {order.address?.state},{" "}
+                  {order.address?.country}
+                </p>
+                <p>
+                  <strong>Código Postal:</strong> {order.address?.postal_code}
+                </p>
+                {order.address?.notes && (
+                  <p>
+                    <strong>Notas:</strong> {order.address.notes}
                   </p>
-                </div>
+                )}
               </div>
             )}
           </CardContent>
@@ -268,16 +301,22 @@ export function OrderDetails({
                     <div>
                       <p className="font-medium">{product.name}</p>
                       <p className="text-sm text-gray-500">ID: {product.id}</p>
+                      <p className="text-sm text-gray-500">
+                        Material: {product.material}
+                      </p>
+                      <p className="text-sm text-gray-500">
+                        Tamaño: {product.size}
+                      </p>
                     </div>
                   </TableCell>
                   <TableCell className="text-center">
-                    {product.pivot.quantity}
+                    {product.pivot?.quantity}
                   </TableCell>
                   <TableCell className="text-right">
-                    {formatCurrency(product.pivot.price)}
+                    {formatCurrency(Number(product.pivot?.price))}
                   </TableCell>
                   <TableCell className="text-right font-medium">
-                    {formatCurrency(product.pivot.total)}
+                    {formatCurrency(Number(product.pivot?.total))}
                   </TableCell>
                 </TableRow>
               ))}

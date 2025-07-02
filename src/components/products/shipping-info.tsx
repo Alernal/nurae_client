@@ -5,11 +5,11 @@ export function ShippingInfo() {
     {
       icon: LuTruck,
       title: "Envío Gratuito",
-      description: "En compras mayores a $1,500 MXN",
+      description: "En compras mayores a $150.000 COP",
     },
     {
       icon: LuShield,
-      title: "Garantía de por Vida",
+      title: "Garantía de 30 dias",
       description: "Contra defectos de fabricación",
     },
     {
@@ -43,17 +43,6 @@ export function ShippingInfo() {
             </div>
           )
         })}
-      </div>
-
-      {/* Delivery Info */}
-      <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
-        <h4 className="text-xs font-medium text-blue-900 mb-1">Información de Entrega</h4>
-        <ul className="text-xs text-blue-800 space-y-0.5">
-          <li>• Entrega en 3-5 días hábiles</li>
-          <li>• Empaque discreto y seguro</li>
-          <li>• Seguimiento en tiempo real</li>
-          <li>• Firma requerida al recibir</li>
-        </ul>
       </div>
     </div>
   )

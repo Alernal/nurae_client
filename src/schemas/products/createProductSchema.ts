@@ -43,7 +43,6 @@ export const createProductSchema = z.object({
   size: z
     .string()
     .max(10, "La talla no debe superar los 10 caracteres")
-    .regex(/^[\w\s]{1,10}$/i, "Formato de talla no válido")
     .optional(),
 
   material: z

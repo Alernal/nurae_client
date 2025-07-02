@@ -23,6 +23,7 @@ import { MiniCart } from "@/components/mini-cart";
 import { SearchModal } from "@/components/search-modal";
 import { UserMenu } from "@/components/user-menu";
 import { useWishlist } from "@/hooks/useWishlist";
+import { FaInstagram, FaFacebook, FaTiktok } from "react-icons/fa";
 
 const collections = [
   {
@@ -54,14 +55,14 @@ export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md shadow-xl">
+    <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md shadow-md">
       {/* Top Bar */}
-      <div className="bg-[#D4AF37] text-white py-2 px-4">
+      <div className="bg-[#5E4536] text-white py-2 px-4">
         <div className="container flex items-center justify-between text-sm">
           <div className="hidden md:flex items-center gap-4">
             <div className="flex items-center gap-2">
               <LuPhone className="h-4 w-4" />
-              <span>+57 1 234 5678</span>
+              <span>+57 (314) 808 - 7646</span>
             </div>
             <div className="flex items-center gap-2">
               <LuMail className="h-4 w-4" />
@@ -70,29 +71,29 @@ export function Header() {
           </div>
           <div className="flex items-center gap-2 md:mx-0">
             <LuGift className="h-4 w-4" />
-            <span className="font-medium">
-              Envío gratis en compras mayores a $150.000 COP • Hasta 12 cuotas
+            <span className="">
+              Envío gratis en compras mayores a $150.000 COP • Hasta 4 cuotas
             </span>
             <LuSparkles className="h-4 w-4 animate-pulse" />
           </div>
           <div className="hidden md:flex items-center gap-2 text-sm">
             <span>Síguenos:</span>
             <Link to="#" className="hover:text-pink-200 transition-colors">
-              IG
+              <FaInstagram />
             </Link>
             <Link to="#" className="hover:text-pink-200 transition-colors">
-              FB
+              <FaFacebook />
             </Link>
             <Link to="#" className="hover:text-pink-200 transition-colors">
-              TK
+              <FaTiktok />
             </Link>
           </div>
         </div>
       </div>
 
       {/* Main Header */}
-      <div className="container flex h-20 items-center justify-between px-4 md:px-6">
-        {/* Mobile Menu */}
+      <div className="container flex h-16 items-center justify-between px-4 md:px-6">
+        {/* Mobile Menu
         <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
           <SheetTrigger asChild>
             <Button variant="ghost" size="icon" className="lg:hidden">
@@ -118,7 +119,7 @@ export function Header() {
               <nav className="flex flex-col space-y-4">
                 <Link
                   to="/"
-                  className="text-lg font-medium text-gray-700 hover:text-primary transition-colors"
+                  className="text-lg  text-gray-700 hover:text-primary transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Inicio
@@ -126,7 +127,7 @@ export function Header() {
                 <div className="space-y-2">
                   <Link
                     to="/collections"
-                    className="text-lg font-medium text-neutral-700 hover:text-primary transition-colors block"
+                    className="text-lg  text-neutral-700 hover:text-primary transition-colors block"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Colecciones
@@ -146,35 +147,35 @@ export function Header() {
                 </div>
                 <Link
                   to="/new"
-                  className="text-lg font-medium text-gray-700 hover:text-primary transition-colors"
+                  className="text-lg  text-gray-700 hover:text-primary transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Novedades
                 </Link>
                 <Link
                   to="/bestsellers"
-                  className="text-lg font-medium text-gray-700 hover:text-primary transition-colors"
+                  className="text-lg  text-gray-700 hover:text-primary transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Más Vendidos
                 </Link>
                 <Link
                   to="/blog"
-                  className="text-lg font-medium text-gray-700 hover:text-primary transition-colors"
+                  className="text-lg  text-gray-700 hover:text-primary transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Blog
                 </Link>
                 <Link
                   to="/about"
-                  className="text-lg font-medium text-gray-700 hover:text-primary transition-colors"
+                  className="text-lg  text-gray-700 hover:text-primary transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Sobre Nosotros
                 </Link>
                 <Link
                   to="/contact"
-                  className="text-lg font-medium text-gray-700 hover:text-primary transition-colors"
+                  className="text-lg  text-gray-700 hover:text-primary transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Contacto
@@ -182,84 +183,55 @@ export function Header() {
               </nav>
             </div>
           </SheetContent>
-        </Sheet>
+        </Sheet> */}
 
         {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center space-x-8">
+        <nav className="hidden lg:flex items-center space-x-8 text-gray-900 text-sm">
           <Link
             to="/"
-            className="font-display font-medium text-gray-700 hover:text-primary transition-all duration-300 relative group"
+            className="hover:text-gray-600 transition-all duration-300 relative group"
           >
             Inicio
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-luxury-gradient transition-all duration-300 group-hover:w-full"></span>
+            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#EFEAAE] transition-all duration-300 group-hover:w-full"></span>
           </Link>
 
-          {/* Collections Dropdown */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                className="font-display font-medium text-neutral-700 hover:text-primary transition-all duration-300 relative group p-0 h-auto"
-              >
-                Colecciones
-                <LuChevronDown className="ml-1 h-4 w-4" />
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-nurae-gradient transition-all duration-300 group-hover:w-full"></span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-[400px] bg-nurae-cream/95 backdrop-blur-md shadow-lg rounded-2xl p-6">
-              <div className="space-y-4">
-                <DropdownMenuItem asChild className="p-0">
-                  <Link
-                    to="/collections"
-                    className="flex flex-col items-center p-4 rounded-xl hover:bg-gray-400/20 transition-colors text-center"
-                  >
-                    <span className="font-medium text-neutral-800 text-lg">
-                      Ver Todas las Colecciones
-                    </span>
-                    <span className="text-sm text-neutral-600">
-                      Explora nuestra colección completa
-                    </span>
-                  </Link>
-                </DropdownMenuItem>
-
-                <div className="grid grid-cols-3 gap-4">
-                  {collections.map((collection) => (
-                    <DropdownMenuItem
-                      key={collection.name}
-                      asChild
-                      className="p-0"
-                    >
-                      <Link
-                        to={collection.href}
-                        className="flex flex-col items-center p-4 rounded-xl hover:bg-gray-400/20 transition-colors text-center"
-                      >
-                        <span className="font-medium text-neutral-800">
-                          {collection.name}
-                        </span>
-                        <span className="text-xs text-neutral-600 mt-1">
-                          {collection.description}
-                        </span>
-                      </Link>
-                    </DropdownMenuItem>
-                  ))}
-                </div>
-              </div>
-            </DropdownMenuContent>
-          </DropdownMenu>
+           {/* <Link
+            to="/collections?category=collares"
+            className=" hover:text-gray-700 transition-all duration-300 relative group"
+          >
+            Collares
+            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#EFEAAE] transition-all duration-300 group-hover:w-full"></span>
+          </Link>
 
           <Link
-            to="/new"
-            className="font-display font-medium text-gray-700 hover:text-primary transition-all duration-300 relative group"
+            to="/collections?category=pulseras"
+            className=" hover:text-gray-700 transition-all duration-300 relative group"
           >
-            Novedades
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-luxury-gradient transition-all duration-300 group-hover:w-full"></span>
+            Pulseras
+            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#EFEAAE] transition-all duration-300 group-hover:w-full"></span>
           </Link>
           <Link
-            to="/bestsellers"
-            className="font-display font-medium text-gray-700 hover:text-primary transition-all duration-300 relative group"
+            to="/collections?category=anillos"
+            className=" hover:text-gray-700 transition-all duration-300 relative group"
           >
-            Más Vendidos
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-luxury-gradient transition-all duration-300 group-hover:w-full"></span>
+            Anillos
+            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#EFEAAE] transition-all duration-300 group-hover:w-full"></span>
+          </Link> */}
+
+          <Link
+            to="/about"
+            className=" hover:text-gray-700 transition-all duration-300 relative group"
+          >
+            Nosotros
+            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#EFEAAE] transition-all duration-300 group-hover:w-full"></span>
+          </Link>
+
+          <Link
+            to="/blog"
+            className=" hover:text-gray-700 transition-all duration-300 relative group"
+          >
+            Blog
+            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#EFEAAE] transition-all duration-300 group-hover:w-full"></span>
           </Link>
         </nav>
 
@@ -269,7 +241,7 @@ export function Header() {
             <img
               src="/logo.png"
               alt="Lumina Logo"
-              className="mx-auto h-16 w-full group-hover:scale-110 transition-transform duration-300"
+              className="mx-auto h-6 w-full"
             />
           </div>
         </Link>
@@ -311,29 +283,29 @@ export function Header() {
           <MiniCart />
 
           {/* Desktop Additional Navigation */}
-          <div className="hidden lg:flex items-center space-x-6 ml-4 pl-4 border-l border-pink-200">
+          {/* <div className="hidden lg:flex items-center space-x-6 ml-4 pl-4 border-l border-pink-200">
             <Link
               to="/blog"
-              className="font-display font-medium text-gray-700 hover:text-primary transition-all duration-300 relative group"
+              className=" text-gray-700 hover:text-primary transition-all duration-300 relative group"
             >
               Blog
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-luxury-gradient transition-all duration-300 group-hover:w-full"></span>
             </Link>
             <Link
               to="/about"
-              className="font-display font-medium text-gray-700 hover:text-primary transition-all duration-300 relative group"
+              className=" text-gray-700 hover:text-primary transition-all duration-300 relative group"
             >
               Sobre Nosotros
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-luxury-gradient transition-all duration-300 group-hover:w-full"></span>
             </Link>
             <Link
               to="/contact"
-              className="font-display font-medium text-gray-700 hover:text-primary transition-all duration-300 relative group"
+              className=" text-gray-700 hover:text-primary transition-all duration-300 relative group"
             >
               Contacto
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-luxury-gradient transition-all duration-300 group-hover:w-full"></span>
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
 

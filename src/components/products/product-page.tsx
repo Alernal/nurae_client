@@ -41,34 +41,43 @@ export function ProductPage({ product, reviews }: ProductPageProps) {
   const [quantity, setQuantity] = useState(1);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
-      <div className="max-w-7xl mx-auto px-4 py-8">
+    <div className="min-h-screen">
+      <div className="max-w-7xl mx-auto px-4 py-12">
         {/* Main Product Section */}
-        <div className="grid lg:grid-cols-2 gap-12 mb-16">
-          <div className="space-y-8">
-            <ProductGallery
-              images={product.images}
-              selectedImage={selectedImage}
-              onImageSelect={setSelectedImage}
-              productName={product.name}
-            />
-            <ProductDetails product={product} />
+        <div className="flex flex-col gap-12 mb-16">
+          {/* Fila de galería de imágenes e información del producto */}
+          <div className="flex flex-col lg:flex-row gap-12">
+            <div className="flex-1">
+              <ProductGallery
+          images={product.images}
+          selectedImage={selectedImage}
+          onImageSelect={setSelectedImage}
+          productName={product.name}
+              />
+            </div>
+            <div className="flex-1 flex flex-col gap-8">
+              <ProductInfo product={product} reviews={reviews} />
+              <ProductActions
+          product={product}
+          quantity={quantity}
+          onQuantityChange={setQuantity}
+              />
+              <ShippingInfo />
+            </div>
           </div>
-
-          <div className="space-y-8">
-            <ProductInfo product={product} reviews={reviews} />
-            <ProductActions
-              product={product}
-              quantity={quantity}
-              onQuantityChange={setQuantity}
-            />
-            <ShippingInfo />
+          {/* Fila de detalles y reseñas */}
+          <div className="flex flex-col lg:flex-row gap-12">
+            <div className="flex-1">
+              <ProductDetails product={product} />
+            </div>
+            <div className="flex-1">
+              <ProductReviews
+          reviews={reviews}
+          productName={product.name}
+          productId={product.id}
+              />
+            </div>
           </div>
-        </div>
-
-        {/* Reviews Section - Full Width */}
-        <div className="mb-16">
-          <ProductReviews reviews={reviews} productName={product.name} productId={product.id} />
         </div>
       </div>
     </div>

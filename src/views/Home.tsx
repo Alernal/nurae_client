@@ -1,4 +1,3 @@
-import { TrustBadges } from "@/components/TrustBadges";
 import { FeaturedProducts } from "@/components/featured-products";
 import { Newsletter } from "@/components/newsletter";
 import { CategoryShowcase } from "@/components/category-showcase";
@@ -10,7 +9,7 @@ export default function Home() {
   return (
     <main className="flex-1">
       <HeroSection />
-      <TrustBadges />
+      {/* <TrustBadges /> */}
       <CategoryShowcase />
       <FeaturedProducts />
       {/* <InstagramFeed /> */}

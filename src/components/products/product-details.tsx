@@ -25,11 +25,6 @@ export function ProductDetails({ product }: ProductDetailsProps) {
         <TabsContent value="description" className="mt-6">
           <div className="prose prose-sm max-w-none">
             <p className="text-gray-700 leading-relaxed">{product.description}</p>
-            <p className="text-gray-700 leading-relaxed mt-4">
-              Cada pieza de nuestra colección es cuidadosamente crafteada por artesanos expertos utilizando técnicas
-              tradicionales combinadas con tecnología moderna. Nuestro compromiso con la excelencia se refleja en cada
-              detalle, desde la selección de materiales hasta el acabado final.
-            </p>
           </div>
         </TabsContent>
 
@@ -48,10 +43,10 @@ export function ProductDetails({ product }: ProductDetailsProps) {
 
         <TabsContent value="warranty" className="mt-6">
           <div className="space-y-4">
-            <h4 className="font-semibold text-gray-900">Garantía de por Vida</h4>
+            <h4 className="font-semibold text-gray-900">Garantía de 30 dias</h4>
             <div className="text-sm text-gray-700 space-y-2">
               <p>
-                Nuestra garantía de por vida cubre defectos de fabricación y materiales. Incluye servicios de
+                Nuestra garantía cubre defectos de fabricación y materiales. Incluye servicios de
                 mantenimiento y reparación sin costo adicional.
               </p>
               <p className="font-medium">La garantía incluye:</p>

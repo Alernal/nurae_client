@@ -65,19 +65,13 @@ export default function AddressSelector({
               onMouseEnter={() => setHoveredAddressId(address.id)}
               onMouseLeave={() => setHoveredAddressId(null)}
             >
-              <Card
-                className={`border ${
-                  selectedAddressId === address.id
-                    ? "border-amber-500 bg-amber-50"
-                    : "border-gray-200 hover:border-amber-300"
-                } transition-all`}
-              >
+              <Card>
                 <CardContent className="p-4">
                   <div className="flex items-start gap-3">
                     <RadioGroupItem
                       value={address.id.toString()}
                       id={`address-${address.id}`}
-                      className="mt-1 border-amber-300 text-amber-600"
+                      className="mt-1 border-black text-yellow-400"
                     />
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
@@ -114,7 +108,7 @@ export default function AddressSelector({
                       </div>
                     </div>
                     <div className="flex flex-col items-center justify-center">
-                      <LuMapPin className="w-5 h-5 text-amber-600" />
+                      <LuMapPin className="w-5 h-5 text-yellow-600" />
                     </div>
                   </div>
                 </CardContent>
@@ -157,7 +151,7 @@ export default function AddressSelector({
           ))}
         </RadioGroup>
       ) : (
-        <div className="text-center p-6 border border-dashed border-gray-300 rounded-lg bg-gray-50">
+        <div className="text-center p-6 border border-dashed border-gray-300 bg-gray-50">
           <LuMapPin className="w-10 h-10 text-gray-400 mx-auto mb-2" />
           <h3 className="text-gray-600 font-medium">No hay direcciones guardadas</h3>
           <p className="text-gray-500 text-sm mt-1">Agrega una nueva dirección para continuar</p>

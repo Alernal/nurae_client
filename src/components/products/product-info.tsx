@@ -27,7 +27,9 @@ export function ProductInfo({ product, reviews = [] }: ProductInfoProps) {
     product.original_price &&
     product.original_price > 0 &&
     product.original_price < product.price
-      ? Math.round(((product.price - product.original_price) / product.price) * 100)
+      ? Math.round(
+          ((product.price - product.original_price) / product.price) * 100
+        )
       : 0;
 
   const reviewCount = reviews.length;
@@ -47,17 +49,25 @@ export function ProductInfo({ product, reviews = [] }: ProductInfoProps) {
       {/* Category & Stock Status */}
       <div className="flex items-center gap-3">
         {product.category && (
-          <Badge variant="secondary" className="text-xs font-medium">
-            {product.category.charAt(0).toUpperCase() + product.category.slice(1)}
+          <Badge className="text-xs font-medium">
+            {product.category.charAt(0).toUpperCase() +
+              product.category.slice(1)}
           </Badge>
         )}
         {product.material && (
-          <Badge variant="default" className="bg-yellow-100 text-yellow-800 text-xs font-medium">
-            {product.material.charAt(0).toUpperCase() + product.material.slice(1)}
+          <Badge
+            variant="default"
+            className="bg-yellow-100 text-yellow-800 text-xs font-medium"
+          >
+            {product.material.charAt(0).toUpperCase() +
+              product.material.slice(1)}
           </Badge>
         )}
         {product.in_stock ? (
-          <Badge variant="default" className="bg-green-100 text-green-800 hover:bg-green-100">
+          <Badge
+            variant="default"
+            className="bg-green-100 text-green-800 hover:bg-green-100"
+          >
             En Stock ({product.stock_count} disponibles)
           </Badge>
         ) : (
@@ -77,13 +87,16 @@ export function ProductInfo({ product, reviews = [] }: ProductInfoProps) {
             <LuStar
               key={i}
               className={`w-5 h-5 ${
-                i < filledStars ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
+                i < filledStars
+                  ? "fill-yellow-400 text-yellow-400"
+                  : "text-gray-300"
               }`}
             />
           ))}
         </div>
         <span className="text-sm text-muted-foreground">
-          ({averageRating.toFixed(1)}) • {reviewCount} reseña{reviewCount !== 1 && "s"}
+          ({averageRating.toFixed(1)}) • {reviewCount} reseña
+          {reviewCount !== 1 && "s"}
         </span>
       </div>
 
@@ -91,12 +104,22 @@ export function ProductInfo({ product, reviews = [] }: ProductInfoProps) {
       <div className="space-y-2">
         <div className="flex items-baseline gap-3">
           <span className="text-4xl font-bold text-gray-900">
-            ${finalPrice.toLocaleString("es-CO")}
+            {new Intl.NumberFormat("es-CO", {
+              style: "currency",
+              currency: "COP",
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 0,
+            }).format(finalPrice)}
           </span>
           {showDiscount && (
             <>
               <span className="text-xl text-muted-foreground line-through">
-                ${product.price.toLocaleString("es-CO")}
+                {new Intl.NumberFormat("es-CO", {
+                  style: "currency",
+                  currency: "COP",
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 0,
+                }).format(product.price)}
               </span>
               <Badge variant="destructive" className="text-xs">
                 -{discount}% descuento

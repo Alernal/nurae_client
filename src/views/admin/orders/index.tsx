@@ -6,6 +6,7 @@ import { OrderStatusHistory } from "@/components/orders/order-status-history";
 import { useOrders } from "@/hooks/orders/useOrders";
 import { useCreateOrderHistory } from "@/hooks/orders/useCreateOrderHistory";
 import { useOrder } from "@/hooks/orders/useOrder";
+import { useDebounce } from "use-debounce";
 
 export type OrderStatus =
   | "pending"
@@ -86,11 +87,20 @@ export interface Order {
 }
 
 export default function AdminOrdersPage() {
-  const { data: orders = [], isLoading, isError } = useOrders();
   const createOrderHistory = useCreateOrderHistory();
   const [selectedOrderId, setSelectedOrderId] = useState<number | null>(null);
   const [showStatusUpdate, setShowStatusUpdate] = useState(false);
   const [showStatusHistory, setShowStatusHistory] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearchTerm] = useDebounce(searchTerm, 2000); // 2 segundos
+
+  const {
+    data: orders = [],
+    isLoading,
+    isError,
+  } = useOrders({
+    search: debouncedSearchTerm,
+  });
 
   const {
     data: selectedOrder,
@@ -159,6 +169,8 @@ export default function AdminOrdersPage() {
               orders={orders}
               onOrderSelect={handleOrderSelect}
               selectedOrderId={selectedOrderId}
+              searchTerm={searchTerm}
+              onSearchChange={setSearchTerm}
             />
           </div>
 

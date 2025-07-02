@@ -53,32 +53,44 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { useProducts } from "@/hooks/products/useProducts";
+import { useProducts } from "@/hooks/products/useProducts"; // Hook para productos
 import { useDeleteProduct } from "@/hooks/products/useDeleteProduct";
-
-// ... imports idénticos a los actuales ...
 
 export default function AdminProducts() {
   const navigate = useNavigate();
-  const { data: products = [], isLoading, isError } = useProducts();
+
+  // Estado para el término de búsqueda y el filtro de stock
   const [searchTerm, setSearchTerm] = useState("");
   const [stockFilter, setStockFilter] = useState("all");
+
+  // Usamos el hook useProducts para obtener los productos filtrados por búsqueda
+  const {
+    data: productsResponse = {},
+    isLoading,
+    isError,
+  } = useProducts({
+    search: searchTerm, // Filtro de búsqueda
+  });
+
+  // Aseguramos que products siempre sea un array
+  const products = Array.isArray(productsResponse?.data)
+    ? productsResponse.data
+    : [];
 
   const { mutate: deleteProduct, isLoading: isDeleting } = useDeleteProduct();
   const [deletingId, setDeletingId] = useState<number | null>(null);
 
+  // Filtrar productos localmente según el filtro de stock
   const filteredProducts = products.filter((product) => {
-    const matchesSearch =
-      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.slug.toLowerCase().includes(searchTerm.toLowerCase());
-
     const matchesStock =
       stockFilter === "all" ||
       (stockFilter === "in_stock" && product.in_stock) ||
       (stockFilter === "out_of_stock" && !product.in_stock) ||
-      (stockFilter === "low_stock" && product.in_stock && product.stock_count <= 10);
+      (stockFilter === "low_stock" &&
+        product.in_stock &&
+        product.stock_count <= 10);
 
-    return matchesSearch && matchesStock;
+    return matchesStock;
   });
 
   const formatPrice = (price: number) =>
@@ -91,7 +103,9 @@ export default function AdminProducts() {
     if (!product.in_stock || product.stock_count === 0)
       return <Badge className="bg-red-100 text-red-700">Sin Stock</Badge>;
     if (product.stock_count <= 5)
-      return <Badge className="bg-yellow-100 text-yellow-700">Stock Bajo</Badge>;
+      return (
+        <Badge className="bg-yellow-100 text-yellow-700">Stock Bajo</Badge>
+      );
     return <Badge className="bg-green-100 text-green-700">En Stock</Badge>;
   };
 
@@ -100,55 +114,20 @@ export default function AdminProducts() {
       {/* Encabezado */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-800">Gestión de Productos</h1>
-          <p className="text-gray-500 text-sm">Administra tu catálogo y controla tu inventario.</p>
+          <h1 className="text-3xl font-bold text-gray-800">
+            Gestión de Productos
+          </h1>
+          <p className="text-gray-500 text-sm">
+            Administra tu catálogo y controla tu inventario.
+          </p>
         </div>
-        <Button onClick={() => navigate("/admin/products/create")} className="bg-blue-600 hover:bg-blue-700 text-white">
+        <Button
+          onClick={() => navigate("/admin/products/create")}
+          className="bg-blue-600 hover:bg-blue-700 text-white"
+        >
           <LuPlus className="mr-2 h-4 w-4" />
           Agregar Producto
         </Button>
-      </div>
-
-      {/* Estadísticas */}
-      <div className="grid gap-4 md:grid-cols-4">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-700">Total Productos</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-gray-800">{products.length}</div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-700">En Stock</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-green-600">
-              {products.filter((p) => p.in_stock).length}
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-700">Sin Stock</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-red-600">
-              {products.filter((p) => !p.in_stock).length}
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-700">Stock Bajo</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-yellow-600">
-              {products.filter((p) => p.in_stock && p.stock_count <= 10).length}
-            </div>
-          </CardContent>
-        </Card>
       </div>
 
       {/* Filtros */}
@@ -161,6 +140,7 @@ export default function AdminProducts() {
         </CardHeader>
         <CardContent>
           <div className="flex flex-col md:flex-row gap-4">
+            {/* Buscador */}
             <div className="relative w-full md:flex-1">
               <LuSearch className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
               <Input
@@ -170,6 +150,8 @@ export default function AdminProducts() {
                 className="pl-10"
               />
             </div>
+
+            {/* Filtro de Stock */}
             <Select value={stockFilter} onValueChange={setStockFilter}>
               <SelectTrigger className="md:w-[200px]">
                 <LuFilter className="mr-2 h-4 w-4" />
@@ -196,9 +178,13 @@ export default function AdminProducts() {
         </CardHeader>
         <CardContent>
           {isLoading ? (
-            <p className="text-center text-gray-500 py-8">Cargando productos...</p>
+            <p className="text-center text-gray-500 py-8">
+              Cargando productos...
+            </p>
           ) : isError ? (
-            <p className="text-center text-red-600 py-8">Error al cargar productos</p>
+            <p className="text-center text-red-600 py-8">
+              Error al cargar productos
+            </p>
           ) : (
             <div className="rounded-md border border-gray-200">
               <Table>
@@ -228,7 +214,9 @@ export default function AdminProducts() {
                         />
                       </TableCell>
                       <TableCell>
-                        <div className="font-medium text-gray-800">{product.name}</div>
+                        <div className="font-medium text-gray-800">
+                          {product.name}
+                        </div>
                         {product.description && (
                           <div className="text-sm text-gray-500 max-w-[200px] truncate">
                             {product.description}
@@ -262,7 +250,11 @@ export default function AdminProducts() {
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
                             <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-                            <DropdownMenuItem>
+                            <DropdownMenuItem
+                              onClick={() =>
+                                navigate(`/admin/products/${product.id}`)
+                              }
+                            >
                               <LuEye className="mr-2 h-4 w-4" />
                               Ver detalles
                             </DropdownMenuItem>
@@ -287,13 +279,18 @@ export default function AdminProducts() {
                               </AlertDialogTrigger>
                               <AlertDialogContent>
                                 <AlertDialogHeader>
-                                  <AlertDialogTitle>¿Estás seguro?</AlertDialogTitle>
+                                  <AlertDialogTitle>
+                                    ¿Estás seguro?
+                                  </AlertDialogTitle>
                                   <AlertDialogDescription>
-                                    Esta acción eliminará permanentemente "{product.name}" del inventario.
+                                    Esta acción eliminará permanentemente "
+                                    {product.name}" del inventario.
                                   </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
-                                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                                  <AlertDialogCancel>
+                                    Cancelar
+                                  </AlertDialogCancel>
                                   <AlertDialogAction
                                     onClick={() => {
                                       setDeletingId(product.id);
@@ -304,7 +301,9 @@ export default function AdminProducts() {
                                     disabled={deletingId === product.id}
                                     className="bg-red-600 hover:bg-red-700 text-white"
                                   >
-                                    {deletingId === product.id ? "Eliminando..." : "Eliminar"}
+                                    {deletingId === product.id
+                                      ? "Eliminando..."
+                                      : "Eliminar"}
                                   </AlertDialogAction>
                                 </AlertDialogFooter>
                               </AlertDialogContent>
@@ -317,7 +316,9 @@ export default function AdminProducts() {
                 </TableBody>
               </Table>
               {filteredProducts.length === 0 && (
-                <div className="text-center py-8 text-gray-500">No se encontraron productos.</div>
+                <div className="text-center py-8 text-gray-500">
+                  No se encontraron productos.
+                </div>
               )}
             </div>
           )}
