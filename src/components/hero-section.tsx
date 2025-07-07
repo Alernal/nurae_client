@@ -1,66 +1,66 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { LuSparkles, LuArrowRight } from "react-icons/lu";
-import { useReviews } from "@/hooks/products/useReviews";
+import { LuArrowRight } from "react-icons/lu";
 
 export function HeroSection() {
-  const { data: reviews = [], isLoading } = useReviews();
-
-  const averageRating =
-    reviews.length > 0
-      ? reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length
-      : 0;
-
   return (
-    <section className="relative w-full min-h-[90vh] flex items-center justify-center overflow-hidden p-0">
-      {/* Background Image */}
-      <div className="absolute inset-0">
-        <img
-          src="https://static.vecteezy.com/system/resources/previews/002/058/254/non_2x/abstract-white-background-free-vector.jpg"
-          alt="Portada"
-          className="w-full h-full object-cover"
-          draggable={false}
-        />
-      </div>
+    <section className="relative w-full flex items-center justify-center bg-white overflow-hidden px-4 py-10 lg:py-0">
+      <div className="container relative">
+        <div className="flex lg:flex-row flex-col justify-between items-center mx-auto">
+          {/* Imagen de la modelo */}
+          <div className="relative order-1">
+            <div className="relative order-1 hidden sm:block">
+              <div className="relative">
+                <img
+                  src="/hero-model.png"
+                  alt="Mujer luciendo accesorios dorados NURAE"
+                  className="w-full max-h-[100vh] object-contain mx-auto"
+                />
+              </div>
+            </div>
 
-      <div className="container relative z-10 flex flex-col items-center justify-center text-center">
-        <div className="max-w-2xl w-full space-y-8">
-          <div className="inline-flex items-center gap-2 rounded-full bg-white/80 backdrop-blur-sm px-4 py-2 text-sm font-medium text-[var(--color-marron)] shadow-sm mx-auto">
-            <span>Nueva Colección 2025</span>
           </div>
 
-          <div className="space-y-4">
-            <h1 className="text-5xl md:text-6xl text-[var(--color-marron)]">
-              Deja que un accesorio celebre tu luz.
-            </h1>
+          {/* Contenido de texto */}
+          <div className="space-y-8 text-center order-2">
+            <div className="space-y-6">
+              <h1 className="text-4xl md:text-5xl xl:text-7xl font-medium text-[var(--color-marron)] leading-tight">
+                Que un accesorio
+                <span className="block text-[var(--color-amarillo)] text-[48px] lg:text-[70px] font-handwritten font-thin -mt-2">
+                  Celebre tu luz
+                </span>
+              </h1>
 
-            <p className="text-xl md:text-2xl text-neutral-700 leading-relaxed max-w-xl mx-auto">
-              NURAE celebra tu esencia. Accesorios únicos para mujeres que
-              eligen brillar con autenticidad.
-            </p>
-          </div>
+              <p className="text-base lg:text-xl text-neutral-700 leading-relaxed max-w-xl mx-auto lg:mx-0">
+                En <strong>NURAE</strong> encuentra accesorios únicos para mujeres que eligen brillar con autenticidad.
+              </p>
+            </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              asChild
-              className="bg-[var(--color-marron)] text-white hover:bg-[#231B13]/90 rounded-full px-8 py-6 text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300"
-            >
-              <Link to="/collections">
-                Explorar Colección
-                <LuArrowRight className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              <Button
+                asChild
+                className="bg-[var(--color-marron)] z-10 text-white hover:bg-[var(--color-marron)]/90 rounded-full px-8 py-6 text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300 group"
+              >
+                <Link to="/collections">
+                  Explorar colección
+                  <LuArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </Button>
 
-            <Button
-              asChild
-              variant="outline"
-              className="border-2 border-gray-800 rounded-full text-gray-800 px-8 py-6 text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300"
-            >
-              <Link to="/about">Nuestra Historia</Link>
-            </Button>
+              <Button
+                asChild
+                variant="outline"
+                className="border-2 border-[var(--color-marron)] z-10 rounded-full text-[var(--color-marron)] px-8 py-6 text-lg font-medium shadow-lg hover:bg-amber-50 transition-all duration-300"
+              >
+                <Link to="/about">Nuestra Historia</Link>
+              </Button>
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Fade inferior */}
+      <div className="absolute z-5 bottom-0 left-0 right-0 h-60 bg-gradient-to-t from-white to-transparent"></div>
     </section>
   );
 }

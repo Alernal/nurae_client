@@ -11,6 +11,14 @@ export default function Home() {
       <HeroSection />
       {/* <TrustBadges /> */}
       <CategoryShowcase />
+      <section className="w-full">
+        <img
+          src="/transition.png"
+          alt="Transición visual"
+          className="w-full h-full object-contain"
+        />
+      </section>
+
       <FeaturedProducts />
       {/* <InstagramFeed /> */}
 

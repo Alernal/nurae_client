@@ -1,8 +1,18 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap'); */
-@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+@font-face {
+  font-family: 'BrittanySignature';
+  src: url('/src/assets/fonts/BrittanySignature.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 
 body {
-  font-family: 'Work Sans', serif, sans-serif;
+  font-family: 'Poppins', serif, sans-serif;
+}
+
+.font-handwritten {
+  font-family: 'BrittanySignature', cursive;
 }
 
 /* === UTILIDADES DE COLOR === */
@@ -22,7 +32,7 @@ body {
   }
 }
 
-:root{
+:root {
   --color-amarillo: #D4AF37;
   --color-marron: #5E4536;
   ---color-gris: #6D6559;

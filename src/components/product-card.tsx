@@ -162,13 +162,13 @@ export default function ProductCard({ product, viewMode = "grid" }) {
 
   // 👇 GRID VIEW
   return (
-    <div className="group relative h-120 bg-white shadow-lg hover:shadow-2xl overflow-hidden transition-all duration-500 hover:-translate-y-2 flex flex-col">
+    <div className="group relative h-120 bg-white border border-gray-300 shadow-sm transition-all duration-500 hover:-translate-y-2 flex flex-col">
       <div className="relative aspect-[3/4] overflow-hidden">
         <Link to={`/products/${product.slug}`}>
           <img
             src={imageUrl}
             alt={product.name}
-            className="object-cover w-full h-full transition-transform group-hover:scale-110 duration-700"
+            className="object-cover border-b border-gray-300 w-full h-full transition-transform group-hover:scale-110 duration-700"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 

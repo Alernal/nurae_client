@@ -26,11 +26,8 @@ export function FeaturedProducts() {
       <div className="container px-4 md:px-6 relative">
         {/* Heading */}
         <div className="text-center mb-16 space-y-6">
-          <div className="inline-flex items-center gap-3 rounded-full bg-[#5E4536]/10 px-6 py-2 text-sm font-medium text-[#7D5840]">
-            <span className="tracking-wide">Productos Destacados</span>
-          </div>
-          <h2 className="text-4xl font-medium text-[#7D5840]">
-            Nuestros Favoritos
+          <h2 className="text-4xl font-normal text-[#5E4536]">
+            Nuestros <span className="text-[var(--color-amarillo)] font-handwritten font-thin">Favoritos</span>
           </h2>
         </div>
 
@@ -54,7 +51,7 @@ export function FeaturedProducts() {
         {/* CTA */}
         <div className="flex justify-center mt-16">
           <Link to="/collections">
-            <Button className="bg-[#5E4536] hover:opacity-90 text-white px-12 py-4 rounded-full text-lg font-medium shadow-xl hover:shadow-2xl transition-all duration-300 group">
+            <Button className="border border-gray-300 hover:opacity-90 text-[#5E4536] px-12 py-4 rounded-full text-lg font-medium shadow-xl hover:shadow-2xl transition-all duration-300 group">
               Ver Toda la Colección
             </Button>
           </Link>

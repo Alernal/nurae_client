@@ -7,7 +7,6 @@ export function CategoryShowcase() {
       name: "Collares",
       description: "Elegancia que abraza tu cuello",
       href: "/collections?category=collares",
-      icon: LuCrown,
       overlay: "bg-black/30",
       statsColor: "text-pink-700",
       image:
@@ -17,7 +16,6 @@ export function CategoryShowcase() {
       name: "Aretes",
       description: "Detalles que enmarcan tu belleza",
       href: "/collections?category=aretes",
-      icon: LuStar,
       overlay: "bg-black/30",
       statsColor: "text-purple-700",
       image:
@@ -27,7 +25,6 @@ export function CategoryShowcase() {
       name: "Pulseras",
       description: "Sofisticación en cada movimiento",
       href: "/collections?category=pulseras",
-      icon: LuHeart,
       overlay: "bg-black/30",
       statsColor: "text-amber-700",
       image:
@@ -37,7 +34,6 @@ export function CategoryShowcase() {
       name: "Anillos",
       description: "Pequeñas obras de arte",
       href: "/collections?category=anillos",
-      icon: LuGem,
       overlay: "bg-black/30",
       statsColor: "text-teal-700",
       image:
@@ -54,8 +50,8 @@ export function CategoryShowcase() {
             <span className="tracking-wide">Nuestras Categorías</span>
             <LuSparkles className="h-5 w-5" />
           </div> */}
-          <h2 className="text-4xl font-medium text-[#5E4536]">
-            Explora la selección de NURAE para ti.
+          <h2 className="text-4xl font-normal text-[#5E4536]">
+            Explora Nuestras <span className="text-[var(--color-amarillo)] font-handwritten font-thin">Colecciones.</span>
           </h2>
           {/* <p className="text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto font-light leading-relaxed">
             Cada diseño revela una parte de ti. Cada colección realza tu forma
@@ -63,14 +59,13 @@ export function CategoryShowcase() {
           </p> */}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
           {categories.map((category, index) => {
-            const Icon = category.icon;
             return (
               <Link
                 key={category.name}
                 to={category.href}
-                className="group relative overflow-hidden bg-white border border-gray-100 shadow-sm hover:shadow-xl transition duration-300 hover:-translate-y-2"
+                className="group relative overflow-hidden bg-white transition duration-300 hover:-translate-y-1"
               >
                 <div className="p-3">
                   {/* Imagen con overlay */}
@@ -83,10 +78,6 @@ export function CategoryShowcase() {
                     <div
                       className={`absolute inset-0 ${category.overlay} transition-opacity`}
                     />
-
-                    <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-md p-3 rounded-full">
-                      <Icon className="h-7 w-7 text-white" />
-                    </div>
 
                     <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
                       <div className="space-y-2 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">

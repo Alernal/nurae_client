@@ -3,50 +3,20 @@ import { Link } from "react-router-dom";
 import {
   LuSearch,
   LuHeart,
-  LuMenu,
-  LuCrown,
   LuSparkles,
   LuGift,
   LuPhone,
   LuMail,
-  LuChevronDown,
+  LuCrown,
+  LuMenu,
 } from "react-icons/lu";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { MiniCart } from "@/components/mini-cart";
 import { SearchModal } from "@/components/search-modal";
 import { UserMenu } from "@/components/user-menu";
 import { useWishlist } from "@/hooks/useWishlist";
 import { FaInstagram, FaFacebook, FaTiktok } from "react-icons/fa";
-
-const collections = [
-  {
-    name: "Collares",
-    href: "/collections?category=collares",
-    description: "Elegancia que abraza tu cuello",
-  },
-  {
-    name: "Aretes",
-    href: "/collections?category=aretes",
-    description: "Detalles que enmarcan tu belleza",
-  },
-  {
-    name: "Pulseras",
-    href: "/collections?category=pulseras",
-    description: "Sofisticación en cada movimiento",
-  },
-  {
-    name: "Anillos",
-    href: "/collections?category=anillos",
-    description: "Pequeñas obras de arte",
-  },
-];
+import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 
 export function Header() {
   const { items } = useWishlist();
@@ -57,9 +27,11 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md shadow-md">
       {/* Top Bar */}
-      <div className="bg-[#5E4536] text-white py-2 px-4">
-        <div className="container flex items-center justify-between text-sm">
-          <div className="hidden md:flex items-center gap-4">
+      <div className="bg-[#5E4536] text-white py-2 px-4 text-xs lg:text-sm xl:text-base hidden xl:block">
+        <div className="container flex items-center justify-between">
+
+          {/* Contacto */}
+          <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
               <LuPhone className="h-4 w-4" />
               <span>+57 (314) 808 - 7646</span>
@@ -69,14 +41,16 @@ export function Header() {
               <span>contacto@nurae.co</span>
             </div>
           </div>
-          <div className="flex items-center gap-2 md:mx-0">
+
+          {/* Promoción */}
+          <div className="flex items-center gap-2">
             <LuGift className="h-4 w-4" />
-            <span className="">
-              Envío gratis en compras mayores a $150.000 COP • Hasta 4 cuotas
-            </span>
+            <span>Envío gratis en compras mayores a $150.000 COP • Hasta 4 cuotas</span>
             <LuSparkles className="h-4 w-4 animate-pulse" />
           </div>
-          <div className="hidden md:flex items-center gap-2 text-sm">
+
+          {/* Redes sociales */}
+          <div className="flex items-center gap-2 text-sm">
             <span>Síguenos:</span>
             <Link to="#" className="hover:text-pink-200 transition-colors">
               <FaInstagram />
@@ -88,12 +62,12 @@ export function Header() {
               <FaTiktok />
             </Link>
           </div>
+
         </div>
       </div>
 
       {/* Main Header */}
       <div className="container flex h-16 items-center justify-between px-4 md:px-6">
-        {/* Mobile Menu
         <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
           <SheetTrigger asChild>
             <Button variant="ghost" size="icon" className="lg:hidden">
@@ -103,15 +77,14 @@ export function Header() {
           </SheetTrigger>
           <SheetContent
             side="left"
-            className="w-full sm:max-w-sm bg-gradient-to-br from-pink-50 to-purple-50"
+            className="w-full sm:max-w-sm bg-white w-2/3"
           >
-            <div className="flex flex-col space-y-6 pt-6">
+            <div className="flex flex-col space-y-3 pt-2">
               <Link
                 to="/"
                 className="flex items-center gap-3"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                <LuCrown className="h-8 w-8 text-accent" />
                 <span className="font-serif text-2xl font-bold bg-clip-text text-transparent">
                   LÚMINA
                 </span>
@@ -123,41 +96,6 @@ export function Header() {
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Inicio
-                </Link>
-                <div className="space-y-2">
-                  <Link
-                    to="/collections"
-                    className="text-lg  text-neutral-700 hover:text-primary transition-colors block"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Colecciones
-                  </Link>
-                  <div className="pl-4 space-y-2">
-                    {collections.map((collection) => (
-                      <Link
-                        key={collection.name}
-                        to={collection.href}
-                        className="text-sm text-neutral-600 hover:text-primary transition-colors block"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                      >
-                        {collection.name}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-                <Link
-                  to="/new"
-                  className="text-lg  text-gray-700 hover:text-primary transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Novedades
-                </Link>
-                <Link
-                  to="/bestsellers"
-                  className="text-lg  text-gray-700 hover:text-primary transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Más Vendidos
                 </Link>
                 <Link
                   to="/blog"
@@ -183,7 +121,7 @@ export function Header() {
               </nav>
             </div>
           </SheetContent>
-        </Sheet> */}
+        </Sheet>
 
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center space-x-8 text-gray-900 text-sm">
@@ -194,29 +132,6 @@ export function Header() {
             Inicio
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#EFEAAE] transition-all duration-300 group-hover:w-full"></span>
           </Link>
-
-           {/* <Link
-            to="/collections?category=collares"
-            className=" hover:text-gray-700 transition-all duration-300 relative group"
-          >
-            Collares
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#EFEAAE] transition-all duration-300 group-hover:w-full"></span>
-          </Link>
-
-          <Link
-            to="/collections?category=pulseras"
-            className=" hover:text-gray-700 transition-all duration-300 relative group"
-          >
-            Pulseras
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#EFEAAE] transition-all duration-300 group-hover:w-full"></span>
-          </Link>
-          <Link
-            to="/collections?category=anillos"
-            className=" hover:text-gray-700 transition-all duration-300 relative group"
-          >
-            Anillos
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#EFEAAE] transition-all duration-300 group-hover:w-full"></span>
-          </Link> */}
 
           <Link
             to="/about"
