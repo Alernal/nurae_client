@@ -16,7 +16,7 @@ export function HeroSection() {
       {/* Background Image */}
       <div className="absolute inset-0">
         <img
-          src="/images/portada.png"
+          src="https://static.vecteezy.com/system/resources/previews/002/058/254/non_2x/abstract-white-background-free-vector.jpg"
           alt="Portada"
           className="w-full h-full object-cover"
           draggable={false}

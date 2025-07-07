@@ -261,7 +261,7 @@ export default function CartSummary({
               >
                 Autorizo el{" "}
                 <a
-                  href="http://localhost:8000/storage/Politica-de-privacidad.pdf"
+                  href="https://nurae-api.alernal.com.co/storage/Politica-de-privacidad.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-[#5E4536] underline font-bold inline-flex items-center"

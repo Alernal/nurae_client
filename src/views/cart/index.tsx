@@ -101,7 +101,7 @@ export default function CartPage() {
                   <img
                     src={
                       item.images?.[0]?.url
-                        ? `http://localhost:8000${item.images[0].url}`
+                        ? `https://nurae-api.alernal.com.co/${item.images[0].url}`
                         : "/placeholder.svg"
                     }
                     alt={item.name}

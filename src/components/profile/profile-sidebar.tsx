@@ -27,7 +27,7 @@ export default function ProfileSidebar({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { mutate: uploadProfileImage } = useUploadProfileImage();
 
-  const baseUrl = "http://localhost:8000";
+  const baseUrl = "https://nurae-api.alernal.com.co/";
   const imageUrl = user.profile_image_url
     ? `${baseUrl}${user.profile_image_url}`
     : "https://cdn-icons-png.flaticon.com/512/3135/3135768.png";

@@ -37,7 +37,7 @@ export default function ProductPageRoute() {
         stock_count: product.stock_count,
         category: product.category,
         images:
-          product.images?.map((img) => `http://localhost:8000${img.url}`) || [],
+          product.images?.map((img) => `https://nurae-api.alernal.com.co/${img.url}`) || [],
       }}
       reviews={
         product.reviews?.map((r) => ({

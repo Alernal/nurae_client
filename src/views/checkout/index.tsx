@@ -36,7 +36,7 @@ export default function CheckoutPage() {
       in_stock: product?.in_stock,
       stock_count: product?.stock_count,
       image: product?.images[0]?.url
-        ? `http://localhost:8000${product.images[0].url}`
+        ? `https://nurae-api.alernal.com.co/${product.images[0].url}`
         : "/placeholder.svg",
     };
   });

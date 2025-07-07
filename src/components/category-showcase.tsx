@@ -11,7 +11,7 @@ export function CategoryShowcase() {
       overlay: "bg-black/30",
       statsColor: "text-pink-700",
       image:
-        "http://localhost:8000/storage/products/kXcDU3ogBu7uLpWpkTvsT9UkRnDmQlJzwvPifCwm.png",
+        "/images/collares.png",
     },
     {
       name: "Aretes",

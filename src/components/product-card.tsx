@@ -50,7 +50,7 @@ export default function ProductCard({ product, viewMode = "grid" }) {
     : 0;
 
   const imageUrl = product.images?.[0]?.url
-    ? `http://localhost:8000${product.images[0].url}`
+    ? `https://nurae-api.alernal.com.co/${product.images[0].url}`
     : "https://via.placeholder.com/300x400.png?text=Sin+Imagen";
 
   const maxAvailable = product.stock_count ?? 1;

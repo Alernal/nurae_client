@@ -46,7 +46,7 @@ export default function ShowProduct() {
             {product.images.map((img) => (
               <img
                 key={img.id}
-                src={`http://localhost:8000${img.url}`}
+                src={`https://nurae-api.alernal.com.co/${img.url}`}
                 alt={product.name}
                 className="w-32 h-32 object-cover rounded border"
               />

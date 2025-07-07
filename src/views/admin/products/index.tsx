@@ -206,7 +206,7 @@ export default function AdminProducts() {
                         <img
                           src={
                             product.images?.[0]?.url
-                              ? `http://localhost:8000${product.images[0].url}`
+                              ? `https://nurae-api.alernal.com.co/${product.images[0].url}`
                               : "/placeholder.svg"
                           }
                           alt={product.name}
