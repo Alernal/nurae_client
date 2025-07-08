@@ -4,63 +4,63 @@ import { LuArrowRight } from "react-icons/lu";
 
 export function HeroSection() {
   return (
-    <section className="relative w-full flex items-center justify-center bg-white overflow-hidden px-4 py-10 lg:py-0">
+    <section className="relative w-full flex items-center justify-center bg-white overflow-hidden px-2 py-8 md:px-6">
       <div className="container relative">
-        <div className="flex lg:flex-row flex-col justify-between items-center mx-auto">
+        <div className="flex flex-col md:flex-row justify-between items-center mx-auto">
           {/* Imagen de la modelo */}
-          <div className="relative order-1">
-            <div className="relative order-1 hidden sm:block">
-              <div className="relative">
-                <img
-                  src="/hero-model.png"
-                  alt="Mujer luciendo accesorios dorados NURAE"
-                  className="w-full max-h-[100vh] object-contain mx-auto"
-                />
-              </div>
+          <div className="w-full md:w-1/2 flex justify-start mb-6 md:mb-0">
+            <div className="relative hidden sm:block">
+              <img
+                src="/hero-model.png"
+                alt="Mujer luciendo accesorios dorados NURAE"
+                className="
+                  object-contain mx-auto
+                  max-h-[60vh] md:max-h-[80vh] xl:max-h-[100vh]
+                  max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl
+                  transition-all duration-300
+                "
+              />
             </div>
-
           </div>
 
           {/* Contenido de texto */}
-          <div className="space-y-8 text-center order-2">
+          <div className="space-y-8 px-10 md:text-left w-full md:w-1/2">
             <div className="space-y-6">
-              <h1 className="text-4xl md:text-5xl xl:text-7xl font-medium text-[var(--color-marron)] leading-tight">
+              <h1 className="text-3xl text-center md:text-5xl xl:text-6xl font-normal text-[var(--color-marron)] leading-tight">
                 Que un accesorio
-                <span className="block text-[var(--color-amarillo)] text-[48px] lg:text-[70px] font-handwritten font-thin -mt-2">
+                <span className="block text-center text-[var(--color-amarillo)] text-[2.5rem] md:text-[3rem] xl:text-[70px] font-handwritten font-thin -mt-2">
                   Celebre tu luz
                 </span>
               </h1>
-
-              <p className="text-base lg:text-xl text-neutral-700 leading-relaxed max-w-xl mx-auto lg:mx-0">
+              <p className="text-base text-center md:text-lg lg:text-xl text-neutral-700 max-w-xl mx-auto md:mx-0">
                 En <strong>NURAE</strong> encuentra accesorios únicos para mujeres que eligen brillar con autenticidad.
               </p>
             </div>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Button
-                asChild
-                className="bg-[var(--color-marron)] z-10 text-white hover:bg-[var(--color-marron)]/90 rounded-full px-8 py-6 text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300 group"
+              asChild
+              className="flex-1 border-2 min-w-[220px] max-w-xs bg-[var(--color-marron)] z-10 text-white hover:bg-[var(--color-marron)]/90 rounded-full px-8 py-6 text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300 group"
               >
-                <Link to="/collections">
-                  Explorar colección
-                  <LuArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                </Link>
+              <Link to="/collections" className="flex items-center justify-center w-full">
+                Explorar colección
+                <LuArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
               </Button>
-
               <Button
-                asChild
-                variant="outline"
-                className="border-2 border-[var(--color-marron)] z-10 rounded-full text-[var(--color-marron)] px-8 py-6 text-lg font-medium shadow-lg hover:bg-amber-50 transition-all duration-300"
+              asChild
+              variant="outline"
+              className="flex-1 min-w-[220px] max-w-xs border-2 border-[var(--color-marron)] z-10 rounded-full text-[var(--color-marron)] px-8 py-6 text-lg font-medium shadow-lg hover:bg-amber-50 transition-all duration-300"
               >
-                <Link to="/about">Nuestra Historia</Link>
+              <Link to="/about" className="flex items-center justify-center w-full">
+                Nuestra Historia
+              </Link>
               </Button>
             </div>
           </div>
         </div>
       </div>
-
       {/* Fade inferior */}
-      <div className="absolute z-5 bottom-0 left-0 right-0 h-60 bg-gradient-to-t from-white to-transparent"></div>
+      <div className="absolute z-5 bottom-0 left-0 right-0 h-40 md:h-60 bg-gradient-to-t from-white to-transparent"></div>
     </section>
   );
 }

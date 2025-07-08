@@ -40,16 +40,16 @@ export function ProductReviews({
   }));
 
   return (
-    <div className="space-y-6 w-2xl">
-      <div className="flex items-center justify-between">
+    <div className="space-y-6 max-w-2xl w-full mx-auto px-2 sm:px-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
         <h3 className="text-2xl font-bold text-gray-900">Reseñas de Clientes</h3>
         <ReviewModal productId={productId} productName={productName} />
       </div>
 
       {/* Rating Summary */}
-      <div className="bg-slate-50 p-6 rounded-lg">
-        <div className="flex items-center gap-4 mb-4">
-          <div className="text-center">
+      <div className="bg-slate-50 p-4 sm:p-6 rounded-lg">
+        <div className="flex flex-col md:flex-row items-center gap-4 mb-4">
+          <div className="text-center w-full md:w-auto">
             <div className="text-3xl font-bold text-gray-900">
               {averageRating.toFixed(1)}
             </div>
@@ -70,7 +70,7 @@ export function ProductReviews({
             </div>
           </div>
 
-          <div className="flex-1 space-y-2">
+          <div className="flex-1 w-full space-y-2">
             {ratingDistribution.map(({ rating, count, percentage }) => (
               <div key={rating} className="flex items-center gap-2 text-sm">
                 <span className="w-3">{rating}</span>
@@ -96,7 +96,7 @@ export function ProductReviews({
               </div>
 
               <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-1 sm:gap-2 mb-1">
                   <span className="font-medium text-gray-900">
                     {review.user.first_name}
                   </span>

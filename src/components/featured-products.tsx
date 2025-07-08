@@ -51,7 +51,7 @@ export function FeaturedProducts() {
         {/* CTA */}
         <div className="flex justify-center mt-16">
           <Link to="/collections">
-            <Button className="border border-gray-300 hover:opacity-90 text-[#5E4536] px-12 py-4 rounded-full text-lg font-medium shadow-xl hover:shadow-2xl transition-all duration-300 group">
+            <Button className="cursor-pointer border border-gray-300 hover:opacity-90 text-[#5E4536] px-12 py-4 rounded-full text-lg font-medium shadow-xl hover:shadow-2xl transition-all duration-300 group">
               Ver Toda la Colección
             </Button>
           </Link>

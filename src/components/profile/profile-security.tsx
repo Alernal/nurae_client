@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { LuShield, LuBadgeCheck, LuEye, LuEyeOff } from "react-icons/lu";
-
+import { useResendVerification } from "@/hooks/user/useResendVerification";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -28,6 +28,7 @@ export default function ProfileSecurity({ user }: ProfileSecurityProps) {
     new: "",
     confirm: "",
   });
+  const { mutate: resendVerification, isPending: isSendingEmail } = useResendVerification();
 
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
@@ -216,9 +217,12 @@ export default function ProfileSecurity({ user }: ProfileSecurityProps) {
               <Button
                 variant="outline"
                 className="border-violet-300 text-violet-600 hover:bg-violet-50"
+                disabled={isSendingEmail}
+                onClick={() => resendVerification(user.email)}
               >
-                Verificar Ahora
+                {isSendingEmail ? "Enviando..." : "Verificar Ahora"}
               </Button>
+
             )}
           </div>
         </CardContent>

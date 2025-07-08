@@ -31,14 +31,14 @@ export function UserMenu() {
         <Button
           variant="ghost"
           size="icon"
-          className="hover:bg-pink-50 hover:text-primary transition-all duration-300 relative group"
+          className="hover:bg-gray-50 hover:text-primary transition-all duration-300 relative group"
         >
           <LuUser className="h-5 w-5" />
           <span className="sr-only">Cuenta de usuario</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className="w-56 bg-white/95 backdrop-blur-md border border-pink-100"
+        className="w-56 bg-white/95 backdrop-blur-md border border-gray-100"
         align="end"
       >
         {isAuthenticated ? (

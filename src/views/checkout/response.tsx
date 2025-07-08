@@ -15,15 +15,15 @@ export default function CheckoutResponsePage() {
     typeof transactionId === "string" ? transactionId : undefined
   );
 
-  // Limpiar carrito si es una nueva orden
   useEffect(() => {
     if (
       data?.status === "APPROVED" &&
-      data?.message === "Orden creada exitosamente."
+      data?.message === "Orden generada automáticamente tras aprobación del pago."
     ) {
       clearCartCloud();
     }
   }, [data, clearCartCloud]);
+
 
   if (isLoading) {
     return (

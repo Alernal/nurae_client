@@ -81,7 +81,7 @@ export default function ProfilePersonalInfo({
   };
 
   return (
-    <Card className="border-none shadow-lg">
+    <Card className="border border-gray-200 shadow-lg">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <div>
           <CardTitle>Información Personal</CardTitle>
@@ -91,7 +91,7 @@ export default function ProfilePersonalInfo({
           variant={isEditing ? "default" : "outline"}
           size="sm"
           onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
-          className={isEditing ? "bg-violet-600 hover:bg-violet-700" : ""}
+          className={isEditing ? "bg-green-600 hover:bg-green-700 text-white" : "bg-gray-200 border-none"}
           disabled={isPending}
         >
           {isEditing ? (

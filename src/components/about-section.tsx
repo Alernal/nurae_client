@@ -21,31 +21,35 @@ export function AboutSection() {
 
           {/* Texto */}
           <div className="space-y-6 order-1 lg:order-2">
-            <div className="inline-flex items-center gap-2 rounded-full bg-[#5E4536]/10 px-4 py-2 text-sm font-medium text-[#7D5840]">
-              Nuestra Historia
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold">
+            <img
+              src="/favicon.png"
+              alt="NURAE favicon"
+              className="w-20 h-20 mx-auto mb-10"
+            />
+            <h2 className="text-4xl text-center font-handwritten md:text-5xl font-bold">
               El lujo también es para ti
             </h2>
-            <p className="text-lg md:text-xl text-[#5C4A42] leading-relaxed">
+            <p className="text-lg md:text-2xl text-black">
               En <strong>NURAE</strong> creemos que cada mujer merece sentirse extraordinaria.
               Creamos piezas que celebran tu individualidad, combinando
               elegancia atemporal con precios que te permiten brillar sin
               límites.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link to="/about">
-                <Button className="bg-[#7D5840] text-white hover:bg-[#3A221A] px-8 py-3 rounded-full font-medium shadow-lg hover:shadow-xl transition-all duration-300">
-                  Conoce Más
-                </Button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full">
+              <Link to="/about" className="w-full sm:w-auto flex-1">
+              <Button
+                className="w-full bg-[#7D5840] text-white hover:bg-[#7D5840]/80 hover:scale-105 hover:shadow-2xl px-8 py-3 rounded-full font-medium shadow-lg transition-all duration-300 cursor-pointer"
+              >
+                Conoce Más
+              </Button>
               </Link>
-              <Link to="/collections">
-                <Button
-                  variant="outline"
-                  className="border-[#7D5840] text-[#7D5840] hover:bg-[#7D5840] hover:text-white px-8 py-3 rounded-full font-medium transition-all duration-300"
-                >
-                  Explorar Colección
-                </Button>
+              <Link to="/collections" className="w-full sm:w-auto flex-1">
+              <Button
+                variant="outline"
+                className="w-full border-[#7D5840] text-[#7D5840] hover:bg-white/60 hover:scale-105 hover:shadow-2xl px-8 py-3 rounded-full font-medium transition-all duration-300 cursor-pointer"
+              >
+                Explorar Colección
+              </Button>
               </Link>
             </div>
           </div>

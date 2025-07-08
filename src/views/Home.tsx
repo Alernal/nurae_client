@@ -11,6 +11,7 @@ export default function Home() {
       <HeroSection />
       {/* <TrustBadges /> */}
       <CategoryShowcase />
+      
       <section className="w-full">
         <img
           src="/transition.png"

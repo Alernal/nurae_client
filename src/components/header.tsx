@@ -52,13 +52,13 @@ export function Header() {
           {/* Redes sociales */}
           <div className="flex items-center gap-2 text-sm">
             <span>Síguenos:</span>
-            <Link to="#" className="hover:text-pink-200 transition-colors">
+            <Link to="#" className="hover:text-gray-200 transition-colors">
               <FaInstagram />
             </Link>
-            <Link to="#" className="hover:text-pink-200 transition-colors">
+            <Link to="#" className="hover:text-gray-200 transition-colors">
               <FaFacebook />
             </Link>
-            <Link to="#" className="hover:text-pink-200 transition-colors">
+            <Link to="#" className="hover:text-gray-200 transition-colors">
               <FaTiktok />
             </Link>
           </div>
@@ -167,7 +167,7 @@ export function Header() {
           <Button
             variant="ghost"
             size="icon"
-            className="hover:bg-pink-50 hover:text-primary transition-all duration-300 relative group"
+            className="hover:bg-gray-50 hover:text-primary transition-all duration-300 relative group"
             onClick={() => setIsSearchOpen(true)}
           >
             <LuSearch className="h-5 w-5" />
@@ -182,7 +182,7 @@ export function Header() {
             <Button
               variant="ghost"
               size="icon"
-              className="hover:bg-warm-sand/20 hover:text-secondary transition-all duration-300 relative group"
+              className="hover:bg-gray-50 hover:text-secondary transition-all duration-300 relative group"
             >
               <LuHeart className="h-5 w-5" />
               {itemCount > 0 && (

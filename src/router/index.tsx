@@ -13,7 +13,6 @@ import RegisterPage from "@/views/auth/register";
 
 import Home from "@/views/Home";
 import AboutPage from "@/views/about";
-import CartPage from "@/views/cart";
 import ProductPage from "@/views/products";
 import CollectionsPage from "@/views/collections";
 
@@ -62,7 +61,6 @@ export function Router() {
       {/* Layout general con rutas públicas */}
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />
-        <Route path="cart" element={<CartPage />} />
         <Route path="about" element={<AboutPage />} />
         <Route path="blog" element={<BlogPage />} />
         <Route path="/blog/:slug" element={<BlogPostPage />} />

@@ -60,7 +60,7 @@ export function MiniCart() {
         <Button
           variant="ghost"
           size="icon"
-          className="relative hover:bg-primary/10 hover:text-primary transition-all"
+          className="relative hover:bg-gray-50 hover:text-primary transition-all"
         >
           <LuShoppingBag className="h-5 w-5" />
           <span className="absolute -top-1 -right-1 h-5 w-5 bg-black text-white text-xs rounded-full flex items-center justify-center font-bold">

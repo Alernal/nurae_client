@@ -59,7 +59,7 @@ export default function ProfileSidebar({
   return (
     <div className="w-full md:w-1/3">
       <Card className="border-none shadow-lg">
-        <CardHeader className="bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white rounded-t-lg">
+        <CardHeader className="border-b border-gray-200">
           <CardTitle className="text-center">Mi Perfil</CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col items-center pt-6 pb-8">

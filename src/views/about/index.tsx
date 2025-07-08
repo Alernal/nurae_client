@@ -61,45 +61,6 @@ const values = [
   },
 ];
 
-const milestones = [
-  {
-    year: "2020",
-    title: "Nace NURAE",
-    description:
-      "Jencky funda NURAE con la visión de democratizar el lujo en accesorios femeninos.",
-  },
-  {
-    year: "2021",
-    title: "Primera Colección",
-    description:
-      "Lanzamos nuestra primera colección con 25 piezas únicas que se agotaron en 48 horas.",
-  },
-  {
-    year: "2022",
-    title: "10,000 Clientas",
-    description:
-      "Alcanzamos las 10,000 clientas felices y expandimos nuestro catálogo a 100+ productos.",
-  },
-  {
-    year: "2023",
-    title: "Reconocimiento Nacional",
-    description:
-      "NURAE es reconocida como 'Mejor Marca Emergente' en los Premios de Moda Mexicana.",
-  },
-  {
-    year: "2024",
-    title: "Expansión Digital",
-    description:
-      "Lanzamos nuestra plataforma digital renovada y alcanzamos 50,000+ seguidoras.",
-  },
-  {
-    year: "2025",
-    title: "Futuro Brillante",
-    description:
-      "Continuamos innovando y expandiendo para llegar a más mujeres en toda Latinoamérica.",
-  },
-];
-
 export default function AboutPage() {
   return (
     <div className="min-h-screen">
@@ -228,62 +189,6 @@ export default function AboutPage() {
                 alt="Historia de NURAE"
                 className="rounded-3xl shadow-2xl"
               />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Timeline */}
-      <section className="py-16 md:py-24">
-        <div className="container px-4 md:px-6">
-          <div className="text-center space-y-8 mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-[#5E4536]">
-              Nuestro Camino
-            </h2>
-            <p className="text-xl text-[#9A6D4E] max-w-3xl mx-auto">
-              Desde nuestros humildes comienzos hasta convertirnos en una marca
-              reconocida, cada paso ha sido guiado por nuestra pasión por
-              empoderar a las mujeres.
-            </p>
-          </div>
-
-          <div className="relative">
-            {/* Timeline Line */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-[#d4af37] rounded-full"></div>
-
-            <div className="space-y-16">
-              {milestones.map((milestone, index) => (
-                <div
-                  key={milestone.year}
-                  className={`flex items-center gap-8 ${
-                    index % 2 === 0 ? "flex-row" : "flex-row-reverse"
-                  }`}
-                  style={{ animationDelay: `${index * 0.2}s` }}
-                >
-                  <div
-                    className={`flex-1 ${
-                      index % 2 === 0 ? "text-right" : "text-left"
-                    }`}
-                  >
-                    <div className="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg transition-all duration-300">
-                      <div className="text-3xl font-bold text-[#d4af37] mb-2">
-                        {milestone.year}
-                      </div>
-                      <h3 className="text-xl font-bold text-[#000] mb-3">
-                        {milestone.title}
-                      </h3>
-                      <p className="text-[#000] leading-relaxed">
-                        {milestone.description}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Timeline Dot */}
-                  <div className="relative z-10 w-6 h-6 bg-[#5E4536] rounded-full border-4 border-white shadow-lg"></div>
-
-                  <div className="flex-1"></div>
-                </div>
-              ))}
             </div>
           </div>
         </div>
