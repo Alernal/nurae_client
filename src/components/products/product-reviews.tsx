@@ -106,8 +106,8 @@ export function ProductReviews({
                         key={i}
                         className={`w-4 h-4 ${
                           i < review.rating
-                            ? "fill-yellow-400 text-yellow-400"
-                            : "text-gray-300"
+                            ? "fill-yellow-100 text-yellow-400"
+                            : "text-gray-200"
                         }`}
                       />
                     ))}

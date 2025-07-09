@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
+const MAX_IMAGE_SIZE = 50 * 1024 * 1024;
 const ACCEPTED_IMAGE_TYPES = [
   "image/jpeg",
   "image/png",
@@ -84,7 +84,7 @@ export const createProductSchema = z.object({
         files.length === 0 ||
         files.every((file) => file.size <= MAX_IMAGE_SIZE),
       {
-        message: "Cada imagen debe pesar máximo 5MB",
+        message: "Cada imagen debe pesar máximo 50MB",
       }
     )
     .refine(

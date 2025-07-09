@@ -59,7 +59,7 @@ export function Footer() {
                   ["Preguntas Frecuentes", "/faq"],
                   ["Despachos y Envíos", "/shipping"],
                   ["Devoluciones", "/returns"],
-                  ["Contáctanos", "/support"],
+                  ["Soporte", "/support"],
                 ],
               },
               {

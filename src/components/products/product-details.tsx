@@ -23,9 +23,9 @@ export function ProductDetails({ product }: ProductDetailsProps) {
         </TabsList>
 
         <TabsContent value="description" className="mt-6">
-          <div className="prose prose-sm max-w-none">
-            <p className="text-gray-700 leading-relaxed">{product.description}</p>
-          </div>
+          <pre className="whitespace-pre-wrap font-sans text-gray-700 leading-relaxed">
+            {product.description}
+          </pre>
         </TabsContent>
 
         <TabsContent value="care" className="mt-6">

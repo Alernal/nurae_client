@@ -16,8 +16,8 @@ export default function ProductCard({ product, viewMode = "grid" }) {
   const avgRating =
     reviews?.length > 0
       ? (
-          reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
-        ).toFixed(1)
+        reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
+      ).toFixed(1)
       : "0.0";
 
   const toggleWishlist = () => {
@@ -60,12 +60,11 @@ export default function ProductCard({ product, viewMode = "grid" }) {
   if (viewMode === "list") {
     return (
       <div className="flex flex-col sm:flex-row bg-white border border-gray-100 overflow-hidden transition-all">
-        <div className="w-full sm:w-48 h-64 sm:h-auto aspect-[3/4] relative flex-shrink-0 bg-gray-100 overflow-hidden">
+        <div className="max-w-50 h-full relative flex-shrink-0 bg-gray-100 overflow-hidden">
           <img
             src={imageUrl}
             alt={product.name}
-            className="object-cover w-full h-full"
-            style={{ aspectRatio: "3 / 4", width: "100%", height: "100%" }}
+            className="object-contain w-full h-full"
           />
           {isOnSale && (
             <span className="absolute top-2 left-2 bg-red-600 text-white text-[10px] px-2 py-1 rounded-full font-semibold shadow">
@@ -78,9 +77,8 @@ export default function ProductCard({ product, viewMode = "grid" }) {
           <div>
             <div className="flex justify-between items-center text-xs text-muted-foreground font-medium mb-1">
               <Link
-                to={`/collections?category=${
-                  product.category?.slug ?? "general"
-                }`}
+                to={`/collections?category=${product.category?.slug ?? "general"
+                  }`}
                 className="uppercase tracking-wide hover:underline"
               >
                 {product.category ?? "General"}
@@ -162,22 +160,26 @@ export default function ProductCard({ product, viewMode = "grid" }) {
 
   // 👇 GRID VIEW
   return (
-    <div className="group relative h-120 bg-white border border-gray-300 shadow-sm transition-all duration-500 hover:-translate-y-2 flex flex-col">
-      <div className="relative aspect-[3/4] overflow-hidden">
-        <Link to={`/products/${product.slug}`}>
-          <img
-            src={imageUrl}
-            alt={product.name}
-            className="object-cover border-b border-gray-300 w-full h-full transition-transform group-hover:scale-110 duration-700"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+    <div className="group relative h-100 bg-white border border-gray-300 shadow-sm transition-all duration-500 hover:-translate-y-2 flex flex-col">
+      <div className="relative overflow-hidden">
+        <Link to={`/products/${product.slug}`} className="relative group block bg-white overflow-hidden">
+          <div className="relative flex items-center justify-center bg-white">
+            <img
+              src={imageUrl}
+              alt={product.name}
+              loading="lazy"
+              className="max-h-full max-w-full transition-transform group-hover:scale-105 duration-700"
+            />
 
-          <div className="absolute top-4 left-4 space-y-2">
-            {isOnSale && (
-              <span className="bg-red-600 text-white text-[10px] px-2 py-1 rounded-full font-semibold shadow">
-                -{discountPercentage}% OFF
-              </span>
-            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+            <div className="absolute top-4 left-4 space-y-2">
+              {isOnSale && (
+                <span className="bg-red-600 text-white text-[10px] px-2 py-1 rounded-full font-semibold shadow">
+                  -{discountPercentage}% OFF
+                </span>
+              )}
+            </div>
           </div>
         </Link>
 
@@ -232,7 +234,7 @@ export default function ProductCard({ product, viewMode = "grid" }) {
         </div>
 
         <Link to={`/products/${product.slug}`}>
-          <h3 className="text-sm text-[#2C1810] leading-snug group-hover:text-[#5E4536] transition-colors line-clamp-2 mb-1">
+          <h3 className="text-[12px] text-[#2C1810] leading-snug group-hover:text-[#5E4536] transition-colors truncate mb-1">
             {product.name}
           </h3>
         </Link>

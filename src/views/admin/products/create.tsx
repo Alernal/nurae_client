@@ -427,7 +427,7 @@ export default function CreateProduct() {
           >
             Cancelar
           </Button>
-          <Button type="submit" disabled={isLoading}>
+          <Button variant="outline" type="submit" disabled={isLoading}>
             {isLoading ? "Guardando..." : "Guardar Producto"}
           </Button>
         </div>

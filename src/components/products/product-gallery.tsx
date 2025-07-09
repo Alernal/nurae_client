@@ -20,11 +20,11 @@ export function ProductGallery({ images, selectedImage, onImageSelect, productNa
   return (
     <div className="space-y-4">
       {/* Main Image */}
-      <div className="relative aspect-square overflow-hidden group">
+      <div className="relative w-full overflow-hidden group bg-white rounded-lg border border-gray-200">
         <img
           src={images[selectedImage] || "/placeholder.svg"}
           alt={`${productName} - Vista ${selectedImage + 1}`}
-          className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+          className="w-full h-auto object-contain max-h-[500px] mx-auto transition-transform duration-500 group-hover:scale-105"
         />
 
         {/* Navigation Arrows */}
@@ -58,11 +58,10 @@ export function ProductGallery({ images, selectedImage, onImageSelect, productNa
           <button
             key={index}
             onClick={() => onImageSelect(index)}
-            className={`relative aspect-square rounded-lg overflow-hidden transition-all duration-200 ${
-              selectedImage === index
+            className={`relative aspect-square rounded-lg overflow-hidden transition-all duration-200 ${selectedImage === index
                 ? "ring-2 ring-primary ring-offset-2 scale-105"
                 : "hover:scale-105 opacity-70 hover:opacity-100"
-            }`}
+              }`}
           >
             <img
               src={image || "/placeholder.svg"}

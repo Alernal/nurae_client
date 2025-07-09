@@ -27,7 +27,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md shadow-md">
       {/* Top Bar */}
-      <div className="bg-[#5E4536] text-white py-2 px-4 text-xs lg:text-sm xl:text-base hidden xl:block">
+      <div className="bg-[#5E4536] text-white py-2 px-4 text-xs hidden xl:block">
         <div className="container flex items-center justify-between">
 
           {/* Contacto */}
@@ -44,9 +44,7 @@ export function Header() {
 
           {/* Promoción */}
           <div className="flex items-center gap-2">
-            <LuGift className="h-4 w-4" />
             <span>Envío gratis en compras mayores a $150.000 COP • Hasta 4 cuotas</span>
-            <LuSparkles className="h-4 w-4 animate-pulse" />
           </div>
 
           {/* Redes sociales */}

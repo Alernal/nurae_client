@@ -38,22 +38,22 @@ export function HeroSection() {
             </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Button
-              asChild
-              className="flex-1 border-2 min-w-[220px] max-w-xs bg-[var(--color-marron)] z-10 text-white hover:bg-[var(--color-marron)]/90 rounded-full px-8 py-6 text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300 group"
+                asChild
+                className="w-full sm:w-auto border-2 bg-[var(--color-marron)] z-10 text-white hover:bg-[var(--color-marron)]/90 rounded-full px-6 py-4 text-base font-medium shadow-lg hover:shadow-xl transition-all duration-300 group"
               >
-              <Link to="/collections" className="flex items-center justify-center w-full">
-                Explorar colección
-                <LuArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-              </Link>
+                <Link to="/collections" className="flex items-center justify-center w-full">
+                  Explorar colección
+                  <LuArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </Link>
               </Button>
               <Button
-              asChild
-              variant="outline"
-              className="flex-1 min-w-[220px] max-w-xs border-2 border-[var(--color-marron)] z-10 rounded-full text-[var(--color-marron)] px-8 py-6 text-lg font-medium shadow-lg hover:bg-amber-50 transition-all duration-300"
+                asChild
+                variant="outline"
+                className="w-full sm:w-auto border-2 border-[var(--color-marron)] z-10 rounded-full text-[var(--color-marron)] px-6 py-4 text-base font-medium shadow-lg hover:bg-amber-50 transition-all duration-300"
               >
-              <Link to="/about" className="flex items-center justify-center w-full">
-                Nuestra Historia
-              </Link>
+                <Link to="/about" className="flex items-center justify-center w-full">
+                  Nuestra Historia
+                </Link>
               </Button>
             </div>
           </div>

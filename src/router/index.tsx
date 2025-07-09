@@ -48,6 +48,7 @@ import BlogPostPage from "@/views/blog/blog";
 import ShowProduct from "@/views/admin/products/show";
 import ShowUser from "@/views/admin/users/show";
 import Terms from "@/views/terms";
+import SupportPage from "@/views/support";
 
 export function Router() {
   return (
@@ -75,6 +76,7 @@ export function Router() {
         <Route path="care" element={<CarePage />} />
         <Route path="careers" element={<CareersPage />} />
         <Route path="terms" element={<Terms />} />
+        <Route path="support" element={<SupportPage />} />
 
         <Route element={<ProtectedRoute />}>
           <Route path="wishlist" element={<WishlistPage />} />

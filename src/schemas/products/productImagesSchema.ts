@@ -4,8 +4,8 @@ export const imageFileSchema = z
   .custom<File>((file) => file instanceof File, {
     message: "Debe ser un archivo",
   })
-  .refine((file) => file.size <= 5 * 1024 * 1024, {
-    message: "La imagen debe pesar menos de 5MB",
+  .refine((file) => file.size <= 50 * 1024 * 1024, {
+    message: "La imagen debe pesar menos de 50MB",
   })
   .refine(
     (file) =>

@@ -96,7 +96,7 @@ export function ProductActions({
   return (
     <div className="space-y-6 bg-white">
       {/* Quantity Selector */}
-      <div className="space-x-3 flex items-center justify-between">
+      <div className="space-x-3 flex flex-col sm:flex-row justify-center items-start gap-4 sm:gap-0 sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
           <label className="text-sm font-medium text-gray-700">Cantidad</label>
           <div className="flex items-center border border-gray-300 rounded-lg">
