@@ -3,12 +3,10 @@ import { Link } from "react-router-dom";
 import {
   LuSearch,
   LuHeart,
-  LuSparkles,
-  LuGift,
   LuPhone,
   LuMail,
-  LuCrown,
   LuMenu,
+  LuChevronDown,
 } from "react-icons/lu";
 import { Button } from "@/components/ui/button";
 import { MiniCart } from "@/components/mini-cart";
@@ -17,6 +15,16 @@ import { UserMenu } from "@/components/user-menu";
 import { useWishlist } from "@/hooks/useWishlist";
 import { FaInstagram, FaFacebook, FaTiktok } from "react-icons/fa";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+
+const collections = [
+  { name: "Collares", href: "/collections?category=collares", description: "Elegancia que abraza tu cuello" },
+  { name: "Aretes", href: "/collections?category=aretes", description: "Detalles que enmarcan tu belleza" },
+  { name: "Earcuff", href: "/collections?category=earcuff", description: "Sofisticación en cada oreja" },
+  { name: "Anillos", href: "/collections?category=anillos", description: "Pequeñas obras de arte" },
+  { name: "Denarios", href: "/collections?category=denarios", description: "Una pulsera para decorar tu tobillera" },
+  { name: "Cabellos", href: "/collections?category=otros", description: "Magia para tu cabello" },
+]
 
 export function Header() {
   const { items } = useWishlist();
@@ -27,7 +35,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md shadow-md">
       {/* Top Bar */}
-      <div className="bg-[#5E4536] text-white py-2 px-4 text-xs hidden xl:block">
+      <div className="bg-black text-white py-2 px-4 text-xs hidden xl:block">
         <div className="container flex items-center justify-between">
 
           {/* Contacto */}
@@ -100,6 +108,13 @@ export function Header() {
                   className="text-lg  text-gray-700 hover:text-primary transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
+                  Colecciones
+                </Link>
+                <Link
+                  to="/blog"
+                  className="text-lg  text-gray-700 hover:text-primary transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
                   Blog
                 </Link>
                 <Link
@@ -130,6 +145,48 @@ export function Header() {
             Inicio
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#EFEAAE] transition-all duration-300 group-hover:w-full"></span>
           </Link>
+
+          {/* Collections Dropdown */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                className="text-neutral-800 font-medium transition-all duration-300 relative group p-0 h-auto"
+              >
+                Catálogo
+                <LuChevronDown className="ml-1 h-4 w-4" />
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#EFEAAE] transition-all duration-300 group-hover:w-full"></span>
+              </Button>
+            </DropdownMenuTrigger>
+ 
+            <DropdownMenuContent className="ml-10 mt-5 w-[600px] bg-white p-4 border border-gray-200 shadow-xl">
+              <div className="space-y-4">
+                <DropdownMenuItem asChild className="p-0">
+                  <Link
+                    to="/collections"
+                    className="flex flex-col items-center p-4 text-center hover:bg-neutral-100 rounded-md transition-colors"
+                  >
+                    <span className="font-medium text-neutral-800 text-lg">Ver Todas las Categorias</span>
+                    <span className="text-sm text-neutral-600">Explora nuestra colección completa</span>
+                  </Link>
+                </DropdownMenuItem>
+
+                <div className="grid grid-cols-3 gap-4">
+                  {collections.map((collection) => (
+                    <DropdownMenuItem key={collection.name} asChild className="p-0">
+                      <Link
+                        to={collection.href}
+                        className="flex flex-col items-center p-4 rounded-md hover:bg-neutral-100 transition-colors text-center"
+                      >
+                        <span className="font-medium text-neutral-800">{collection.name}</span>
+                        <span className="text-xs text-neutral-600 mt-1">{collection.description}</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
+                </div>
+              </div>
+            </DropdownMenuContent>
+          </DropdownMenu>
 
           <Link
             to="/about"

@@ -136,7 +136,7 @@ export function ProductInfo({ product, reviews = [] }: ProductInfoProps) {
       {product.description && (
         <div className="prose prose-sm max-w-none">
           <p
-            className="text-gray-700 leading-relaxed line-clamp-4"
+            className="text-gray-700 font-paragraph leading-relaxed line-clamp-4"
             style={{
               display: "-webkit-box",
               WebkitLineClamp: 4,

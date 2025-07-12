@@ -23,6 +23,14 @@ export default function Home() {
       <FeaturedProducts />
       {/* <InstagramFeed /> */}
 
+      <section className="w-full">
+        <img
+          src="/transition.png"
+          alt="Transición visual"
+          className="w-full h-full object-contain"
+        />
+      </section>
+
       <AboutSection />
 
       <Newsletter />

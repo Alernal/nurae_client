@@ -10,6 +10,7 @@ import {
   LuX,
   LuUser,
   LuHouse,
+  LuSettings,
 } from "react-icons/lu";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -23,6 +24,7 @@ const navigation = [
   { name: "Clientes", href: "/admin/users", icon: LuUsers },
   { name: "Productos", href: "/admin/products", icon: LuPackage },
   { name: "Pedidos", href: "/admin/orders", icon: LuShoppingCart },
+  { name: "Configuración", href: "/admin/settings", icon: LuSettings },
 ];
 
 export function AdminSidebar() {

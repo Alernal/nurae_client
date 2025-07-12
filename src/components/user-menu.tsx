@@ -43,7 +43,7 @@ export function UserMenu() {
       >
         {isAuthenticated ? (
           <>
-            <DropdownMenuLabel className="font-serif">
+            <DropdownMenuLabel className="">
               Mi Cuenta
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
@@ -83,7 +83,7 @@ export function UserMenu() {
           </>
         ) : (
           <>
-            <DropdownMenuLabel className="font-serif">
+            <DropdownMenuLabel className="">
               Bienvenida
             </DropdownMenuLabel>
             <DropdownMenuSeparator />

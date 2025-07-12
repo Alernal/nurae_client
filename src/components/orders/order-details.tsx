@@ -295,28 +295,21 @@ export function OrderDetails({
               </TableRow>
             </TableHeader>
             <TableBody>
-              {order.products.map((product) => (
+              {order.order_items.map((product) => (
                 <TableRow key={product.id}>
                   <TableCell>
                     <div>
-                      <p className="font-medium">{product.name}</p>
-                      <p className="text-sm text-gray-500">ID: {product.id}</p>
-                      <p className="text-sm text-gray-500">
-                        Material: {product.material}
-                      </p>
-                      <p className="text-sm text-gray-500">
-                        Tamaño: {product.size}
-                      </p>
+                      <p className="font-medium">{product.product_name}</p>
                     </div>
                   </TableCell>
                   <TableCell className="text-center">
-                    {product.pivot?.quantity}
+                    {product.quantity}
                   </TableCell>
                   <TableCell className="text-right">
-                    {formatCurrency(Number(product.pivot?.price))}
+                    {formatCurrency(Number(product.price))}
                   </TableCell>
                   <TableCell className="text-right font-medium">
-                    {formatCurrency(Number(product.pivot?.total))}
+                    {formatCurrency(Number(product.total))}
                   </TableCell>
                 </TableRow>
               ))}

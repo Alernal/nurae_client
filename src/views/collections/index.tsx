@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LuGrid2X2, LuList, LuChevronDown } from "react-icons/lu";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,7 +21,7 @@ export default function CollectionsPage() {
   const [page, setPage] = useState(1);
   const [sortBy, setSortBy] = useState("featured");
 
-  const [priceRange, setPriceRange] = useState([0, 1500000]);
+  const [priceRange, setPriceRange] = useState([0, 1000000]);
   const [appliedPriceRange, setAppliedPriceRange] = useState<
     number[] | undefined
   >(undefined);
@@ -86,16 +86,15 @@ export default function CollectionsPage() {
   const categories = [
     { label: "Collares", value: "collares" },
     { label: "Aretes", value: "aretes" },
-    { label: "Pulseras", value: "pulseras" },
+    { label: "Earcuff", value: "earcuff" },
     { label: "Anillos", value: "anillos" },
+    { label: "Denarios", value: "denarios" },
+    { label: "Cabellos", value: "cabellos" },
   ];
 
   const materials = [
-    { label: "Oro", value: "oro" },
-    { label: "Plata", value: "plata" },
-    { label: "Cristal", value: "cristal" },
-    { label: "Perla", value: "perla" },
-    { label: "Acero", value: "acero" },
+    { label: "Aleación de rodio", value: "aleación de rodio" },
+    { label: "Acrílico", value: "acrílico" },
   ];
 
   return (
@@ -110,7 +109,7 @@ export default function CollectionsPage() {
         </p>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-8">
+      <div className="flex flex-col lg:flex-row gap-8 font-paragraph">
         <aside className="w-full lg:w-64 bg-white">
           <h3 className="font-semibold text-lg mb-4">Filtros</h3>
 
@@ -178,13 +177,25 @@ export default function CollectionsPage() {
               hasInteractedRef.current = true;
               setPriceRange(value);
               }}
-              max={1500000}
-              step={10000}
+              max={1000000}
+              step={1000}
             />
 
             <div className="flex justify-between text-xs mt-2">
-              <span>${priceRange[0]}</span>
-              <span>${priceRange[1]}</span>
+              <span>
+              {priceRange[0].toLocaleString("es-CO", {
+                style: "currency",
+                currency: "COP",
+                maximumFractionDigits: 0,
+              })}
+              </span>
+              <span>
+              {priceRange[1].toLocaleString("es-CO", {
+                style: "currency",
+                currency: "COP",
+                maximumFractionDigits: 0,
+              })}
+              </span>
             </div>
           </div>
 

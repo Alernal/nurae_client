@@ -163,16 +163,29 @@ export default function ProductCard({ product, viewMode = "grid" }) {
     <div className="group relative h-100 bg-white border border-gray-300 shadow-sm transition-all duration-500 hover:-translate-y-2 flex flex-col">
       <div className="relative overflow-hidden">
         <Link to={`/products/${product.slug}`} className="relative group block bg-white overflow-hidden">
-          <div className="relative flex items-center justify-center bg-white">
+          <div className="relative flex items-center justify-center bg-white aspect-[3/4]">
+            {/* Imagen principal */}
             <img
               src={imageUrl}
               alt={product.name}
               loading="lazy"
-              className="max-h-full max-w-full transition-transform group-hover:scale-105 duration-700"
+              className="absolute inset-0 max-h-full max-w-full transition-opacity duration-500 opacity-100 group-hover:opacity-0"
             />
 
+            {/* Segunda imagen si existe */}
+            {product.images?.[1]?.url && (
+              <img
+                src={`https://nurae-api.alernal.com.co/${product.images[1].url}`}
+                alt={product.name + " segunda imagen"}
+                loading="lazy"
+                className="absolute inset-0 max-h-full max-w-full transition-opacity duration-500 opacity-0 group-hover:opacity-100"
+              />
+            )}
+
+            {/* Overlay al hacer hover */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
+            {/* Descuento */}
             <div className="absolute top-4 left-4 space-y-2">
               {isOnSale && (
                 <span className="bg-red-600 text-white text-[10px] px-2 py-1 rounded-full font-semibold shadow">

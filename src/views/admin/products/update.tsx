@@ -34,30 +34,17 @@ import { useProduct } from "@/hooks/products/useProduct";
 import { useProductImages } from "@/hooks/products/useProductImages";
 
 const availableMaterials = [
-  { value: "oro", label: "Oro" },
-  { value: "plata", label: "Plata" },
-  { value: "platino", label: "Platino" },
-  { value: "acero_inoxidable", label: "Acero Inoxidable" },
-  { value: "titanio", label: "Titanio" },
-  { value: "rodio", label: "Rodio" },
-  { value: "paladio", label: "Paladio" },
-  { value: "cobre", label: "Cobre" },
-  { value: "laton", label: "Latón" },
-  { value: "bronce", label: "Bronce" },
-  { value: "niquel", label: "Níquel" },
+  { value: "aleación de rodio", label: "Aleación de rodio" },
+  { value: "acrílico", label: "Acrílico" },
 ];
 
 const availableCategories = [
   { value: "anillos", label: "Anillos" },
   { value: "collares", label: "Collares" },
-  { value: "pulseras", label: "Pulseras" },
+  { value: "earcuff", label: "Earcuff" },
   { value: "aretes", label: "Aretes" },
-  { value: "dijes", label: "Dijes" },
-  { value: "relojes", label: "Relojes" },
-  { value: "broches", label: "Broches" },
-  { value: "piercings", label: "Piercings" },
-  { value: "gemelos", label: "Gemelos" },
-  { value: "otros", label: "Otros" },
+  { value: "denarios", label: "Denarios" },
+  { value: "cabellos", label: "Cabellos" },
 ];
 
 type ProductImage = {
@@ -85,11 +72,11 @@ export default function UpdateProduct() {
       price: "",
       original_price: "",
       size: "2 cm",
-      material: "oro",
+      material: "acrílico",
       description: "",
       in_stock: true,
       stock_count: "0",
-      category: "pulseras",
+      category: "anillos",
     },
   });
 

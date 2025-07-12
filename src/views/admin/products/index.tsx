@@ -8,6 +8,7 @@ import {
   LuSearch,
   LuFilter,
   LuFlipHorizontal2,
+  LuChevronDown,
 } from "react-icons/lu";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -53,7 +54,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { useProducts } from "@/hooks/products/useProducts"; // Hook para productos
+import { useProducts } from "@/hooks/products/useProducts";
 import { useDeleteProduct } from "@/hooks/products/useDeleteProduct";
 
 export default function AdminProducts() {
@@ -62,20 +63,16 @@ export default function AdminProducts() {
   // Estado para el término de búsqueda y el filtro de stock
   const [searchTerm, setSearchTerm] = useState("");
   const [stockFilter, setStockFilter] = useState("all");
+  const [page, setPage] = useState(1);
 
-  // Usamos el hook useProducts para obtener los productos filtrados por búsqueda
-  const {
-    data: productsResponse = {},
-    isLoading,
-    isError,
-  } = useProducts({
-    search: searchTerm, // Filtro de búsqueda
+  const { data: productsData, isLoading, isError } = useProducts({
+    page,
+    search: searchTerm,
   });
 
-  // Aseguramos que products siempre sea un array
-  const products = Array.isArray(productsResponse?.data)
-    ? productsResponse.data
-    : [];
+  const products = productsData?.data || [];
+  const currentPage = productsData?.current_page || 1;
+  const lastPage = productsData?.last_page || 1;
 
   const { mutate: deleteProduct, isLoading: isDeleting } = useDeleteProduct();
   const [deletingId, setDeletingId] = useState<number | null>(null);
@@ -322,6 +319,50 @@ export default function AdminProducts() {
               )}
             </div>
           )}
+
+          <div className="mt-12 flex justify-center">
+            <div className="flex items-center gap-1">
+              {/* Botón Anterior */}
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className="disabled:opacity-50"
+              >
+                <LuChevronDown className="h-4 w-4 rotate-90" />
+              </Button>
+
+              {/* Botones de página */}
+              {[...Array(lastPage)].map((_, i) => {
+                const pageNumber = i + 1;
+                const isActive = currentPage === pageNumber;
+
+                return (
+                  <Button
+                    key={pageNumber}
+                    variant={isActive ? "default" : "ghost"}
+                    onClick={() => setPage(pageNumber)}
+                    aria-current={isActive ? "page" : undefined}
+                    className={isActive ? "bg-gray-200 text-black" : "hover:bg-gray-100 border border-gray-200"}
+                  >
+                    {pageNumber}
+                  </Button>
+                );
+              })}
+
+              {/* Botón Siguiente */}
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setPage((prev) => Math.min(prev + 1, lastPage))}
+                disabled={currentPage === lastPage}
+                className="disabled:opacity-50"
+              >
+                <LuChevronDown className="h-4 w-4 -rotate-90" />
+              </Button>
+            </div>
+          </div>
         </CardContent>
       </Card>
     </div>

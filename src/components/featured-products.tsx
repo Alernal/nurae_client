@@ -1,7 +1,4 @@
 import { Link } from "react-router-dom";
-import {
-  LuSparkles,
-} from "react-icons/lu";
 import { Button } from "@/components/ui/button";
 import { useProducts } from "@/hooks/products/useProducts";
 import ProductCard from "./product-card";
@@ -19,7 +16,7 @@ export function FeaturedProducts() {
       return { ...product, avgRating };
     })
     .sort((a, b) => b.avgRating - a.avgRating)
-    .slice(0, 4);
+    .slice(0, 8);
 
   return (
     <section className="w-full py-15 relative overflow-hidden">

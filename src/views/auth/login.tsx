@@ -39,7 +39,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center p-4">
+    <div className="min-h-screen bg-white flex items-center justify-center p-4 font-paragraph">
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
@@ -74,7 +74,7 @@ export default function LoginPage() {
                     id="email"
                     type="email"
                     placeholder="tu@email.com"
-                    className="pl-10 outline-none focus:outline-none focus:ring-0"
+                    className="pl-10 outline-none focus:outline-none focus:ring-0 border border-gray-200"
                     tabIndex={-1}
                     {...register("email")}
                   />
@@ -95,7 +95,7 @@ export default function LoginPage() {
                     id="password"
                     type={showPassword ? "text" : "password"}
                     placeholder="••••••••"
-                    className="pl-10 pr-10"
+                    className="pl-10 pr-10 border border-gray-200"
                     {...register("password")}
                   />
                   <button
@@ -120,7 +120,7 @@ export default function LoginPage() {
               {/* Submit */}
               <Button
                 type="submit"
-                className="w-full bg-[#D4AF37] hover:bg-yellow-600 text-white font-medium transition disabled:opacity-70"
+                className="w-full bg-[var(--color-marron)] hover:bg-[var(--color-marron)]/90 text-white font-medium transition disabled:opacity-70"
                 disabled={isPending}
               >
                 {isPending ? "Iniciando sesión..." : "Iniciar Sesión"}

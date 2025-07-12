@@ -67,7 +67,7 @@ export interface Order {
   transaction_id?: string;
   created_at: string;
   updated_at: string;
-  products: OrderProduct[];
+  order_items: OrderProduct[];
   status_logs: {
     id: number;
     order_id: number;

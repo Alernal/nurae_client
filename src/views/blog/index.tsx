@@ -25,14 +25,10 @@ export default function BlogPage() {
 
   return (
     <div className="min-h-screen">
-      <section className="relative py-20 md:py-28 overflow-hidden">
+      <section className="relative bg-[#5E4536] py-20 md:py-28 overflow-hidden">
         <div className="container px-4 md:px-6 relative text-center space-y-8">
-          <div className="inline-flex items-center gap-3 rounded-full bg-white px-6 py-3 text-sm font-medium text-[#9A6D4E] shadow-sm border border-[#E8D9CF]">
-            <span className="font-medium">Blog NURAE</span>
-            <LuBookOpen className="h-5 w-5" />
-          </div>
-          <h1 className="text-5xl md:text-7xl font-bold text-[#5E4536] leading-tight">Inspírate</h1>
-          <p className="text-xl md:text-2xl text-[#9A6D4E] max-w-3xl mx-auto font-light leading-relaxed">
+          <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight">Inspírate</h1>
+          <p className="text-xl md:text-2xl text-white max-w-3xl mx-auto font-light leading-relaxed">
             Descubre consejos de estilo, tendencias y historias inspiradoras para brillar con tu propia luz.
           </p>
           <div className="max-w-md mx-auto">
@@ -40,13 +36,13 @@ export default function BlogPage() {
               <Input type="email" placeholder="tu-email@ejemplo.com" className="h-12 rounded-xl border-2 border-[#E8D9CF] bg-white focus:border-[#9A6D4E]" />
               <Button className="bg-[#9A6D4E] hover:bg-[#7D5840] text-white h-12 px-6 rounded-xl">Suscribirse</Button>
             </div>
-            <p className="text-xs text-[#9A6D4E] mt-2">Recibe nuestros últimos artículos en tu email</p>
+            <p className="text-xs text-white mt-2">Recibe nuestros últimos artículos en tu email</p>
           </div>
         </div>
       </section>
 
       {/* Todos los artículos */}
-      <section className="py-16 bg-[#FAF6F2]">
+      <section className="py-20 mb-15">
         <div className="container px-4 md:px-6">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-[#5E4536]">Todos los Artículos</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -55,7 +51,7 @@ export default function BlogPage() {
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <img src={post.image} alt={post.title} className="object-cover transition-transform group-hover:scale-105 duration-700" />
                   <div className="absolute top-4 left-4 bg-[#9A6D4E] text-white text-xs px-3 py-1.5 rounded-full font-medium shadow-sm">{post.category}</div>
-                  {post.featured && <div className="absolute top-4 right-4 bg-[#E76F51] text-white text-xs px-3 py-1.5 rounded-full font-medium shadow-sm">Destacado</div>}
+                  {post.featured && <div className="absolute top-4 right-4 bg-[#D5B23D] text-white text-xs px-3 py-1.5 rounded-full font-medium shadow-sm">Destacado</div>}
                 </div>
                 <div className="p-6 space-y-4">
                   <div className="flex items-center gap-4 text-sm text-[#9A6D4E] mb-3">

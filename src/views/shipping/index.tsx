@@ -16,8 +16,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Header } from "@/components/header";
-import { Footer } from "@/components/footer";
 
 const shippingOptions = [
   {
@@ -60,9 +58,9 @@ const shippingOptions = [
 
 const deliveryZones = [
   {
-    zone: "Bogotá y Área Metropolitana",
+    zone: "Sucre",
     time: "1-2 días hábiles",
-    coverage: "Bogotá, Soacha, Chía, Cajicá, Zipaquirá",
+    coverage: "Sincelejo, Corozal, Sampués, San Onofre",
   },
   {
     zone: "Ciudades Principales",
@@ -78,33 +76,16 @@ const deliveryZones = [
 
 export default function ShippingPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-orange-50">
+    <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative py-20 md:py-28 overflow-hidden">
-        <div className="absolute inset-0 bg-luxury-gradient opacity-10"></div>
-        <div className="absolute top-10 left-10 text-pink-300 animate-float">
-          <LuTruck className="h-12 w-12" />
-        </div>
-        <div
-          className="absolute bottom-20 right-20 text-purple-300 animate-float"
-          style={{ animationDelay: "1s" }}
-        >
-          <LuPackage className="h-16 w-16" />
-        </div>
-
+      <section className="relative py-20 lg:py-36 md:py-28 overflow-hidden bg-[var(--color-marron)]">
         <div className="container px-4 md:px-6 relative">
           <div className="text-center space-y-8">
-            <div className="inline-flex items-center gap-3 rounded-full bg-white/80 backdrop-blur-sm px-6 py-3 text-sm font-medium text-primary shadow-lg border border-pink-200">
-              <LuTruck className="h-5 w-5" />
-              <span className="font-display">Información de Envíos</span>
-              <LuSparkles className="h-5 w-5 animate-pulse" />
-            </div>
-
-            <h1 className="text-5xl md:text-7xl font-serif font-bold bg-luxury-gradient bg-clip-text text-transparent leading-tight">
+            <h1 className="text-5xl md:text-7xl  font-bold text-white leading-tight">
               Envíos y Entregas
             </h1>
 
-            <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto font-light leading-relaxed">
+            <p className="text-xl md:text-2xl text-gray-100 max-w-3xl mx-auto font-light leading-relaxed">
               Llevamos tus joyas favoritas hasta la puerta de tu casa de forma
               segura y rápida en toda Colombia.
             </p>
@@ -116,7 +97,7 @@ export default function ShippingPage() {
       <section className="py-16 md:py-24">
         <div className="container px-4 md:px-6">
           <div className="text-center space-y-8 mb-16">
-            <h2 className="text-4xl md:text-5xl font-serif font-bold bg-luxury-gradient bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl  font-bold text-[#5E4536]">
               Opciones de Envío
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -135,9 +116,9 @@ export default function ShippingPage() {
                 >
                   <CardHeader>
                     <div className="mx-auto w-16 h-16 bg-luxury-gradient rounded-full flex items-center justify-center mb-4">
-                      <IconComponent className="h-8 w-8 text-white" />
+                      <IconComponent className="h-15 w-15 text-[var(--color-amarillo)]" />
                     </div>
-                    <CardTitle className="font-serif text-2xl text-gray-800">
+                    <CardTitle className=" text-2xl text-gray-800">
                       {option.name}
                     </CardTitle>
                     <div className="text-3xl font-bold text-primary">
@@ -155,7 +136,7 @@ export default function ShippingPage() {
                           key={idx}
                           className="flex items-center gap-2 text-sm text-gray-600"
                         >
-                          <LuCircle className="h-4 w-4 text-green-500" />
+                          <LuCircle className="h-4 w-4 text-[var(--color-amarillo)]" />
                           {feature}
                         </li>
                       ))}
@@ -172,7 +153,7 @@ export default function ShippingPage() {
       <section className="py-16 md:py-24 bg-white/50">
         <div className="container px-4 md:px-6">
           <div className="text-center space-y-8 mb-16">
-            <h2 className="text-4xl md:text-5xl font-serif font-bold bg-luxury-gradient bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl  font-bold text-[#5E4536]">
               Zonas de Entrega
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -189,15 +170,12 @@ export default function ShippingPage() {
               >
                 <CardContent className="p-8">
                   <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
-                    <div className="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center flex-shrink-0">
-                      <LuMapPin className="h-8 w-8 text-white" />
-                    </div>
                     <div className="flex-1">
-                      <h3 className="font-serif text-2xl font-bold text-gray-800 mb-2">
+                      <h3 className=" text-2xl font-bold text-gray-800 mb-2">
                         {zone.zone}
                       </h3>
                       <p className="text-gray-600 mb-2">{zone.coverage}</p>
-                      <div className="inline-flex items-center gap-2 bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
+                      <div className="inline-flex items-center gap-2 bg-green-100 px-3 py-1 rounded-full text-sm font-medium">
                         <LuClock className="h-4 w-4" />
                         {zone.time}
                       </div>
@@ -214,7 +192,7 @@ export default function ShippingPage() {
       <section className="py-16 md:py-24">
         <div className="container px-4 md:px-6">
           <div className="text-center space-y-8 mb-16">
-            <h2 className="text-4xl md:text-5xl font-serif font-bold bg-luxury-gradient bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl  font-bold text-[#5E4536]">
               Proceso de Envío
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -254,10 +232,10 @@ export default function ShippingPage() {
                 className="text-center space-y-4"
                 style={{ animationDelay: `${index * 0.2}s` }}
               >
-                <div className="mx-auto w-16 h-16 bg-luxury-gradient rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                <div className="mx-auto w-16 h-16 rounded-full shadow-xl flex items-center justify-center text-[var(--color-amarillo)] text-2xl font-bold">
                   {step.step}
                 </div>
-                <h3 className="font-serif text-xl font-bold text-gray-800">
+                <h3 className=" text-xl font-bold text-gray-800">
                   {step.title}
                 </h3>
                 <p className="text-gray-600">{step.description}</p>
@@ -274,7 +252,7 @@ export default function ShippingPage() {
       <section className="py-16 md:py-24 bg-white/50">
         <div className="container px-4 md:px-6">
           <div className="text-center space-y-8 mb-16">
-            <h2 className="text-4xl md:text-5xl font-serif font-bold bg-luxury-gradient bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl font-bold text-[#5E4536]">
               Información Importante
             </h2>
           </div>
@@ -283,8 +261,8 @@ export default function ShippingPage() {
             <Card className="bg-white/80 backdrop-blur-sm border-pink-100">
               <CardHeader>
                 <div className="flex items-center gap-3">
-                  <LuShield className="h-8 w-8 text-green-500" />
-                  <CardTitle className="font-serif text-xl">
+                  <LuShield className="h-8 w-8 text-[var(--color-amarillo)]" />
+                  <CardTitle className=" text-xl">
                     Seguridad y Protección
                   </CardTitle>
                 </div>
@@ -308,15 +286,15 @@ export default function ShippingPage() {
             <Card className="bg-white/80 backdrop-blur-sm border-pink-100">
               <CardHeader>
                 <div className="flex items-center gap-3">
-                  <LuPackage className="h-8 w-8 text-blue-500" />
-                  <CardTitle className="font-serif text-xl">
+                  <LuPackage className="h-8 w-8 text-[var(--color-amarillo)]" />
+                  <CardTitle className=" text-xl">
                     Empaque Especial
                   </CardTitle>
-                </div>
+                </div> 
               </CardHeader>
               <CardContent className="space-y-3">
                 <p className="text-gray-600">
-                  • Caja de regalo LÚMINA incluida
+                  • Caja de regalo NURAE incluida
                 </p>
                 <p className="text-gray-600">
                   • Materiales de empaque sostenibles
@@ -337,7 +315,7 @@ export default function ShippingPage() {
       <section className="py-16 md:py-24">
         <div className="container px-4 md:px-6">
           <div className="text-center space-y-8 mb-16">
-            <h2 className="text-4xl md:text-5xl font-serif font-bold bg-luxury-gradient bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl text-[var(--color-marron)] font-bold">
               Preguntas Frecuentes sobre Envíos
             </h2>
           </div>
@@ -373,7 +351,7 @@ export default function ShippingPage() {
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <CardHeader>
-                  <CardTitle className="font-serif text-lg text-gray-800">
+                  <CardTitle className=" text-lg text-gray-800">
                     {faq.question}
                   </CardTitle>
                 </CardHeader>
@@ -390,7 +368,7 @@ export default function ShippingPage() {
       <section className="py-16 md:py-24 bg-white/50">
         <div className="container px-4 md:px-6">
           <div className="text-center space-y-8 max-w-4xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-serif font-bold bg-luxury-gradient bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl text-[var(--color-marron)] font-bold">
               ¿Tienes más preguntas?
             </h2>
             <p className="text-xl text-gray-600 leading-relaxed">
@@ -398,17 +376,9 @@ export default function ShippingPage() {
               cualquier duda sobre envíos y entregas.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/support-contact">
-                <Button className="bg-luxury-gradient hover:opacity-90 text-white px-8 py-3 rounded-full text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300">
+              <Link to="/support">
+                <Button className="bg-[var(--color-marron)] hover:opacity-90 text-white px-8 py-3 rounded-full text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300">
                   Contactar Soporte
-                </Button>
-              </Link>
-              <Link to="/faq">
-                <Button
-                  variant="outline"
-                  className="border-2 border-primary text-primary hover:bg-primary hover:text-white px-8 py-3 rounded-full text-lg font-medium"
-                >
-                  Ver Más FAQ
                 </Button>
               </Link>
             </div>

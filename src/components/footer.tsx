@@ -14,8 +14,8 @@ import { Button } from "@/components/ui/button";
 
 export function Footer() {
   return (
-    <footer className="w-full bg-white py-8 md:py-16">
-      <div className="container px-4 md:px-6 flex flex-col gap-12">
+    <footer className="w-full bg-white py-8 md:py-20 lg:py-30 border-t font-paragraph border-[#E7D8CE]">
+      <div className="container px-4 md:px-6 flex flex-col justify-between gap-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
           {/* Marca */}
           <div className="space-y-6 flex flex-col items-center sm:items-start text-center sm:text-left">
@@ -96,7 +96,7 @@ export function Footer() {
                       <li key={idx}>
                         <Link
                           to={href}
-                          className="text-[#5C4A42] hover:text-[#2C1810] transition-colors font-display"
+                          className="text-[#5C4A42] hover:text-[#2C1810] transition-colors"
                         >
                           {label}
                         </Link>
@@ -110,8 +110,8 @@ export function Footer() {
         </div>
 
         {/* Parte inferior */}
-        <div className="flex flex-col md:flex-row justify-between items-center border-t border-[#E7D8CE] pt-4 gap-4">
-          <p className="text-sm text-[#5C4A42] font-display text-center md:text-left">
+        <div className="flex flex-col md:flex-row mt-20 justify-between items-center border-t border-[#E7D8CE] pt-4 gap-4">
+          <p className="text-sm text-[#5C4A42] text-center md:text-left">
             © 2025 NURAE. Hecho con amor para mujeres extraordinarias.
           </p>
           <div className="flex flex-wrap justify-center md:justify-end gap-4 text-sm">
@@ -119,7 +119,7 @@ export function Footer() {
               <Link
                 key={idx}
                 to={path}
-                className="text-[#5C4A42] hover:text-[#2C1810] transition-colors font-display"
+                className="text-[#5C4A42] hover:text-[#2C1810] transition-colors"
               >
                 {path.includes("privacy")
                   ? "Privacidad"

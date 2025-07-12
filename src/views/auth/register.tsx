@@ -43,7 +43,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center p-4">
+    <div className="min-h-screen bg-white flex items-center justify-center p-4 font-paragrafh">
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
@@ -77,7 +77,7 @@ export default function RegisterPage() {
                   <Input
                     id="first_name"
                     placeholder="Tu nombre"
-                    className="pl-10"
+                    className="pl-10 border border-gray-200"
                     {...register("first_name")}
                   />
                 </div>
@@ -97,7 +97,7 @@ export default function RegisterPage() {
                     id="email"
                     type="email"
                     placeholder="tu@email.com"
-                    className="pl-10"
+                    className="pl-10 border border-gray-200"
                     {...register("email")}
                   />
                 </div>
@@ -117,7 +117,7 @@ export default function RegisterPage() {
                     id="password"
                     type={showPassword ? "text" : "password"}
                     placeholder="••••••••"
-                    className="pl-10 pr-10"
+                    className="pl-10 pr-10 border border-gray-200"
                     {...register("password")}
                   />
                   <button
@@ -148,7 +148,7 @@ export default function RegisterPage() {
                     id="password_confirmation"
                     type={showPassword ? "text" : "password"}
                     placeholder="••••••••"
-                    className="pl-10 pr-10"
+                    className="pl-10 pr-10 border border-gray-200"
                     {...register("password_confirmation")}
                   />
                   <button
@@ -196,7 +196,7 @@ export default function RegisterPage() {
               {/* Submit */}
               <Button
                 type="submit"
-                className="w-full bg-[#D4AF37] hover:bg-yellow-600 text-white font-medium transition disabled:opacity-70"
+                className="w-full bg-[var(--color-marron)] hover:bg-yellow-600 text-white font-medium transition disabled:opacity-70"
                 disabled={isPending}
               >
                 {isPending ? "Registrando..." : "Registrarse"}

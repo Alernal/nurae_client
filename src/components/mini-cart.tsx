@@ -39,9 +39,9 @@ export function MiniCart() {
     (sum, item) =>
       sum +
       item.quantity *
-        (item.original_price && item.original_price > 0
-          ? item.original_price
-          : item.price),
+      (item.original_price && item.original_price > 0
+        ? item.original_price
+        : item.price),
     0
   );
   const shipping = subtotal >= 150000 ? 0 : 15000;
@@ -99,9 +99,9 @@ export function MiniCart() {
                 return (
                   <div
                     key={item.productId}
-                    className="flex gap-4 p-4 bg-muted rounded-lg border border-gray-200"
+                    className="flex flex-col sm:flex-row gap-4 p-4 bg-muted rounded-lg border border-gray-200"
                   >
-                    <div className="w-20 h-20 bg-terra-warm/10 rounded overflow-hidden flex-shrink-0">
+                    <div className="w-full sm:w-20 h-48 sm:h-20 bg-terra-warm/10 rounded overflow-hidden flex-shrink-0">
                       <img
                         src={
                           item.images?.[0]?.url
@@ -112,15 +112,17 @@ export function MiniCart() {
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    <div className="flex-1 space-y-1">
-                      <h4 className="font-medium text-secondary-800">
-                        {item.name}
-                      </h4>
-                      <div className="text-xs text-secondary-500">
-                        <p>Material: {item.material}</p>
-                        <p>Tamaño: {item.size}</p>
+
+                    <div className="flex-1 flex flex-col justify-between space-y-2">
+                      <div className="space-y-1">
+                        <h4 className="font-medium text-secondary-800">{item.name}</h4>
+                        <div className="text-xs text-secondary-500">
+                          <p>Material: {item.material}</p>
+                          <p>Tamaño: {item.size}</p>
+                        </div>
                       </div>
-                      <div className="flex items-center justify-between mt-2">
+
+                      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                         <div className="flex items-center gap-2">
                           <Button
                             variant="outline"
@@ -133,7 +135,7 @@ export function MiniCart() {
                           >
                             <LuMinus className="w-4 h-4" />
                           </Button>
-                          <div className="min-w-[60px] px-3 py-1.5 border border-gray-300 rounded-lg bg-gray-100 text-center text-sm font-medium text-gray-800 select-none">
+                          <div className="min-w-[50px] px-3 py-1.5 border border-gray-300 rounded-lg bg-gray-100 text-center text-sm font-medium text-gray-800 select-none">
                             {item.quantity}
                           </div>
                           <Button
@@ -148,32 +150,29 @@ export function MiniCart() {
                             <LuPlus className="w-4 h-4" />
                           </Button>
                           <span className="text-xs text-gray-500 ml-2">
-                             ({maxAvailable}) disp.
+                            ({maxAvailable}) disp.
                           </span>
                         </div>
-                        <div className="text-right space-y-0.5">
+
+                        <div className="text-right flex items-center justify-center space-y-0.5 space-x-1">
                           {item.original_price && item.original_price < item.price ? (
                             <>
                               <p className="text-sm text-gray-400 line-through">
-                                {formatPrice(
-                                  Number(item.price) * item.quantity
-                                )}
+                                {formatPrice(Number(item.price) * item.quantity)}
                               </p>
-                              <p className=" font-bold text-primary">
-                                {formatPrice(
-                                  Number(item.original_price) * item.quantity
-                                )}
+                              <p className="font-bold text-primary">
+                                {formatPrice(Number(item.original_price) * item.quantity)}
                               </p>
                             </>
                           ) : (
-                            <p className=" font-bold text-primary">
+                            <p className="font-bold text-primary">
                               {formatPrice(Number(item.price) * item.quantity)}
                             </p>
                           )}
                           <Button
                             variant="ghost"
                             size="sm"
-                            className="text-destructive hover:text-destructive/70 p-0"
+                            className="text-red-600 hover:text-red-600/70 p-0"
                             onClick={() => removeFromCart(item.productId)}
                           >
                             <LuTrash2 className="w-4 h-4" />
@@ -215,17 +214,17 @@ export function MiniCart() {
 
             <div className="pt-2 flex flex-row gap-2">
               <Link to="/checkout" onClick={() => setIsOpen(false)} className="flex-1">
-              <Button className="w-full border border-gray-400 bg-primary text-black hover:bg-gray-400/90 h-12 font-medium">
-                Proceder al Checkout
-              </Button>
+                <Button className="w-full border border-gray-400 bg-primary text-black hover:bg-gray-400/90 h-12 font-medium">
+                  Proceder al Checkout
+                </Button>
               </Link>
               <Button
-              variant="ghost"
-              className="border border-red-500 text-red-500 hover:text-destructive/70 h-12 w-10"
-              onClick={clearCartCloud}
-              title="Vaciar carrito"
+                variant="ghost"
+                className="border border-red-500 text-red-500 hover:text-destructive/70 h-12 w-10"
+                onClick={clearCartCloud}
+                title="Vaciar carrito"
               >
-              <LuTrash2 className="w-5 h-5" />
+                <LuTrash2 className="w-5 h-5" />
               </Button>
             </div>
           </div>

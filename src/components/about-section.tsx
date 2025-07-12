@@ -7,14 +7,12 @@ export function AboutSection() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
           {/* Imagen */}
-          <div className="mx-auto w-full max-w-[500px] order-2 lg:order-1">
+          <div className="mx-auto w-full order-2 lg:order-1">
             <div className="relative">
               <img
                 src="/images/inicio.png"
-                width={500}
-                height={600}
                 alt="Imagen de la historia de NURAE"
-                className="mx-auto object-cover rounded-2xl shadow-xl"
+                className="mx-auto w-100 object-contain rounded-2xl shadow-xl bg-[#7D5840]"
               />
             </div>
           </div>
@@ -29,7 +27,7 @@ export function AboutSection() {
             <h2 className="text-4xl text-center font-handwritten md:text-5xl font-bold">
               El lujo también es para ti
             </h2>
-            <p className="text-lg md:text-2xl text-black">
+            <p className="text-lg font-paragraph md:text-xl text-gray-700 text-center">
               En <strong>NURAE</strong> creemos que cada mujer merece sentirse extraordinaria.
               Creamos piezas que celebran tu individualidad, combinando
               elegancia atemporal con precios que te permiten brillar sin
