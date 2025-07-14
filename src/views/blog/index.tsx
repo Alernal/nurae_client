@@ -27,7 +27,7 @@ export default function BlogPage() {
     <div className="min-h-screen">
       <section className="relative bg-[#5E4536] py-20 md:py-28 overflow-hidden">
         <div className="container px-4 md:px-6 relative text-center space-y-8">
-          <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight">Inspírate</h1>
+          <h1 className="text-5xl md:text-7xl font-handwritten font-bold text-white leading-tight">Inspírate</h1>
           <p className="text-xl md:text-2xl text-white max-w-3xl mx-auto font-light leading-relaxed">
             Descubre consejos de estilo, tendencias y historias inspiradoras para brillar con tu propia luz.
           </p>

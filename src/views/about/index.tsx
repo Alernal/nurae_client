@@ -14,7 +14,7 @@ const teamMembers = [
   {
     name: "Jencky Tapia",
     role: "Fundadora & CEO",
-    image: "/images/inicio.png",
+    image: "/hero-model.png",
     description:
       "Visionaria apasionada por democratizar el lujo y empoderar a las mujeres a través del estilo.",
   },
@@ -68,10 +68,6 @@ export default function AboutPage() {
         <div className="container px-4 md:px-6 relative">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
-              <div className="inline-flex items-center gap-3 rounded-full bg-white px-6 py-3 text-sm font-medium text-[#9A6D4E] shadow-sm border border-[#E8D9CF]">
-                <span className="font-medium">Nuestra Historia</span>
-              </div>
-
               <h1 className="text-5xl md:text-7xl font-bold text-[#5E4536] leading-tight">
                 Sobre NURAE
               </h1>
@@ -83,14 +79,18 @@ export default function AboutPage() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button className="bg-[#9A6D4E] hover:bg-[#7D5840] text-white px-8 py-3 rounded-full text-lg font-medium shadow-md hover:shadow-lg transition-all duration-300">
-                  Conoce Nuestros Valores
+                <Button
+                  className="bg-[#9A6D4E] hover:bg-[#7D5840] text-white px-8 py-3 rounded-full text-lg font-medium shadow-md hover:shadow-lg transition-all duration-300"
+                  asChild
+                >
+                  <a href="#historia">Conoce Nuestra Historia</a>
                 </Button>
                 <Button
                   variant="outline"
                   className="border-2 border-[#9A6D4E] text-[#9A6D4E] hover:bg-[#9A6D4E] hover:text-white px-8 py-3 rounded-full text-lg font-medium"
+                  asChild
                 >
-                  Ver Nuestro Equipo
+                  <a href="#equipo">Ver Nuestro Equipo</a>
                 </Button>
               </div>
             </div>
@@ -99,10 +99,8 @@ export default function AboutPage() {
               <div className="relative mx-auto w-full max-w-[500px]">
                 <img
                   src="/images/inicio.png"
-                  width={400}
-                  height={500}
                   alt="Fundadora de NURAE"
-                  className="mx-auto aspect-[5/6] overflow-hidden rounded-3xl object-cover shadow-2xl"
+                  className="mx-auto overflow-hidden bg-[#D8C5B6] rounded-3xl shadow-2xl"
                 />
               </div>
             </div>
@@ -151,7 +149,7 @@ export default function AboutPage() {
       </section>
 
       {/* Story Section */}
-      <section className="py-16 md:py-24">
+      <section className="py-16 md:py-24" id="historia">
         <div className="container px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-8">
@@ -182,20 +180,14 @@ export default function AboutPage() {
             </div>
 
             <div className="relative">
-              <img
-                src="/images/inicio.png"
-                width={600}
-                height={500}
-                alt="Historia de NURAE"
-                className="rounded-3xl shadow-2xl"
-              />
+              
             </div>
           </div>
         </div>
       </section>
 
       {/* Team Section */}
-      <section className="py-16 md:py-24">
+      <section className="py-16 md:py-24" id="equipo">
         <div className="container px-4 md:px-6">
           <div className="text-center space-y-8 mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-[#5E4536]">
@@ -214,18 +206,21 @@ export default function AboutPage() {
                 className="group text-center space-y-6 bg-white p-8 shadow-md hover:shadow-lg transition-all duration-500 transform hover:-translate-y-1"
                 style={{ animationDelay: `${index * 0.2}s` }}
               >
-                <div className="relative mx-auto w-48 h-48">
+                <div className="relative mx-auto w-40 h-40">
                   <img
                     src={
                       member.image ||
                       "https://definicion.de/wp-content/uploads/2019/07/perfil-de-usuario.png"
                     }
                     alt={member.name}
-                    className="rounded-full object-cover border-4 border-white shadow-lg group-hover:scale-105 transition-transform duration-300"
+                    className="rounded-full w-40 h-40 object-cover border-4 border-white shadow-lg group-hover:scale-105 transition-transform duration-300"
+                    style={{ objectPosition: "center" }}
+                    loading="lazy"
+                    draggable={false}
                   />
                 </div>
                 <div className="space-y-4">
-                  <h3 className="font-bold mt-20 text-2xl text-[#5E4536]">
+                  <h3 className="font-bold text-2xl text-[#5E4536]">
                     {member.name}
                   </h3>
                   <p className="text-[#E8B059] font-medium">{member.role}</p>

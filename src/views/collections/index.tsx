@@ -59,6 +59,14 @@ export default function CollectionsPage() {
     }
   }, [searchParams]);
 
+  useEffect(() => {
+    const urlPage = searchParams.get("page");
+    if (urlPage && !isNaN(Number(urlPage))) {
+      setPage(Number(urlPage));
+    }
+  }, [searchParams]);
+
+
   const navigate = useNavigate();
 
   const hasInteractedRef = useRef(false);
@@ -74,14 +82,22 @@ export default function CollectionsPage() {
   }, [priceRange]);
 
   useEffect(() => {
+    const params = new URLSearchParams(searchParams);
+
     if (selectedCategories.length === 1) {
-      navigate(`/collections?category=${selectedCategories[0]}`, {
-        replace: true,
-      });
+      params.set("category", selectedCategories[0]);
     } else {
-      navigate(`/collections`, { replace: true });
+      params.delete("category");
     }
-  }, [selectedCategories]);
+
+    if (page > 1) {
+      params.set("page", String(page));
+    } else {
+      params.delete("page");
+    }
+
+    navigate(`/collections?${params.toString()}`, { replace: true });
+  }, [selectedCategories, page]);
 
   const categories = [
     { label: "Collares", value: "collares" },
@@ -174,8 +190,8 @@ export default function CollectionsPage() {
             <Slider
               value={priceRange}
               onValueChange={(value) => {
-              hasInteractedRef.current = true;
-              setPriceRange(value);
+                hasInteractedRef.current = true;
+                setPriceRange(value);
               }}
               max={1000000}
               step={1000}
@@ -183,18 +199,18 @@ export default function CollectionsPage() {
 
             <div className="flex justify-between text-xs mt-2">
               <span>
-              {priceRange[0].toLocaleString("es-CO", {
-                style: "currency",
-                currency: "COP",
-                maximumFractionDigits: 0,
-              })}
+                {priceRange[0].toLocaleString("es-CO", {
+                  style: "currency",
+                  currency: "COP",
+                  maximumFractionDigits: 0,
+                })}
               </span>
               <span>
-              {priceRange[1].toLocaleString("es-CO", {
-                style: "currency",
-                currency: "COP",
-                maximumFractionDigits: 0,
-              })}
+                {priceRange[1].toLocaleString("es-CO", {
+                  style: "currency",
+                  currency: "COP",
+                  maximumFractionDigits: 0,
+                })}
               </span>
             </div>
           </div>
@@ -215,7 +231,7 @@ export default function CollectionsPage() {
         </aside>
 
         {/* Productos */}
-        <div className="flex-1">
+        <div className="flex-1 flex flex-col">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8 bg-white/80 backdrop-blur-sm rounded-2xl">
             <div className="flex items-center gap-4">
               <span className="text-sm text-gray-600">
@@ -259,10 +275,11 @@ export default function CollectionsPage() {
 
           <div
             className={cn(
-              "grid gap-6",
+              "grid gap-6 overflow-y-auto",
               viewMode === "grid"
                 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-                : "grid-cols-1"
+                : "grid-cols-1",
+              "h-[600px]" // Alto fijo, puedes ajustar el valor según lo que necesites
             )}
           >
             {products.map((product: any) => (

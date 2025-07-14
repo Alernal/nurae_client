@@ -15,7 +15,7 @@ export function AuthGuard() {
     if (isTokenExpired(token)) {
       logout();
       toast.warning("Tu sesión ha expirado. Por favor, inicia sesión de nuevo.");
-      navigate("/login");
+      navigate("/");
     }
   }, [token, logout, navigate]);
 

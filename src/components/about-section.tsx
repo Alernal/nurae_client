@@ -12,7 +12,7 @@ export function AboutSection() {
               <img
                 src="/images/inicio.png"
                 alt="Imagen de la historia de NURAE"
-                className="mx-auto w-100 object-contain rounded-2xl shadow-xl bg-[#7D5840]"
+                className="mx-auto w-100 object-contain rounded-2xl shadow-xl bg-[#D8C5B6]"
               />
             </div>
           </div>
