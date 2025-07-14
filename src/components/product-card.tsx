@@ -32,14 +32,8 @@ export default function ProductCard({ product, viewMode = "grid" }) {
     if (!isMaxReached) {
       addToCart(product.id, 1);
     }
-  };
 
-  const handleBuyNow = () => {
-    if (!isMaxReached && quantityInCart === 0) {
-      addToCart(product.id, 1);
-    }
-
-    navigate("/checkout");
+    console.log(`Producto ${product.name} añadido al carrito`);
   };
 
   const regularPrice = Number(product.price);

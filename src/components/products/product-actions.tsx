@@ -57,6 +57,8 @@ export function ProductActions({
     } finally {
       setIsAddingToCart(false);
     }
+
+    console.log(cartItem, "Cart Item");
   };
 
   const toggleWishlist = () => {

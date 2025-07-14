@@ -1,14 +1,14 @@
-import { useEffect, useMemo, useState } from "react";
-import { useProducts } from "@/hooks/products/useProducts";
+import { useEffect, useState } from "react";
 import { useWishlist } from "@/hooks/useWishlist";
 import ProductCard from "@/components/product-card";
 import { LuHeart } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { useByIds } from "@/hooks/products/useByIds";
 
 export default function WishlistPage() {
-  const { data: products = [], isLoading } = useProducts();
   const { items: wishlistIds, fetchWishlist } = useWishlist();
+
 
   const [hasLoaded, setHasLoaded] = useState(false);
 
@@ -16,9 +16,8 @@ export default function WishlistPage() {
     fetchWishlist().finally(() => setHasLoaded(true));
   }, []);
 
-  const wishlistItems = useMemo(() => {
-    return products.filter((product) => wishlistIds.includes(product.id));
-  }, [products, wishlistIds]);
+  const { data: wishlistItems = [], isLoading, isError } = useByIds(wishlistIds);
+
 
   if (isLoading || !hasLoaded) {
     return (

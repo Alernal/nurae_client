@@ -10,9 +10,8 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-
+import { useByIds } from "@/hooks/products/useByIds";
 import { useCart } from "@/hooks/useCart";
-import { useProducts } from "@/hooks/products/useProducts";
 
 export function MiniCart() {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,7 +21,8 @@ export function MiniCart() {
     removeFromCart,
     clearCartCloud,
   } = useCart();
-  const { data: products = [] } = useProducts();
+  const productIds = items.map((item) => item.productId);
+  const { data: products = [] } = useByIds(productIds);
 
   const cartWithDetails = items
     .map((cartItem) => {
