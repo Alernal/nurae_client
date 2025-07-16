@@ -16,6 +16,7 @@ import ProductCard from "@/components/product-card";
 import { useProducts } from "@/hooks/products/useProducts";
 import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useDebounce } from "@/hooks/useDebounce";
 
 export default function CollectionsPage() {
   const [page, setPage] = useState(1);
@@ -28,7 +29,8 @@ export default function CollectionsPage() {
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
-  const [search, setSearch] = useState("");  // Estado para la búsqueda
+  const [search, setSearch] = useState("");
+  const debouncedSearch = useDebounce(search, 500);
 
   useEffect(() => {
     setPage(1);
@@ -41,7 +43,7 @@ export default function CollectionsPage() {
     price_max: appliedPriceRange?.[1],
     sort: sortBy !== "featured" ? sortBy : undefined,
     page,
-    search: search.length > 0 ? search : undefined, // Pasar el valor de búsqueda al hook
+    search: debouncedSearch.length > 0 ? debouncedSearch : undefined,
   });
 
   const products = productsData?.data || [];
@@ -112,6 +114,23 @@ export default function CollectionsPage() {
     { label: "Aleación de rodio", value: "aleación de rodio" },
     { label: "Acrílico", value: "acrílico" },
   ];
+
+  function getPagination(current: number, total: number, delta = 2) {
+    const range = [];
+    for (let i = Math.max(1, current - delta); i <= Math.min(total, current + delta); i++) {
+      range.push(i);
+    }
+
+    if (range[0] > 1) range.unshift("...");
+    if (range[0] !== 1) range.unshift(1);
+    if (range[range.length - 1] < total) {
+      range.push("...");
+      range.push(total);
+    }
+
+    return range;
+  }
+
 
   return (
     <div className="container px-4 py-8 md:px-6 md:py-12">
@@ -234,11 +253,11 @@ export default function CollectionsPage() {
         <div className="flex-1 flex flex-col">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8 bg-white/80 backdrop-blur-sm rounded-2xl">
             <div className="flex items-center gap-4">
-              <span className="text-sm text-gray-600">
-                {isLoading
-                  ? "Cargando productos..."
-                  : `Mostrando ${products.length} productos`}
+              <span className="text-sm text-gray-600 flex items-center gap-2">
+                Mostrando {products.length} productos
+                {isLoading && <span className="animate-spin h-4 w-4 border border-gray-400 rounded-full border-t-transparent" />}
               </span>
+
               <div className="flex items-center gap-2">
                 <Button
                   size="sm"
@@ -275,11 +294,10 @@ export default function CollectionsPage() {
 
           <div
             className={cn(
-              "grid gap-6 overflow-y-auto",
+              "grid gap-6",
               viewMode === "grid"
                 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-                : "grid-cols-1",
-              "h-[600px]" // Alto fijo, puedes ajustar el valor según lo que necesites
+                : "grid-cols-1"
             )}
           >
             {products.map((product: any) => (
@@ -302,15 +320,19 @@ export default function CollectionsPage() {
                 <LuChevronDown className="h-4 w-4 rotate-90" />
               </Button>
 
-              {[...Array(lastPage)].map((_, i) => (
-                <Button
-                  key={i}
-                  variant={currentPage === i + 1 ? "default" : "outline"}
-                  onClick={() => setPage(i + 1)}
-                >
-                  {i + 1}
-                </Button>
-              ))}
+              {getPagination(currentPage, lastPage).map((pageNum, i) =>
+                pageNum === "..." ? (
+                  <span key={`ellipsis-${i}`} className="px-2">...</span>
+                ) : (
+                  <Button
+                    key={pageNum}
+                    variant={currentPage === pageNum ? "default" : "outline"}
+                    onClick={() => setPage(Number(pageNum))}
+                  >
+                    {pageNum}
+                  </Button>
+                )
+              )}
 
               <Button
                 variant="outline"
@@ -322,6 +344,7 @@ export default function CollectionsPage() {
               </Button>
             </div>
           </div>
+
         </div>
       </div>
     </div>

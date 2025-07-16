@@ -11,14 +11,18 @@ export function HeroSection() {
           <div className="w-full md:w-1/2 flex justify-start mb-6 md:mb-0">
             <div className="relative hidden sm:block">
               <img
-                src="/hero-model.png"
-                alt="Mujer luciendo accesorios dorados NURAE"
-                className="
-                  object-contain mx-auto
-                  max-h-[60vh] md:max-h-[80vh] xl:max-h-[90vh]
-                  max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl
-                  transition-all duration-300
-                "
+              src="/hero-model.png"
+              alt="Mujer luciendo accesorios dorados NURAE"
+              loading="lazy"
+              fetchPriority="high"
+              decoding="async"
+              className="
+                object-contain mx-auto
+                max-h-[60vh] md:max-h-[80vh] xl:max-h-[90vh]
+                max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl
+                transition-all duration-300
+              "
+              style={{ willChange: "opacity" }}
               />
             </div>
           </div>

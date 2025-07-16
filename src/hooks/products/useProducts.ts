@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import api from "@/api/client";
 import { toast } from "sonner";
+import stringify from "json-stable-stringify";
 
 type Filters = {
   categories?: string[];
@@ -9,38 +10,43 @@ type Filters = {
   price_max?: number;
   sort?: string;
   page?: number;
-  search?: string;  // Nuevo campo de búsqueda
+  search?: string;
 };
 
 export function useProducts(filters: Filters = {}) {
   const hasFilters =
-    filters.categories?.length ||
-    filters.materials?.length ||
+    !!filters.categories?.length ||
+    !!filters.materials?.length ||
     filters.price_min !== undefined ||
     filters.price_max !== undefined ||
-    filters.sort ||
+    !!filters.sort ||
     filters.page !== undefined ||
-    filters.search !== undefined; // Se incluye el filtro de búsqueda
+    !!filters.search;
+
+  // Query Key estable y serializada
+  const queryKey = ["products", stringify(filters)];
 
   return useQuery({
-    queryKey: ["products", filters],
+    queryKey,
     queryFn: async () => {
       const params: Record<string, any> = {};
+
       if (filters.categories) params.category = filters.categories;
       if (filters.materials) params.material = filters.materials;
       if (filters.price_min !== undefined) params.price_min = filters.price_min;
       if (filters.price_max !== undefined) params.price_max = filters.price_max;
       if (filters.sort) params.sort = filters.sort;
       if (filters.page !== undefined) params.page = filters.page;
-      if (filters.search) params.search = filters.search;  // Se agrega el campo de búsqueda
+      if (filters.search) params.search = filters.search;
 
       const res = await api.get("/products", { params });
 
-      // ⬇️ Ajuste inteligente según el caso
       const raw = res.data?.data;
+
       return hasFilters ? raw : raw?.data || [];
     },
-    staleTime: 1000 * 60,
+    staleTime: 1000 * 60 * 5, // 5 minutos
+    cacheTime: 1000 * 60 * 60, // 1 hora
     keepPreviousData: true,
     onError: (error: any) => {
       const message =

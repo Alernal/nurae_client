@@ -1,115 +1,57 @@
 import { Link } from "react-router-dom";
-import { LuCrown, LuHeart, LuStar, LuGem, LuSparkles } from "react-icons/lu";
 
 export function CategoryShowcase() {
   const categories = [
     {
       name: "Collares",
-      description: "Elegancia que abraza tu cuello",
       href: "/collections?category=collares",
-      overlay: "bg-black/30",
-      statsColor: "text-pink-700",
-      image:
-        "/images/collares.png",
+      image: "https://nurae-api.alernal.com.co/storage/products/x86HuAUIoC1l63c082c7hcBPURc1FLbyLQwJ53Nw.png",
     },
     {
       name: "Aretes",
-      description: "Detalles que enmarcan tu belleza",
       href: "/collections?category=aretes",
-      overlay: "bg-black/30",
-      statsColor: "text-purple-700",
       image:
         "https://calzadocosmos.com/cdn/shop/files/Set-Aretes-AVM-Classic-Para-Mujer-AVEMARIA-71163_46e409e3-b968-419e-9730-90d97434f536.jpg?v=1747233678",
     },
     {
-      name: "Pulseras",
-      description: "Sofisticación en cada movimiento",
-      href: "/collections?category=pulseras",
-      overlay: "bg-black/30",
-      statsColor: "text-amber-700",
-      image:
-        "https://dulceencanto.com/cdn/shop/files/P1317-dulce-encanto-accesorios-para-mujer-3.jpg?v=1724638724",
-    },
-    {
-      name: "Anillos",
-      description: "Pequeñas obras de arte",
-      href: "/collections?category=anillos",
-      overlay: "bg-black/30",
-      statsColor: "text-teal-700",
-      image:
-        "https://www.basicsbyluamarta.com/cdn/shop/files/AnilloRo_1000x.jpg?v=1686307304",
+      name: "Denarios",
+      href: "/collections?category=denarios",
+      image: "https://nurae-api.alernal.com.co/storage/products/3ZBAyM617JLtn6OHhgHveumoU4oMOFxmuJlYKKTS.png",
     },
   ];
 
   return (
-    <section className="w-full py-15">
-      <div className="container px-4 md:px-6">
-        <div className="text-center mb-16 space-y-6">
-          {/* <div className="inline-flex items-center gap-3 rounded-full bg-yellow-100 px-6 py-2 text-sm font-medium text-yellow-800">
-            <LuSparkles className="h-5 w-5" />
-            <span className="tracking-wide">Nuestras Categorías</span>
-            <LuSparkles className="h-5 w-5" />
-          </div> */}
+    <section className="w-full py-20 bg-white">
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="text-center mb-10 space-y-4">
           <h2 className="text-4xl font-normal text-[#5E4536]">
-            Explora Nuestras <span className="text-[var(--color-amarillo)] font-handwritten font-thin">Colecciones.</span>
+            Explora Nuestras{" "}
+            <span className="text-[var(--color-amarillo)] font-handwritten font-thin">
+              Colecciones.
+            </span>
           </h2>
-          {/* <p className="text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto font-light leading-relaxed">
-            Cada diseño revela una parte de ti. Cada colección realza tu forma
-            única de brillar.
-          </p> */}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-          {categories.map((category, index) => {
-            return (
-              <Link
-                key={category.name}
-                to={category.href}
-                className="group relative overflow-hidden bg-white transition duration-300 hover:-translate-y-1"
-              >
-                <div className="p-3">
-                  {/* Imagen con overlay */}
-                  <div className="relative aspect-[4/5] overflow-hidden ">
-                    <img
-                      src={category.image}
-                      alt={category.name}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                    <div
-                      className={`absolute inset-0 ${category.overlay} transition-opacity`}
-                    />
-
-                    <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
-                      <div className="space-y-2 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                        <h3 className="text-2xl font-bold">
-                          {category.name}
-                        </h3>
-                        {/* <p className="text-sm opacity-90">
-                          {category.description}
-                        </p> */}
-                        <div className="flex items-center gap-2 text-sm font-medium">
-                          <span>Explorar colección</span>
-                          <svg
-                            className="h-4 w-4 group-hover:translate-x-1 transition-transform"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M9 5l7 7-7 7"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-0.5">
+          {categories.map((category) => (
+            <Link
+              key={category.name}
+              to={category.href}
+              className="relative group overflow-hidden shadow-md hover:shadow-lg transition duration-300"
+            >
+              <img
+                src={category.image}
+                alt={category.name}
+                loading="lazy"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-black/50 hover:bg-black/10 group-hover:bg-black/50 transition duration-300" />
+              <div className="absolute bottom-5 left-5 text-white z-10">
+                <h3 className="text-2xl font-semibold">{category.name}</h3>
+                <p className="text-sm mt-1 opacity-90">Explorar colección &gt;</p>
+              </div>
+            </Link>
+          ))}
         </div>
       </div>
     </section>
