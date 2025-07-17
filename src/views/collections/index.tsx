@@ -22,9 +22,9 @@ export default function CollectionsPage() {
   const [page, setPage] = useState(1);
   const [sortBy, setSortBy] = useState("featured");
 
-  const [priceRange, setPriceRange] = useState([0, 1000000]);
+  const [priceRange, setPriceRange] = useState([1000000]);
   const [appliedPriceRange, setAppliedPriceRange] = useState<
-    number[] | undefined
+    number | undefined
   >(undefined);
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -39,8 +39,8 @@ export default function CollectionsPage() {
   const { data: productsData, isLoading } = useProducts({
     categories: selectedCategories.length ? selectedCategories : undefined,
     materials: selectedMaterials.length ? selectedMaterials : undefined,
-    price_min: appliedPriceRange?.[0],
-    price_max: appliedPriceRange?.[1],
+    price_min: 0,
+    price_max: appliedPriceRange,
     sort: sortBy !== "featured" ? sortBy : undefined,
     page,
     search: debouncedSearch.length > 0 ? debouncedSearch : undefined,
@@ -77,7 +77,7 @@ export default function CollectionsPage() {
     if (!hasInteractedRef.current) return;
 
     const timeout = setTimeout(() => {
-      setAppliedPriceRange(priceRange);
+      setAppliedPriceRange(priceRange[0]);
     }, 2000);
 
     return () => clearTimeout(timeout);
@@ -207,30 +207,26 @@ export default function CollectionsPage() {
           <div className="mb-6">
             <h4 className="text-sm font-medium mb-2">Precio</h4>
             <Slider
-              value={priceRange}
+              value={[priceRange[0]]}
               onValueChange={(value) => {
                 hasInteractedRef.current = true;
                 setPriceRange(value);
               }}
+              min={0}
               max={1000000}
-              step={1000}
+              step={2000}
             />
 
             <div className="flex justify-between text-xs mt-2">
-              <span>
+              <div className="text-xs mt-2 text-center">
+                Hasta:{" "}
                 {priceRange[0].toLocaleString("es-CO", {
                   style: "currency",
                   currency: "COP",
                   maximumFractionDigits: 0,
                 })}
-              </span>
-              <span>
-                {priceRange[1].toLocaleString("es-CO", {
-                  style: "currency",
-                  currency: "COP",
-                  maximumFractionDigits: 0,
-                })}
-              </span>
+              </div>
+
             </div>
           </div>
 
@@ -240,7 +236,7 @@ export default function CollectionsPage() {
             onClick={() => {
               setSelectedCategories([]);
               setSelectedMaterials([]);
-              setPriceRange([0, 1500000]);
+              setPriceRange([0, 1000000]);
               setAppliedPriceRange(undefined);
               setSearch("");  // Limpiar búsqueda
             }}
