@@ -23,7 +23,7 @@ const collections = [
   { name: "Earcuff", href: "/collections?category=earcuff", description: "Sofisticación en cada oreja" },
   { name: "Anillos", href: "/collections?category=anillos", description: "Pequeñas obras de arte" },
   { name: "Denarios", href: "/collections?category=denarios", description: "Una pulsera para decorar tu tobillera" },
-  { name: "Cabellos", href: "/collections?category=otros", description: "Magia para tu cabello" },
+  { name: "Cabellos", href: "/collections?category=cabellos", description: "Magia para tu cabello" },
 ]
 
 export function Header() {
@@ -104,7 +104,7 @@ export function Header() {
                   Inicio
                 </Link>
                 <Link
-                  to="/blog"
+                  to="/collections"
                   className="text-lg  text-gray-700 hover:text-primary transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
@@ -149,14 +149,14 @@ export function Header() {
           {/* Collections Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button
+                <Button
                 variant="ghost"
-                className="text-neutral-800 font-medium transition-all duration-300 relative group p-0 h-auto"
-              >
+                className="text-neutral-800 font-medium transition-all duration-300 relative group p-0 h-auto focus:outline-none focus:ring-0"
+                >
                 Catálogo
                 <LuChevronDown className="ml-1 h-4 w-4" />
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#EFEAAE] transition-all duration-300 group-hover:w-full"></span>
-              </Button>
+                </Button>
             </DropdownMenuTrigger>
  
             <DropdownMenuContent className="ml-10 mt-5 w-[600px] bg-white p-4 border border-gray-200 shadow-xl">

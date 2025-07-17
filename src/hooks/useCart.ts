@@ -30,6 +30,7 @@ export function useCart() {
         quantity: item.quantity,
       });
     },
+    onSuccess: refetchCartFromCloud,
     onError: () => toast.error("Error al sincronizar el carrito"),
   });
 
@@ -38,6 +39,7 @@ export function useCart() {
     mutationFn: async (productId: number) => {
       return api.delete(`/cart/${productId}`);
     },
+    onSuccess: refetchCartFromCloud,
     onError: () => toast.error("Error al eliminar del carrito"),
   });
 
@@ -46,6 +48,7 @@ export function useCart() {
     mutationFn: async (productId: number) => {
       return api.patch(`/cart/${productId}/decrement`);
     },
+    onSuccess: refetchCartFromCloud,
     onError: () => toast.error("Error al disminuir cantidad"),
   });
 
@@ -54,6 +57,7 @@ export function useCart() {
     mutationFn: async () => {
       return api.delete("/cart/clear");
     },
+    onSuccess: refetchCartFromCloud,
     onError: () => toast.error("Error al vaciar el carrito"),
   });
 
@@ -136,6 +140,22 @@ export function useCart() {
     }
   }
 
+  async function refetchCartFromCloud() {
+    try {
+      const res = await api.get("/cart");
+
+      const cart: CartItem[] = res.data?.data?.map((item: any) => ({
+        productId: item.product_id,
+        quantity: item.quantity,
+      })) ?? [];
+
+      setCart(cart);
+    } catch (e) {
+      console.error("Error obteniendo carrito actualizado:", e);
+    }
+  }
+
+
   return {
     items,
     hasHydrated,
@@ -147,5 +167,6 @@ export function useCart() {
     clearCartCloud,
     setCart,
     syncLocalCartToBackendOnce,
+    refetchCartFromCloud
   };
 }

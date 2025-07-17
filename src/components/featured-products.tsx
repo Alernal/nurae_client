@@ -4,19 +4,10 @@ import { useProducts } from "@/hooks/products/useProducts";
 import ProductCard from "./product-card";
 
 export function FeaturedProducts() {
-  const { data: products = [], isLoading, isError } = useProducts();
-
-  const topRated = products
-    .map((product: any) => {
-      const reviews = product.reviews || [];
-      const avgRating =
-        reviews.length > 0
-          ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
-          : 0;
-      return { ...product, avgRating };
-    })
-    .sort((a, b) => b.avgRating - a.avgRating)
-    .slice(0, 8);
+  const { data: products = [], isLoading, isError } = useProducts({
+    sort: "rating",
+  });
+  const topRated = products.data;
 
   return (
     <section className="w-full py-15 relative overflow-hidden">
@@ -39,7 +30,7 @@ export function FeaturedProducts() {
           </p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {topRated.slice(0, 8).map((product) => (
+            {topRated.slice(0,8).map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>

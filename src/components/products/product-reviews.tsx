@@ -76,7 +76,7 @@ export function ProductReviews({
                 <span className="w-3">{rating}</span>
                 <LuStar className="w-3 h-3 fill-yellow-400 text-yellow-400" />
                 <Progress value={percentage} className="flex-1 h-2 bg-gray-400" />
-                <span className="w-8 text-muted-foreground">{count}</span>
+                <span className="w-8 text-black">{count}</span>
               </div>
             ))}
           </div>

@@ -11,12 +11,12 @@ export function CategoryShowcase() {
       name: "Aretes",
       href: "/collections?category=aretes",
       image:
-        "https://calzadocosmos.com/cdn/shop/files/Set-Aretes-AVM-Classic-Para-Mujer-AVEMARIA-71163_46e409e3-b968-419e-9730-90d97434f536.jpg?v=1747233678",
+        "https://nurae-api.alernal.com.co/storage/products/rYutQGDNO4ePYkP0zH97JkOOHdAoAt77bvlpDM4B.png",
     },
     {
       name: "Denarios",
       href: "/collections?category=denarios",
-      image: "https://nurae-api.alernal.com.co/storage/products/3ZBAyM617JLtn6OHhgHveumoU4oMOFxmuJlYKKTS.png",
+      image: "https://nurae-api.alernal.com.co/storage/products/Wv8m8WqFAHBe9dRwxwfhCbpYbR2Y2H3nn6sMvEfv.png",
     },
   ];
 

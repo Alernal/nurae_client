@@ -312,9 +312,12 @@ export default function CollectionsPage() {
           <div className="mt-12 flex justify-center">
             <div className="flex items-center gap-2">
               <Button
-                variant="outline"
                 size="icon"
-                onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                className="bg-gray-100 hover:bg-gray-300 shadow-none border-none"
+                onClick={() => {
+                  setPage((prev) => Math.max(prev - 1, 1));
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
                 disabled={currentPage === 1}
               >
                 <LuChevronDown className="h-4 w-4 rotate-90" />
@@ -326,8 +329,16 @@ export default function CollectionsPage() {
                 ) : (
                   <Button
                     key={pageNum}
-                    variant={currentPage === pageNum ? "default" : "outline"}
-                    onClick={() => setPage(Number(pageNum))}
+                    className={cn(
+                      "shadow-none border-none",
+                      currentPage === pageNum
+                        ? "bg-black text-white"
+                        : "bg-gray-100 hover:bg-gray-300 text-black"
+                    )}
+                    onClick={() => {
+                      setPage(Number(pageNum));
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }}
                   >
                     {pageNum}
                   </Button>
@@ -335,9 +346,12 @@ export default function CollectionsPage() {
               )}
 
               <Button
-                variant="outline"
                 size="icon"
-                onClick={() => setPage((prev) => Math.min(prev + 1, lastPage))}
+                className="bg-gray-100 hover:bg-gray-300 shadow-none border-none"
+                onClick={() => {
+                  setPage((prev) => Math.min(prev + 1, lastPage));
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
                 disabled={currentPage === lastPage}
               >
                 <LuChevronDown className="h-4 w-4 -rotate-90" />
