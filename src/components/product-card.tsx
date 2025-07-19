@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
 
-export default function ProductCard({ product, viewMode = "grid" }) {
+export default function ProductCard({ product }) {
   const navigate = useNavigate();
   const { add, remove, isInWishlist } = useWishlist();
   const { addToCart, getQuantity } = useCart();
@@ -50,111 +50,9 @@ export default function ProductCard({ product, viewMode = "grid" }) {
   const maxAvailable = product.stock_count ?? 1;
   const isMaxReached = quantityInCart >= maxAvailable;
 
-  // 👇 LIST VIEW
-  if (viewMode === "list") {
-    return (
-      <div className="flex flex-col sm:flex-row bg-white border border-gray-100 overflow-hidden transition-all">
-        <div className="max-w-50 h-full relative flex-shrink-0 bg-gray-100 overflow-hidden">
-          <img
-            src={imageUrl}
-            alt={product.name}
-            className="object-contain w-full h-full"
-          />
-          {isOnSale && (
-            <span className="absolute top-2 left-2 bg-red-600 text-white text-[10px] px-2 py-1 rounded-full font-semibold shadow">
-              -{discountPercentage}% OFF
-            </span>
-          )}
-        </div>
-
-        <div className="flex flex-col justify-between p-4 flex-1 space-y-3">
-          <div>
-            <div className="flex justify-between items-center text-xs text-muted-foreground font-medium mb-1">
-              <Link
-                to={`/collections?category=${product.category?.slug ?? "general"
-                  }`}
-                className="uppercase tracking-wide hover:underline"
-              >
-                {product.category ?? "General"}
-              </Link>
-              <div className="flex items-center gap-1">
-                <LuStar className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                <span>{avgRating}</span>
-                <span className="text-gray-400">({reviews?.length})</span>
-              </div>
-            </div>
-
-            <Link to={`/products/${product.slug}`}>
-              <h3 className="text-lg font-medium leading-snug hover:text-[#D4AF37] transition-colors line-clamp-2 mb-1">
-                {product.name}
-              </h3>
-            </Link>
-
-            {product.description && (
-              <p className="text-sm text-gray-600 font-light line-clamp-2">
-                {product.description}
-              </p>
-            )}
-          </div>
-
-          <div className="flex items-center justify-between gap-4 mt-4">
-            <div>
-              <p className="text-xl font-medium">
-                {new Intl.NumberFormat("es-CO", {
-                  style: "currency",
-                  currency: "COP",
-                }).format(isOnSale ? offerPrice : regularPrice)}
-              </p>
-              {isOnSale && (
-                <p className="text-sm text-gray-400 line-through">
-                  {new Intl.NumberFormat("es-CO", {
-                    style: "currency",
-                    currency: "COP",
-                  }).format(regularPrice)}
-                </p>
-              )}
-            </div>
-
-            <div className="flex items-center gap-2">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="bg-white/90 hover:bg-white shadow rounded-full"
-                onClick={toggleWishlist}
-              >
-                <LuHeart
-                  className={cn(
-                    "h-5 w-5 transition-colors",
-                    isInWishlist(product.id)
-                      ? "fill-[#d01e23] text-[#d01e23]"
-                      : "text-gray-600"
-                  )}
-                />
-              </Button>
-              <Button
-                size="sm"
-                className="bg-[#5E4536] hover:opacity-90 text-white rounded-full text-sm font-medium shadow"
-                onClick={handleAddToCart}
-                disabled={isMaxReached || quantityInCart > 0}
-              >
-                <LuShoppingBag className="mr-2 h-4 w-4" />
-                {quantityInCart > 0 ? "Agregado" : "Añadir"}
-              </Button>
-            </div>
-          </div>
-          {isMaxReached && (
-            <p className="text-xs text-red-500 mt-1">
-              No hay más unidades disponibles
-            </p>
-          )}
-        </div>
-      </div>
-    );
-  }
-
   // 👇 GRID VIEW
   return (
-    <div className="group relative h-100 bg-white border border-gray-300 shadow-sm transition-all duration-500 hover:-translate-y-2 flex flex-col">
+    <div className="group relative flex flex-col w-full h-full">
       <div className="relative overflow-hidden">
         <Link to={`/products/${product.slug}`} className="relative group block bg-white overflow-hidden">
           <div className="relative flex items-center justify-center bg-white aspect-[3/4]">
@@ -163,7 +61,7 @@ export default function ProductCard({ product, viewMode = "grid" }) {
               src={imageUrl}
               alt={product.name}
               loading="lazy"
-              className="absolute inset-0 max-h-full max-w-full transition-opacity duration-500 opacity-100 group-hover:opacity-0"
+              className="h-full w-full object-cover transition-opacity duration-500 opacity-100 group-hover:opacity-0"
             />
 
             {/* Segunda imagen si existe */}
@@ -172,7 +70,7 @@ export default function ProductCard({ product, viewMode = "grid" }) {
                 src={`https://nurae-api.alernal.com.co/${product.images[1].url}`}
                 alt={product.name + " segunda imagen"}
                 loading="lazy"
-                className="absolute inset-0 max-h-full max-w-full transition-opacity duration-500 opacity-0 group-hover:opacity-100"
+                className="absolute inset-0 h-full w-full object-fill transition-opacity duration-500 opacity-0 group-hover:opacity-100"
               />
             )}
 
@@ -256,7 +154,7 @@ export default function ProductCard({ product, viewMode = "grid" }) {
 
         <div className="flex items-center justify-between mt-2 border-gray-200">
           <div>
-            <p className="text-sm text-[#2C1810] leading-none">
+            <p className="text-sm font-bold leading-none">
               {new Intl.NumberFormat("es-CO", {
                 style: "currency",
                 currency: "COP",

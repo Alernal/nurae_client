@@ -1,4 +1,5 @@
 import { FeaturedProducts } from "@/components/featured-products";
+import { FeaturedProducts2 } from "@/components/featured-products2";
 import { Newsletter } from "@/components/newsletter";
 import { CategoryShowcase } from "@/components/category-showcase";
 import { HeroSection } from "@/components/hero-section";
@@ -11,25 +12,18 @@ export default function Home() {
       <HeroSection />
       {/* <TrustBadges /> */}
       <CategoryShowcase />
-      
-      <section className="w-full">
-        <img
-          src="/transition.png"
-          alt="Transición visual"
-          className="w-full h-full object-contain"
-        />
-      </section>
 
       <FeaturedProducts />
-      {/* <InstagramFeed /> */}
+      
+      <FeaturedProducts2 />
 
-      <section className="w-full">
+      {/* <section className="w-full">
         <img
           src="/transition.png"
           alt="Transición visual"
           className="w-full h-full object-contain"
         />
-      </section>
+      </section> */}
 
       <AboutSection />
 

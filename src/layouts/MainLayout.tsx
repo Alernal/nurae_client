@@ -17,7 +17,7 @@ export default function MainLayout() {
   return (
     <>
       <ScrollToTop />
-      <div className="flex min-h-screen flex-col bg-[#fff]">
+      <div className="flex min-h-screen flex-col bg-[#f0f1f3]">
         <Header />
         <main>
           <Outlet />

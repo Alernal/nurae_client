@@ -29,37 +29,37 @@ export function Newsletter() {
   };
 
   return (
-    <section className="w-full py-12 md:py-20 lg:py-28 relative overflow-hidden bg-[#7D5840]">
+    <section className="w-full py-12 md:py-20 lg:py-28 relative overflow-hidden">
       <div className="container mx-auto px-4 md:px-8 relative">
         <div className="flex flex-col items-center justify-center text-center gap-6">
           <div className="max-w-2xl md:max-w-4xl mx-auto px-2">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium leading-tight text-white">
-              Suscríbete a nuestro <span className="text-white font-handwritten font-thin">Boletin</span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight text-black">
+              Suscríbete a nuestro <span className="italic font-subtitulo font-thin">Boletin</span>
             </h2>
           </div>
 
           {!submitted ? (
             <div className="w-full max-w-xs sm:max-w-md md:max-w-lg mx-auto">
               <form
-                className="flex flex-col sm:flex-row gap-2 justify-center w-full"
+                className="flex flex-col sm:flex-row gap-2 justify-center"
                 onSubmit={handleSubmit}
               >
                 <Input
                   type="email"
                   placeholder="tu-email@ejemplo.com"
-                  className="h-12 w-full sm:w-60 rounded-xl border-2 border-[#E8D9CF] bg-white text-base"
+                  className="h-12 min-w-100 rounded-none sm:w-60 border-1 border-gray-500 text-base"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <Button
                   type="submit"
-                  className="bg-[var(--color-amarillo)] text-white hover:bg-[var(--color-amarillo)]/90 h-12 px-6 rounded-xl w-full sm:w-auto"
+                  className="bg-black rounded-none text-white hover:bg-black/90 h-12 px-6 w-full sm:w-auto"
                   disabled={isLoading}
                 >
                   Suscribirse
                 </Button>
               </form>
-              <p className="text-xs text-white mt-2">
+              <p className="text-xs mt-2">
                 Recibe nuestros últimos artículos en tu email
               </p>
             </div>

@@ -1,267 +1,95 @@
-import {
-  LuHeart,
-  LuUsers,
-  LuAward,
-  LuSparkles,
-  LuCrown,
-  LuStar,
-  LuGlobe,
-} from "react-icons/lu";
-import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
-
-const teamMembers = [
-  {
-    name: "Jencky Tapia",
-    role: "Fundadora & CEO",
-    image: "/hero-model.png",
-    description:
-      "Visionaria apasionada por democratizar el lujo y empoderar a las mujeres a través del estilo.",
-  },
-  {
-    name: "Andres Felipe Arrieta",
-    role: "Financiero & CFO",
-    image: "",
-    description:
-      "Especialista en finanzas con amplia experiencia en gestión estratégica y optimización de recursos.",
-  },
-  {
-    name: "Juan Pablo Rios",
-    role: "Developer & Engineer",
-    image: "",
-    description:
-      "Desarrollador web enfocado en crear experiencias digitales innovadoras y funcionales.",
-  },
-];
-
-const values = [
-  {
-    icon: LuHeart,
-    title: "Pasión",
-    description:
-      "Amamos lo que hacemos y se refleja en cada detalle de nuestros diseños.",
-  },
-  {
-    icon: LuUsers,
-    title: "Comunidad",
-    description:
-      "Creamos una comunidad de mujeres que se apoyan y celebran su individualidad.",
-  },
-  {
-    icon: LuAward,
-    title: "Calidad",
-    description:
-      "Utilizamos solo materiales premium para garantizar durabilidad y belleza.",
-  },
-  {
-    icon: LuGlobe,
-    title: "Accesibilidad",
-    description:
-      "Hacemos el lujo accesible para todas las mujeres, sin comprometer la calidad.",
-  },
-];
-
 export default function AboutPage() {
+  const images = [
+    "/images/foto1.png",
+    "/images/foto2.png",
+    "/images/foto3.png",
+  ];
+
   return (
     <div className="min-h-screen">
-      <section className="relative md:py-14 py-10 overflow-hidden">
-        <div className="container px-4 md:px-6 relative">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8">
-              <h1 className="text-5xl md:text-7xl font-bold text-[#5E4536] leading-tight">
-                Sobre NURAE
-              </h1>
+      {/* Sección Visual y Encabezado */}
+      <section className="py-12 md:py-20 bg-white">
+        <div className="container px-4 md:px-6 mx-auto">
+          <div className="flex flex-col items-center text-center space-y-10">
+            {/* Galería de Imágenes */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 w-full max-w-5xl mb-40">
+              {images.map((src, index) => (
+                <img
+                  key={index}
+                  src={src}
+                  alt={`Imagen ${index + 1}`}
+                  loading="lazy"
+                  className="object-contain w-full h-[380px] md:h-[420px] shadow-md transition-transform duration-300 hover:scale-[1.02]"
+                />
+              ))}
+            </div>
 
-              <p className="text-xl md:text-2xl text-[#9A6D4E] font-light leading-relaxed">
-                Somos más que una marca de accesorios. Somos un movimiento que
-                celebra la individualidad de cada mujer y democratiza el acceso
-                al lujo auténtico.
+            {/* Título */}
+            <h2 className="text-3xl md:text-4xl font-semibold italic font-subtitulo">
+              Nosotros
+            </h2>
+
+            {/* Párrafos */}
+            <div className="text-base md:text-lg max-w-4xl text-gray-700 space-y-5 text-justify font-parrafo px-2 md:px-0 mb-20">
+              <p>
+                NURAE nació de una idea simple: crear accesorios que no solo adornan, sino que inspiren. Diseñamos con símbolos que resuenan contigo: frutos y formas naturales que hablan de tu poder, tu esencia, tu brillo.
+              </p>
+              <p>
+                Cada pieza es un pequeño recordatorio de tu luz interior. Queremos que te sientas elegante, segura y auténtica, sin renunciar a lo moderno ni a la cercanía con lo que te identifica.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button
-                  className="bg-[#9A6D4E] hover:bg-[#7D5840] text-white px-8 py-3 rounded-full text-lg font-medium shadow-md hover:shadow-lg transition-all duration-300"
-                  asChild
-                >
-                  <a href="#historia">Conoce Nuestra Historia</a>
-                </Button>
-                <Button
-                  variant="outline"
-                  className="border-2 border-[#9A6D4E] text-[#9A6D4E] hover:bg-[#9A6D4E] hover:text-white px-8 py-3 rounded-full text-lg font-medium"
-                  asChild
-                >
-                  <a href="#equipo">Ver Nuestro Equipo</a>
-                </Button>
-              </div>
-            </div>
+              <p>
+                Seremos la marca que acompaña a mujeres conscientes y creativas en su día a día, con lujo asequible y propósito. Queremos que NURAE suene a historia, a confianza, a identidad personal.
+              </p>
 
-            <div className="relative">
-              <div className="relative mx-auto w-full max-w-[500px]">
-                <img
-                  src="/images/inicio.png"
-                  alt="Fundadora de NURAE"
-                  className="mx-auto overflow-hidden bg-[#D8C5B6] rounded-3xl shadow-2xl"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+              <p className="font-bold italic">Nuestros valores</p>
+              <ul className="list-disc list-inside space-y-2">
+                <li><strong>Autenticidad:</strong> cada diseño nace del alma.</li>
+                <li><strong>Calidad consciente:</strong> aleación con baño en rodio, sin sacrificar resistencia ni brillo.</li>
+                <li><strong>Empoderamiento femenino:</strong> accesorios que acompañan tu energía.</li>
+                <li><strong>Estilo accesible y emocional:</strong> elegancia sin exclusión, con propósito simbólico.</li>
+              </ul>
 
-      {/* Mission Section */}
-      <section className="py-16 md:py-24">
-        <div className="container px-4 md:px-6">
-          <div className="text-center space-y-8 mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-[#5E4536]">
-              Nuestra Misión
-            </h2>
-            <p className="text-xl text-[#9A6D4E] max-w-4xl mx-auto leading-relaxed">
-              Creemos que cada mujer merece sentirse extraordinaria. Por eso
-              creamos accesorios únicos que combinan diseño excepcional, calidad
-              premium y precios accesibles, para que puedas brillar con tu
-              propia luz sin límites.
-            </p>
-          </div>
+              <p>
+                NURAE nace del deseo profundo de recordarle a cada mujer que ya es suficiente, que es bella tal como es.
+              </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {values.map((value, index) => {
-              const IconComponent = value.icon;
-              return (
-                <div
-                  key={value.title}
-                  className="group text-center space-y-4 p-6 bg-white shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
-                  <div className="mx-auto w-16 h-16 bg-[#d4af37] rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <IconComponent className="h-8 w-8 text-white" />
-                  </div>
-                  <h3 className="font-bold text-xl text-[#5E4536]">
-                    {value.title}
-                  </h3>
-                  <p className="text-[#9A6D4E] leading-relaxed">
-                    {value.description}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+              <p>
+                Inspirada en los detalles que hacen único a cada ser, NURAE transforma accesorios en afirmaciones de elegancia, seguridad y esencia. Desde una delicada hebilla que adorna el cabello hasta un denario que acompaña su camino con propósito, cada pieza está diseñada para que la mujer que la elija sienta que brilla por dentro y por fuera.
+              </p>
 
-      {/* Story Section */}
-      <section className="py-16 md:py-24" id="historia">
-        <div className="container px-4 md:px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div className="space-y-8">
-              <h2 className="text-4xl md:text-5xl font-bold text-[#5E4536]">
-                Nuestra Historia
-              </h2>
-              <div className="space-y-6 text-lg text-[#9A6D4E] leading-relaxed">
-                <p>
-                  NURAE nació en 2020 del sueño de Isabella Martínez de crear
-                  una marca que celebrara la belleza única de cada mujer.
-                  Después de años trabajando en la industria de la moda de lujo,
-                  Isabella se dio cuenta de que los accesorios excepcionales
-                  estaban reservados solo para unos pocos.
-                </p>
-                <p>
-                  "¿Por qué el lujo auténtico no puede ser accesible para todas
-                  las mujeres?" se preguntó. Esta pregunta se convirtió en la
-                  misión de NURAE: democratizar el acceso a accesorios de
-                  calidad premium sin comprometer el diseño ni la exclusividad.
-                </p>
-                <p>
-                  Hoy, más de 50,000 mujeres forman parte de nuestra comunidad,
-                  y cada día trabajamos para crear piezas que no solo
-                  complementen su estilo, sino que las empoderen a brillar con
-                  confianza.
-                </p>
-              </div>
-            </div>
+              <p>
+                Nuestra propuesta no está en seguir tendencias vacías, sino en crear objetos que conecten con la autenticidad y feminidad de cada mujer. Nos mueve el detalle, la energía con la que se porta un accesorio, el poder de mirarte al espejo y reconocerte fuerte, hermosa, real.
+              </p>
 
-            <div className="relative">
-              
+              <p>
+                NURAE es más que accesorios. Es una afirmación silenciosa que se lleva con elegancia. Es belleza que sostiene, acompaña y afirma: <span className="italic">"Estoy aquí. Y soy suficiente."</span>
+              </p>
+
+              <p>
+                Nuestros diseños son atemporales, delicadamente seleccionados para adaptarse a tu autenticidad. Porque sabemos que trabajas, sueñas, cuidas, caes, lideras, amas... y nunca dejas de ser tú misma.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Team Section */}
-      <section className="py-16 md:py-24" id="equipo">
-        <div className="container px-4 md:px-6">
-          <div className="text-center space-y-8 mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-[#5E4536]">
-              Nuestro Equipo
-            </h2>
-            <p className="text-xl text-[#9A6D4E] max-w-3xl mx-auto">
-              Conoce a las mujeres extraordinarias que hacen posible la magia de
-              NURAE cada día.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {teamMembers.map((member, index) => (
-              <div
-                key={member.name}
-                className="group text-center space-y-6 bg-white p-8 shadow-md hover:shadow-lg transition-all duration-500 transform hover:-translate-y-1"
-                style={{ animationDelay: `${index * 0.2}s` }}
-              >
-                <div className="relative mx-auto w-40 h-40">
-                  <img
-                    src={
-                      member.image ||
-                      "https://definicion.de/wp-content/uploads/2019/07/perfil-de-usuario.png"
-                    }
-                    alt={member.name}
-                    className="rounded-full w-40 h-40 object-cover border-4 border-white shadow-lg group-hover:scale-105 transition-transform duration-300"
-                    style={{ objectPosition: "center" }}
-                    loading="lazy"
-                    draggable={false}
-                  />
-                </div>
-                <div className="space-y-4">
-                  <h3 className="font-bold text-2xl text-[#5E4536]">
-                    {member.name}
-                  </h3>
-                  <p className="text-[#E8B059] font-medium">{member.role}</p>
-                  <p className="text-[#9A6D4E] leading-relaxed">
-                    {member.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-16 md:py-24 bg-gradient-to-br from-[#E8B059]/10 to-[#C8A080]/10">
-        <div className="container px-4 md:px-6">
-          <div className="text-center space-y-8 max-w-4xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-bold text-[#5E4536]">
-              Únete a Nuestra Comunidad
-            </h2>
-            <p className="text-xl text-[#9A6D4E] leading-relaxed">
-              Forma parte de una comunidad de mujeres que celebran su
-              individualidad y se apoyan mutuamente. Juntas, brillamos más
-              fuerte.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                to="/collections"
-                className="bg-[#9A6D4E] hover:bg-[#7D5840] text-white px-8 py-3 rounded-full text-lg font-medium shadow-md hover:shadow-lg transition-all duration-300"
-              >
-                Explorar Colección
-              </Link>
-              <Link
-                to="https://instagram.com/nurae"
-                target="_blank"
-                className="border-2 border-[#9A6D4E] text-[#9A6D4E] hover:bg-[#9A6D4E] hover:text-white px-8 py-3 rounded-full text-lg font-medium"
-              >
-                Síguenos en Instagram
-              </Link>
-            </div>
-          </div>
+      {/* Sección Promesa */}
+      <section className="py-16 md:py-24 text-center">
+        <div className="container px-4 md:px-6 mx-auto space-y-6 md:space-y-8">
+          <h2 className="text-3xl md:text-5xl font-normal text-gray-900 font-parrafo m-0">
+            Nuestra promesa
+          </h2>
+          <p className="text-2xl md:text-5xl italic text-[var(--color-amarillo)] font-subtitulo">
+            De Calidad
+          </p>
+          <p className="text-base md:text-lg max-w-3xl mx-auto text-gray-800 leading-7 font-parrafo px-2 md:px-0">
+            Cuidamos cada detalle con obsesión, porque nada en nuestras piezas es casual. Cada forma,
+            textura y color está pensado para armonizar contigo. Creemos firmemente que la elegancia no
+            debe ser costosa, por eso diseñamos accesorios que reflejan lujo sin exigir sacrificios. Y más
+            allá de modas pasajeras, apostamos por la autenticidad: creamos piezas con alma, pensadas para
+            mujeres que se expresan con intención y estilo propio.
+          </p>
         </div>
       </section>
     </div>

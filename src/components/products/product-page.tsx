@@ -4,7 +4,7 @@ import { ProductInfo } from "./product-info";
 import { ProductActions } from "./product-actions";
 import { ProductDetails } from "./product-details";
 import { ProductReviews } from "./product-reviews";
-import { ShippingInfo } from "./shipping-info";
+import { FeaturedProducts } from "../featured-products";
 
 interface Product {
   id: number;
@@ -41,44 +41,44 @@ export function ProductPage({ product, reviews }: ProductPageProps) {
   const [quantity, setQuantity] = useState(1);
 
   return (
-    <div className="min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        {/* Main Product Section */}
-        <div className="flex flex-col gap-12 mb-16">
-          {/* Fila de galería de imágenes e información del producto */}
-          <div className="flex flex-col lg:flex-row gap-12">
-            <div className="flex-1">
-              <ProductGallery
-          images={product.images}
-          selectedImage={selectedImage}
-          onImageSelect={setSelectedImage}
-          productName={product.name}
-              />
-            </div>
-            <div className="flex-1 flex flex-col gap-8">
-              <ProductInfo product={product} reviews={reviews} />
-              <ProductActions
-          product={product}
-          quantity={quantity}
-          onQuantityChange={setQuantity}
-              />
-              <ShippingInfo />
-            </div>
+    <div className="min-h-screen bg-white">
+      <div className="container mx-auto px-4 py-12">
+        {/* Sección principal del producto */}
+        <div className="flex flex-col lg:flex-row gap-12 mb-16">
+          {/* Galería de imágenes */}
+          <div className="lg:w-1/2 w-full">
+            <ProductGallery
+              images={product.images}
+              selectedImage={selectedImage}
+              onImageSelect={setSelectedImage}
+              productName={product.name}
+            />
           </div>
-          {/* Fila de detalles y reseñas */}
-          <div className="flex flex-col lg:flex-row gap-12">
-            <div className="flex-1">
-              <ProductDetails product={product} />
-            </div>
-            <div className="flex-1">
-              <ProductReviews
-          reviews={reviews}
-          productName={product.name}
-          productId={product.id}
-              />
-            </div>
+
+          {/* Información del producto */}
+          <div className="lg:w-1/2 w-full flex flex-col gap-8">
+            <ProductInfo product={product} reviews={reviews} />
+            <ProductActions
+              product={product}
+              quantity={quantity}
+              onQuantityChange={setQuantity}
+            />
+            <ProductDetails product={product} />
+            {/* Sección de reseñas (full width) */}
+            <ProductReviews
+              reviews={reviews}
+              productName={product.name}
+              productId={product.id}
+            />
           </div>
         </div>
+        {/* Productos relacionados */}
+        <div className="container mx-auto px-4 pb-20">
+          <h3 className="text-3xl font-bold mb-6">También podría gustarte</h3>
+
+          <FeaturedProducts />
+        </div>
+
       </div>
     </div>
   );

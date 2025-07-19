@@ -3,9 +3,9 @@ import { Button } from "@/components/ui/button";
 import { useProducts } from "@/hooks/products/useProducts";
 import ProductCard from "./product-card";
 
-export function FeaturedProducts() {
+export function FeaturedProducts2() {
   const { data: products = [], isLoading, isError } = useProducts({
-    sort: "rating",
+    sort: "newest",
   });
   const topRated = products.data;
 
@@ -15,7 +15,7 @@ export function FeaturedProducts() {
         {/* Heading */}
         <div className="mb-5">
           <h2 className="text-4xl flex flex-col font-bold">
-            Nuestros <span className="font-subtitulo font-thin italic">Favoritos</span>
+            Te puede <span className="font-subtitulo font-thin italic">Gustar</span>
           </h2>
         </div>
 

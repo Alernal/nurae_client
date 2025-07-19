@@ -96,94 +96,88 @@ export function ProductActions({
   };
 
   return (
-    <div className="space-y-6 bg-white">
-      {/* Quantity Selector */}
-      <div className="space-x-3 flex flex-col sm:flex-row justify-center items-start gap-4 sm:gap-0 sm:items-center sm:justify-between">
-        <div className="flex items-center gap-3">
-          <label className="text-sm font-medium text-gray-700">Cantidad</label>
-          <div className="flex items-center border border-gray-300 rounded-lg">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-10 w-10 rounded-r-none"
-              onClick={() => handleQuantityChange(quantity - 1)}
-              disabled={quantity <= 1}
-            >
-              <LuMinus className="h-4 w-4" />
-            </Button>
-            <Input
-              type="number"
-              value={quantity}
-              onChange={(e) =>
-                handleQuantityChange(Number.parseInt(e.target.value) || 1)
-              }
-              className="w-16 text-center border-0 border-l border-r border-gray-300 rounded-none focus-visible:ring-0"
-              min="1"
-              max={product.stock_count}
-            />
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-10 w-10 rounded-l-none"
-              onClick={() => handleQuantityChange(quantity + 1)}
-              disabled={quantity >= product.stock_count}
-            >
-              <LuPlus className="h-4 w-4" />
-            </Button>
-          </div>
-        </div>
-
-        <div className="space-x-3 flex items-center">
+    <div className="space-y-6">
+      {/* Selector de Cantidad (Centrado) */}
+      <div className="flex flex-col items-start gap-2">
+        <label className="text-sm font-medium text-gray-700">Cantidad</label>
+        <div className="flex items-center border border-gray-300 rounded-none">
           <Button
-            className="border h-12 w-20 font-semibold text-green-500"
-            onClick={handleBuyNow}
-            title={
-              isAddingToCart
-                ? "Agregando..."
-                : cartItem
-                ? "Ya está en el carrito"
-                : "Agregar al Carrito"
-            }
-          >
-            Comprar
-          </Button>
-          {/* Add to Cart Button */}
-          <Button
+            variant="ghost"
             size="icon"
-            className="h-12 w-12 border font-semibold"
+            className="h-10 w-10"
+            onClick={() => handleQuantityChange(quantity - 1)}
+            disabled={quantity <= 1}
+          >
+            <LuMinus className="h-4 w-4" />
+          </Button>
+          <Input
+            type="text"
+            value={quantity}
+            onChange={(e) =>
+              handleQuantityChange(Number.parseInt(e.target.value) || 1)
+            }
+            className="w-16 text-center border-0 border-l border-r border-gray-300 rounded-none focus-visible:ring-0"
+            min="1"
+            disabled
+            max={product.stock_count}
+          />
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-10 w-10 rounded-l-none"
+            onClick={() => handleQuantityChange(quantity + 1)}
+            disabled={quantity >= product.stock_count}
+          >
+            <LuPlus className="h-4 w-4" />
+          </Button>
+        </div>
+      </div>
+
+      {/* Botones principales (Verticales) */}
+      <div className="flex flex-col gap-1 w-85">
+        <Button
+          className="w-full h-12 font-semibold rounded-none text-white bg-black hover:bg-gray-500"
+          onClick={handleBuyNow}
+          title={isAddingToCart ? "Agregando..." : "Comprar ahora"}
+        >
+          Comprar ahora
+        </Button>
+
+        <div className="flex items-center justify-between gap-3">
+          <Button
+            className="flex-1 h-12 border font-semibold rounded-none"
             onClick={handleAddToCart}
             disabled={!product.in_stock || isAddingToCart || !!cartItem}
             title={
               isAddingToCart
                 ? "Agregando..."
                 : cartItem
-                ? "Ya está en el carrito"
-                : "Agregar al Carrito"
+                  ? "Ya está en el carrito"
+                  : "Agregar al carrito"
             }
           >
-            <LuShoppingCart className="w-6 h-6" />
+            <LuShoppingCart className="w-5 h-5 mr-2" />
+            Agregar al carrito
           </Button>
 
-          {/* Wishlist Icon */}
-          <Button
+          {/* <Button
             variant="outline"
             size="icon"
-            className="h-12 w-12 font-semibold"
+            className="h-12 w-12"
             onClick={toggleWishlist}
             title={
               isInWishlist(product.id) ? "En Favoritos" : "Agregar a Favoritos"
             }
           >
             <LuHeart
-              className={`w-6 h-6 ${
-                isInWishlist(product.id) ? "fill-red-500 text-red-500" : ""
-              }`}
+              className={`w-6 h-6 ${isInWishlist(product.id) ? "fill-red-500 text-red-500" : ""
+                }`}
             />
-          </Button>
+          </Button> */}
         </div>
       </div>
 
-      {/* Stock Warning */}
+      {/* Advertencia de stock bajo */}
       {product.stock_count <= 3 && product.in_stock && (
         <div className="p-3 bg-orange-50 border border-orange-200 rounded-lg">
           <p className="text-sm text-orange-800 font-medium">
@@ -192,7 +186,7 @@ export function ProductActions({
         </div>
       )}
 
-      {/* No Stock Message */}
+      {/* Mensaje de no disponible */}
       {!product.in_stock && (
         <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
           <p className="text-sm text-red-800 font-medium">
@@ -202,4 +196,5 @@ export function ProductActions({
       )}
     </div>
   );
+
 }

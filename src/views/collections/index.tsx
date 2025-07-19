@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { LuGrid2X2, LuList, LuChevronDown } from "react-icons/lu";
+import { LuChevronDown, LuSearch } from "react-icons/lu";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -17,6 +17,8 @@ import { useProducts } from "@/hooks/products/useProducts";
 import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useDebounce } from "@/hooks/useDebounce";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Input } from "@/components/ui/input";
 
 export default function CollectionsPage() {
   const [page, setPage] = useState(1);
@@ -134,228 +136,204 @@ export default function CollectionsPage() {
 
   return (
     <div className="container px-4 py-8 md:px-6 md:py-12">
-      <div className="mb-8">
-        <h1 className="text-4xl md:text-5xl font-bold text-black mb-4">
+      <div className="mb-20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <h1 className="font-subtitulo italic text-4xl md:text-5xl font-normal text-black">
           Toda la Colección
         </h1>
-        <p className="text-lg text-gray-600 max-w-2xl">
-          Descubre nuestra colección completa de accesorios únicos diseñados
-          para mujeres que brillan con luz propia.
-        </p>
+
+        <div className="relative w-full sm:w-60">
+          <LuSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 h-4 w-4" />
+          <Input
+            type="text"
+            placeholder="Buscar..."
+            className="pl-10 pr-4 py-2 border rounded-none border-gray-500 focus:outline-none w-full"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-8 font-paragraph">
-        <aside className="w-full lg:w-64 bg-white">
-          <h3 className="font-semibold text-lg mb-4">Filtros</h3>
 
-          {/* Campo de búsqueda */}
-          <div className="mb-6">
-            <h4 className="text-sm font-medium mb-2">Buscar Productos</h4>
-            <input
-              type="text"
-              placeholder="Buscar por nombre..."
-              className="w-full px-4 py-2 border border-gray-200 rounded-md"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-wrap justify-between items-center font-paragraph">
+          <div className="flex items-center gap-4">
+            <h1 className="font-semibold">Filtros: </h1>
+            <Popover>
+              <PopoverTrigger className="rounded-none text-sm">
+                Categoría
+                <LuChevronDown className="inline h-4 w-4 ml-1" />
+              </PopoverTrigger>
+              <PopoverContent className="w-56">
+                <div className="flex flex-col gap-2">
+                  {categories.map((cat) => (
+                    <div key={cat.value} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={`cat-${cat.value}`}
+                        checked={selectedCategories.includes(cat.value)}
+                        onCheckedChange={(checked) =>
+                          setSelectedCategories((prev) =>
+                            checked
+                              ? [...prev, cat.value]
+                              : prev.filter((c) => c !== cat.value)
+                          )
+                        }
+                      />
+                      <Label htmlFor={`cat-${cat.value}`} className="text-sm">
+                        {cat.label}
+                      </Label>
+                    </div>
+                  ))}
+                </div>
+              </PopoverContent>
+            </Popover>
+
+            {/* Filtro: Material */}
+            <Popover>
+              <PopoverTrigger className="rounded-none text-sm">
+                Material
+                <LuChevronDown className="inline h-4 w-4 ml-1" />
+              </PopoverTrigger>
+              <PopoverContent className="w-56">
+                <div className="flex flex-col gap-2">
+                  {materials.map((mat) => (
+                    <div key={mat.value} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={`mat-${mat.value}`}
+                        checked={selectedMaterials.includes(mat.value)}
+                        onCheckedChange={(checked) =>
+                          setSelectedMaterials((prev) =>
+                            checked
+                              ? [...prev, mat.value]
+                              : prev.filter((m) => m !== mat.value)
+                          )
+                        }
+                      />
+                      <Label htmlFor={`mat-${mat.value}`} className="text-sm">
+                        {mat.label}
+                      </Label>
+                    </div>
+                  ))}
+                </div>
+              </PopoverContent>
+            </Popover>
+
+            {/* Filtro: Precio */}
+            <Popover>
+              <PopoverTrigger className="rounded-none text-sm">
+                Precio
+                <LuChevronDown className="inline h-4 w-4 ml-1" />
+              </PopoverTrigger>
+              <PopoverContent className="w-64">
+                <div className="flex flex-col gap-4 p-2">
+                  <Label className="text-sm">Hasta:</Label>
+                  <Slider
+                    value={[priceRange[0]]}
+                    onValueChange={(value) => {
+                      hasInteractedRef.current = true;
+                      setPriceRange(value);
+                    }}
+                    min={0}
+                    max={1000000}
+                    step={2000}
+                  />
+                  <span className="text-xs text-center text-muted-foreground">
+                    {priceRange[0].toLocaleString("es-CO", {
+                      style: "currency",
+                      currency: "COP",
+                      maximumFractionDigits: 0,
+                    })}
+                  </span>
+                </div>
+              </PopoverContent>
+            </Popover>
           </div>
 
-          <div className="mb-6">
-            <h4 className="text-sm font-medium mb-2">Categorías</h4>
-            {categories.map((cat) => (
-              <div key={cat.value} className="flex items-center space-x-2 mb-1">
-                <Checkbox
-                  id={cat.value}
-                  checked={selectedCategories.includes(cat.value)}
-                  onCheckedChange={(checked) =>
-                    setSelectedCategories((prev) =>
-                      checked
-                        ? [...prev, cat.value]
-                        : prev.filter((c) => c !== cat.value)
-                    )
-                  }
-                />
-                <Label htmlFor={cat.value} className="text-sm font-light">
-                  {cat.label}
-                </Label>
-              </div>
-            ))}
-          </div>
-
-          <div className="mb-6">
-            <h4 className="text-sm font-medium mb-2">Material</h4>
-            {materials.map((mat) => (
-              <div key={mat.value} className="flex items-center space-x-2 mb-1">
-                <Checkbox
-                  id={mat.value}
-                  checked={selectedMaterials.includes(mat.value)}
-                  onCheckedChange={(checked) =>
-                    setSelectedMaterials((prev) =>
-                      checked
-                        ? [...prev, mat.value]
-                        : prev.filter((m) => m !== mat.value)
-                    )
-                  }
-                />
-                <Label htmlFor={mat.value} className="text-sm font-light">
-                  {mat.label}
-                </Label>
-              </div>
-            ))}
-          </div>
-
-          <div className="mb-6">
-            <h4 className="text-sm font-medium mb-2">Precio</h4>
-            <Slider
-              value={[priceRange[0]]}
-              onValueChange={(value) => {
-                hasInteractedRef.current = true;
-                setPriceRange(value);
-              }}
-              min={0}
-              max={1000000}
-              step={2000}
-            />
-
-            <div className="flex justify-between text-xs mt-2">
-              <div className="text-xs mt-2 text-center">
-                Hasta:{" "}
-                {priceRange[0].toLocaleString("es-CO", {
-                  style: "currency",
-                  currency: "COP",
-                  maximumFractionDigits: 0,
-                })}
-              </div>
-
-            </div>
-          </div>
-
-          <Button
-            variant="outline"
-            className="w-full"
-            onClick={() => {
-              setSelectedCategories([]);
-              setSelectedMaterials([]);
-              setPriceRange([0, 1000000]);
-              setAppliedPriceRange(undefined);
-              setSearch("");  // Limpiar búsqueda
-            }}
-          >
-            Limpiar filtros
-          </Button>
-        </aside>
-
-        {/* Productos */}
-        <div className="flex-1 flex flex-col">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8 bg-white/80 backdrop-blur-sm rounded-2xl">
-            <div className="flex items-center gap-4">
-              <span className="text-sm text-gray-600 flex items-center gap-2">
-                Mostrando {products.length} productos
-                {isLoading && <span className="animate-spin h-4 w-4 border border-gray-400 rounded-full border-t-transparent" />}
-              </span>
-
-              <div className="flex items-center gap-2">
-                <Button
-                  size="sm"
-                  onClick={() => setViewMode("grid")}
-                  className="bg-gray-200"
-                >
-                  <LuGrid2X2 className="h-4 w-4" />
-                </Button>
-                <Button
-                  size="sm"
-                  onClick={() => setViewMode("list")}
-                  className="bg-gray-200"
-                >
-                  <LuList className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
+          <div className="flex items-center gap-2">
+            <span className="font-semibold text-sm whitespace-nowrap">Ordenar por:</span>
 
             <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-48">
+              <SelectTrigger className="min-w-[160px] px-3 py-1 text-sm bg-transparent border-none focus:outline-none">
                 <SelectValue placeholder="Ordenar por" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="w-[180px]">
                 <SelectItem value="featured">Destacados</SelectItem>
                 <SelectItem value="newest">Más recientes</SelectItem>
                 <SelectItem value="price-low">Precio: Menor a Mayor</SelectItem>
-                <SelectItem value="price-high">
-                  Precio: Mayor a Menor
-                </SelectItem>
+                <SelectItem value="price-high">Precio: Mayor a Menor</SelectItem>
                 <SelectItem value="rating">Mejor calificados</SelectItem>
               </SelectContent>
             </Select>
           </div>
+        </div>
 
-          <div
-            className={cn(
-              "grid gap-6",
-              viewMode === "grid"
-                ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-                : "grid-cols-1"
-            )}
-          >
-            {products.map((product: any) => (
+        <div
+          className={cn(
+            "grid auto-rows-fr gap-10 place-items-stretch",
+            viewMode === "grid"
+              ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
+              : "grid-cols-1"
+          )}
+        >
+          {products.map((product: any) => (
+            <div className="h-full"> {/* Contenedor de tarjeta */}
               <ProductCard
                 key={product.id}
                 product={product}
-                viewMode={viewMode}
               />
-            ))}
-          </div>
-
-          <div className="mt-12 flex justify-center">
-            <div className="flex items-center gap-2">
-              <Button
-                size="icon"
-                className="bg-gray-100 hover:bg-gray-300 shadow-none border-none"
-                onClick={() => {
-                  setPage((prev) => Math.max(prev - 1, 1));
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
-                disabled={currentPage === 1}
-              >
-                <LuChevronDown className="h-4 w-4 rotate-90" />
-              </Button>
-
-              {getPagination(currentPage, lastPage).map((pageNum, i) =>
-                pageNum === "..." ? (
-                  <span key={`ellipsis-${i}`} className="px-2">...</span>
-                ) : (
-                  <Button
-                    key={pageNum}
-                    className={cn(
-                      "shadow-none border-none",
-                      currentPage === pageNum
-                        ? "bg-black text-white"
-                        : "bg-gray-100 hover:bg-gray-300 text-black"
-                    )}
-                    onClick={() => {
-                      setPage(Number(pageNum));
-                      window.scrollTo({ top: 0, behavior: "smooth" });
-                    }}
-                  >
-                    {pageNum}
-                  </Button>
-                )
-              )}
-
-              <Button
-                size="icon"
-                className="bg-gray-100 hover:bg-gray-300 shadow-none border-none"
-                onClick={() => {
-                  setPage((prev) => Math.min(prev + 1, lastPage));
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
-                disabled={currentPage === lastPage}
-              >
-                <LuChevronDown className="h-4 w-4 -rotate-90" />
-              </Button>
             </div>
-          </div>
-
+          ))}
         </div>
+
+        <div className="mt-12 flex justify-center">
+          <div className="flex items-center gap-2">
+            <Button
+              size="icon"
+              className="bg-gray-100 hover:bg-gray-300 shadow-none border-none"
+              onClick={() => {
+                setPage((prev) => Math.max(prev - 1, 1));
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              disabled={currentPage === 1}
+            >
+              <LuChevronDown className="h-4 w-4 rotate-90" />
+            </Button>
+
+            {getPagination(currentPage, lastPage).map((pageNum, i) =>
+              pageNum === "..." ? (
+                <span key={`ellipsis-${i}`} className="px-2">...</span>
+              ) : (
+                <Button
+                  key={pageNum}
+                  className={cn(
+                    "shadow-none border-none",
+                    currentPage === pageNum
+                      ? "bg-black text-white"
+                      : "bg-gray-100 hover:bg-gray-300 text-black"
+                  )}
+                  onClick={() => {
+                    setPage(Number(pageNum));
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}
+                >
+                  {pageNum}
+                </Button>
+              )
+            )}
+
+            <Button
+              size="icon"
+              className="bg-gray-100 hover:bg-gray-300 shadow-none border-none"
+              onClick={() => {
+                setPage((prev) => Math.min(prev + 1, lastPage));
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              disabled={currentPage === lastPage}
+            >
+              <LuChevronDown className="h-4 w-4 -rotate-90" />
+            </Button>
+          </div>
+        </div>
+
       </div>
     </div>
   );

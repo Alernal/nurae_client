@@ -71,6 +71,7 @@ export function ReviewModal({
           variant="outline"
           size="sm"
           disabled={!isAuthenticated}
+          className="rounded-none font-parrafo"
         >
           {isAuthenticated ? "Escribir Reseña" : "Inicia sesión para comentar"}
         </Button>
@@ -78,7 +79,7 @@ export function ReviewModal({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Escribir Reseña</DialogTitle>
-          <p className="text-sm text-muted-foreground">{productName}</p>
+          <p className="text-sm text-muted-foreground font-parrafo">{productName}</p>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -98,8 +99,8 @@ export function ReviewModal({
                   <LuStar
                     className={`w-8 h-8 transition-colors ${
                       star <= (hoveredRating || rating)
-                        ? "fill-yellow-400 text-yellow-400"
-                        : "text-gray-300 hover:text-yellow-300"
+                        ? "fill-black text-black"
+                        : "text-gray-300 hover:text-black"
                     }`}
                   />
                 </button>
@@ -126,6 +127,7 @@ export function ReviewModal({
               placeholder="Comparte tu experiencia con este producto..."
               rows={4}
               maxLength={500}
+              className="rounded-none"
             />
             <p className="text-xs text-muted-foreground text-right">
               {comment.length}/500 caracteres
@@ -137,7 +139,7 @@ export function ReviewModal({
             <Button
               type="button"
               variant="outline"
-              className="flex-1"
+              className="flex-1 rounded-none font-parrafo"
               onClick={() => setIsOpen(false)}
               disabled={isSubmitting}
             >
@@ -145,7 +147,7 @@ export function ReviewModal({
             </Button>
             <Button
               type="submit"
-              className="flex-1"
+              className="flex-1 border rounded-none bg-black text-white font-parrafo"
               disabled={rating === 0 || isSubmitting}
             >
               {isSubmitting ? "Enviando..." : "Enviar Reseña"}

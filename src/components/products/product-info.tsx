@@ -25,11 +25,11 @@ interface ProductInfoProps {
 export function ProductInfo({ product, reviews = [] }: ProductInfoProps) {
   const discount =
     product.original_price &&
-    product.original_price > 0 &&
-    product.original_price < product.price
+      product.original_price > 0 &&
+      product.original_price < product.price
       ? Math.round(
-          ((product.price - product.original_price) / product.price) * 100
-        )
+        ((product.price - product.original_price) / product.price) * 100
+      )
       : 0;
 
   const reviewCount = reviews.length;
@@ -49,7 +49,7 @@ export function ProductInfo({ product, reviews = [] }: ProductInfoProps) {
       {/* Category & Stock Status */}
       <div className="flex items-center gap-3">
         {product.category && (
-          <Badge className="text-xs font-medium">
+          <Badge className="bg-transparent border border-black text-xs font-normal">
             {product.category.charAt(0).toUpperCase() +
               product.category.slice(1)}
           </Badge>
@@ -57,7 +57,7 @@ export function ProductInfo({ product, reviews = [] }: ProductInfoProps) {
         {product.material && (
           <Badge
             variant="default"
-            className="bg-yellow-100 text-yellow-800 text-xs font-medium"
+            className="bg-transparent border border-black text-xs font-normal"
           >
             {product.material.charAt(0).toUpperCase() +
               product.material.slice(1)}
@@ -66,7 +66,7 @@ export function ProductInfo({ product, reviews = [] }: ProductInfoProps) {
         {product.in_stock ? (
           <Badge
             variant="default"
-            className="bg-green-100 text-green-800 hover:bg-green-100"
+            className="bg-transparent border border-black text-xs font-normal"
           >
             En Stock ({product.stock_count} disponibles)
           </Badge>
@@ -76,24 +76,12 @@ export function ProductInfo({ product, reviews = [] }: ProductInfoProps) {
       </div>
 
       {/* Product Name */}
-      <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
+      <h1 className="text-2xl lg:text-3xl m-0 font-semibold text-gray-900 leading-tight">
         {product.name}
       </h1>
 
       {/* Rating */}
-      <div className="flex items-center gap-2">
-        <div className="flex items-center">
-          {[...Array(5)].map((_, i) => (
-            <LuStar
-              key={i}
-              className={`w-5 h-5 ${
-                i < filledStars
-                  ? "fill-yellow-400 text-yellow-400"
-                  : "text-gray-300"
-              }`}
-            />
-          ))}
-        </div>
+      <div className="flex items-center">
         <span className="text-sm text-muted-foreground">
           ({averageRating.toFixed(1)}) • {reviewCount} reseña
           {reviewCount !== 1 && "s"}
@@ -103,7 +91,7 @@ export function ProductInfo({ product, reviews = [] }: ProductInfoProps) {
       {/* Pricing */}
       <div className="space-y-2">
         <div className="flex items-baseline gap-3">
-          <span className="text-4xl font-bold text-gray-900">
+          <span className="text-2xl font-bold text-gray-900">
             {new Intl.NumberFormat("es-CO", {
               style: "currency",
               currency: "COP",
@@ -127,28 +115,10 @@ export function ProductInfo({ product, reviews = [] }: ProductInfoProps) {
             </>
           )}
         </div>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-[10px] font-parrafo">
           Precio incluye IVA • Envío gratuito en compras mayores a $150.000
         </p>
       </div>
-
-      {/* Description */}
-      {product.description && (
-        <div className="prose prose-sm max-w-none">
-          <p
-            className="text-gray-700 font-paragraph leading-relaxed line-clamp-4"
-            style={{
-              display: "-webkit-box",
-              WebkitLineClamp: 4,
-              WebkitBoxOrient: "vertical",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-            }}
-          >
-            {product.description}
-          </p>
-        </div>
-      )}
     </div>
   );
 }
