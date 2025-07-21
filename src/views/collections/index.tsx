@@ -52,8 +52,6 @@ export default function CollectionsPage() {
   const currentPage = productsData?.current_page || 1;
   const lastPage = productsData?.last_page || 1;
 
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
@@ -155,8 +153,8 @@ export default function CollectionsPage() {
 
 
       <div className="flex flex-col gap-4">
-        <div className="flex flex-wrap justify-between items-center font-paragraph">
-          <div className="flex items-center gap-4">
+        <div className="flex flex-col sm:flex-row sm:justify-between gap-4 font-paragraph">
+          <div className="flex flex-wrap items-center gap-3 ">
             <h1 className="font-semibold">Filtros: </h1>
             <Popover>
               <PopoverTrigger className="rounded-none text-sm">
@@ -248,7 +246,7 @@ export default function CollectionsPage() {
             </Popover>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center">
             <span className="font-semibold text-sm whitespace-nowrap">Ordenar por:</span>
 
             <Select value={sortBy} onValueChange={setSortBy}>
@@ -268,10 +266,7 @@ export default function CollectionsPage() {
 
         <div
           className={cn(
-            "grid auto-rows-fr gap-10 place-items-stretch",
-            viewMode === "grid"
-              ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
-              : "grid-cols-1"
+            "grid auto-rows-fr gap-10 place-items-stretch grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
           )}
         >
           {products.map((product: any) => (

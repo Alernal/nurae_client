@@ -22,13 +22,13 @@ export function AboutSection() {
             <div className="relative w-full h-full">
               {/* Fondo decorativo circular (si lo deseas mantener) */}
               <div className="absolute inset-0 z-0">
-                <div className="w-72 h-72 bg-gray-300 rounded-full mx-auto blur-xl opacity-30" />
+                <div className="w-70 h-70 bg-gray-300 rounded-full mx-auto blur-xl opacity-30" />
               </div>
               {/* Imagen principal */}
               <img
                 src="/images/model_about.png"
                 alt="Mujer elegante"
-                className="relative z-10 mx-auto max-w-md object-cover"
+                className="relative z-10 max-w-full object-cover max-[390px]:w-52"
               />
             </div>
           </div>
@@ -45,7 +45,7 @@ export function AboutSection() {
             </p>
             <div className="flex justify-start">
               <Link to="/about">
-                <Button className="bg-transparent border border-[#7D5840] text-[#7D5840] hover:bg-[#7D5840] hover:text-white px-8 py-3 rounded-full transition-all duration-300">
+                <Button className="bg-transparent border hover:bg-black hover:text-white px-8 py-3 rounded-full transition-all duration-300">
                   Conoce más
                 </Button>
               </Link>

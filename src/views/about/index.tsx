@@ -19,6 +19,7 @@ export default function AboutPage() {
                   src={src}
                   alt={`Imagen ${index + 1}`}
                   loading="lazy"
+                  fetchpriority={index === 0 ? "high" : "low"} 
                   className="object-contain w-full h-[380px] md:h-[420px] shadow-md transition-transform duration-300 hover:scale-[1.02]"
                 />
               ))}

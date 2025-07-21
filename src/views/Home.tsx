@@ -1,5 +1,4 @@
-import { FeaturedProducts } from "@/components/featured-products";
-import { FeaturedProducts2 } from "@/components/featured-products2";
+import { FeaturedProductsSection } from "@/components/featured-products";
 import { Newsletter } from "@/components/newsletter";
 import { CategoryShowcase } from "@/components/category-showcase";
 import { HeroSection } from "@/components/hero-section";
@@ -13,17 +12,17 @@ export default function Home() {
       {/* <TrustBadges /> */}
       <CategoryShowcase />
 
-      <FeaturedProducts />
-      
-      <FeaturedProducts2 />
+      <FeaturedProductsSection
+        titleTop="Nuestros"
+        titleBottom="Favoritos"
+        sort="rating"
+      />
 
-      {/* <section className="w-full">
-        <img
-          src="/transition.png"
-          alt="Transición visual"
-          className="w-full h-full object-contain"
-        />
-      </section> */}
+      <FeaturedProductsSection
+        titleTop="Te puede"
+        titleBottom="Gustar"
+        sort="newest"
+      />
 
       <AboutSection />
 

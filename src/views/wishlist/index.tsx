@@ -33,10 +33,7 @@ export default function WishlistPage() {
   if (wishlistItems.length === 0) {
     return (
       <div className="min-h-screen px-4 py-16 md:px-6 md:py-24 text-center space-y-8 max-w-2xl mx-auto flex flex-col items-center justify-center">
-        <div className="w-32 h-32 mx-auto rounded-full flex items-center justify-center shadow-md">
-          <LuHeart className="h-16 w-16 text-gray-400" />
-        </div>
-        <h1 className="text-4xl md:text-5xl font-serif font-bold text-gray-800">
+        <h1 className="text-4xl md:text-5xl font-bold">
           Tu lista de deseos está vacía
         </h1>
         <p className="text-lg text-gray-600 max-w-md mx-auto">
@@ -44,16 +41,8 @@ export default function WishlistPage() {
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link to="/collections">
-            <Button className="bg-luxury-gradient hover:opacity-90 text-white px-8 py-3 rounded-full text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300">
+            <Button className="border hover:bg-black hover:text-white cursor-pointer px-8 py-3 rounded-full text-lg font-medium transition-all duration-300">
               Explorar Colecciones
-            </Button>
-          </Link>
-          <Link to="/bestsellers">
-            <Button
-              variant="outline"
-              className="border-2 border-rose-600 text-rose-600 hover:bg-rose-600 hover:text-white px-8 py-3 rounded-full text-lg font-medium transition-colors"
-            >
-              Ver Más Vendidos
             </Button>
           </Link>
         </div>
@@ -64,7 +53,7 @@ export default function WishlistPage() {
   return (
     <div className="min-h-screen px-4 py-8 md:px-6 md:py-12">
       <div className="text-center space-y-4 mb-12">
-        <h1 className="text-4xl md:text-5xl font-serif font-bold text-[var(--color-marron)]">
+        <h1 className="text-4xl md:text-5xl font-bold">
           Mi Lista de Deseos
         </h1>
         <p className="text-xl text-gray-600">{wishlistItems.length} producto(s) favorito(s)</p>

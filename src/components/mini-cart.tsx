@@ -84,7 +84,7 @@ export function MiniCart() {
               <LuShoppingBag className="h-14 w-14 text-secondary-300" />
               <p className="text-lg font-medium">Tu carrito está vacío</p>
               <Link to="/collections"
-                className="bg-[#5E4536] p-2 rounded-xl text-white hover:bg-[#5E4536]/90"
+                className="border px-4 py-2 rounded-xl hover:bg-black hover:text-white"
                 onClick={() => setIsOpen(false)}
               >
                 Explorar productos
@@ -214,13 +214,13 @@ export function MiniCart() {
 
             <div className="pt-2 flex flex-row gap-2">
               <Link to="/checkout" onClick={() => setIsOpen(false)} className="flex-1">
-                <Button className="w-full border border-gray-400 bg-primary text-black hover:bg-gray-400/90 h-12 font-medium">
+                <Button className="w-full border hover:text-white hover:bg-black h-12 font-medium">
                   Proceder al Checkout
                 </Button>
               </Link>
               <Button
                 variant="ghost"
-                className="border border-red-500 text-red-500 hover:text-destructive/70 h-12 w-10"
+                className="border border-red-500 text-red-500 hover:bg-red-500 hover:text-white h-12 w-10"
                 onClick={clearCartCloud}
                 title="Vaciar carrito"
               >

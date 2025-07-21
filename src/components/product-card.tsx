@@ -1,7 +1,8 @@
 import { useWishlist } from "@/hooks/useWishlist";
 import { useCart } from "@/hooks/useCart";
 import { Button } from "./ui/button";
-import { LuHeart, LuShoppingBag, LuStar } from "react-icons/lu";
+import { LuHeart, LuStar } from "react-icons/lu";
+import { BsCartCheckFill } from "react-icons/bs"
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
@@ -54,8 +55,8 @@ export default function ProductCard({ product }) {
   return (
     <div className="group relative flex flex-col w-full h-full">
       <div className="relative overflow-hidden">
-        <Link to={`/products/${product.slug}`} className="relative group block bg-white overflow-hidden">
-          <div className="relative flex items-center justify-center bg-white aspect-[3/4]">
+        <Link to={`/products/${product.slug}`} className="relative group block overflow-hidden">
+          <div className="relative flex items-center justify-center aspect-[3/4]">
             {/* Imagen principal */}
             <img
               src={imageUrl}
@@ -70,7 +71,7 @@ export default function ProductCard({ product }) {
                 src={`https://nurae-api.alernal.com.co/${product.images[1].url}`}
                 alt={product.name + " segunda imagen"}
                 loading="lazy"
-                className="absolute inset-0 h-full w-full object-fill transition-opacity duration-500 opacity-0 group-hover:opacity-100"
+                className="absolute inset-0 h-full w-full object-cover transition-opacity duration-500 opacity-0 group-hover:opacity-100"
               />
             )}
 
@@ -88,7 +89,8 @@ export default function ProductCard({ product }) {
           </div>
         </Link>
 
-        <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition duration-300 translate-x-2 group-hover:translate-x-0">
+        <div className="absolute top-4 right-4 flex items-end gap-2 opacity-0 group-hover:opacity-100 transition duration-300 translate-x-2 group-hover:translate-x-0">
+          {/* Botón wishlist */}
           <Button
             variant="ghost"
             size="icon"
@@ -99,75 +101,75 @@ export default function ProductCard({ product }) {
               className={cn(
                 "h-5 w-5 transition-colors",
                 isInWishlist(product.id)
-                  ? "fill-[#5E4536] text-[#5E4536]"
+                  ? "fill-black text-black"
                   : "text-gray-600"
               )}
             />
           </Button>
-        </div>
 
-        <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition duration-300 translate-y-2 group-hover:translate-y-0">
+          {/* Botón carrito */}
           <Button
-            className="w-full bg-[#5E4536] hover:opacity-90 text-white rounded-full shadow-lg text-sm font-semibold"
+            variant="ghost"
+            size="icon"
             onClick={handleAddToCart}
-            disabled={isMaxReached || quantityInCart > 0}
+            disabled={isMaxReached}
+            className={cn(
+              "shadow-md rounded-full transition-colors",
+              quantityInCart > 0
+                ? "bg-black text-white hover:bg-black"
+                : "bg-white/90 text-gray-600 hover:bg-white"
+            )}
           >
-            <LuShoppingBag className="mr-2 h-4 w-4" />
-            {quantityInCart > 0 ? "Agregado" : "Añadir al carrito"}
+            <BsCartCheckFill className="h-5 w-5" />
           </Button>
-          {isMaxReached && (
-            <p className="text-xs text-red-500 mt-2 text-center">
-              No hay más unidades disponibles
-            </p>
-          )}
         </div>
-      </div>
 
-      <div className="p-5 flex flex-col flex-grow">
-        <div className="flex items-center justify-between text-xs text-muted-foreground font-medium mb-2">
-          <Link
-            to={`/collections?category=${product.category ?? "general"}`}
-            className="uppercase tracking-wide hover:underline"
-          >
-            {product.category ?? "General"}
-          </Link>
-          <div className="flex items-center gap-1">
-            <LuStar className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-            <span>{avgRating}</span>
-            <span className="text-gray-400">({reviews.length})</span>
+        <div className="p-5 flex flex-col flex-grow">
+          <div className="flex items-center justify-between text-xs text-muted-foreground font-medium mb-2">
+            <Link
+              to={`/collections?category=${product.category ?? "general"}`}
+              className="uppercase tracking-wide hover:underline"
+            >
+              {product.category ?? "General"}
+            </Link>
+            <div className="flex items-center gap-1">
+              <LuStar className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+              <span>{avgRating}</span>
+              <span className="text-gray-400">({reviews.length})</span>
+            </div>
           </div>
-        </div>
 
-        <Link to={`/products/${product.slug}`}>
-          <h3 className="text-[12px] text-[#2C1810] leading-snug group-hover:text-[#5E4536] transition-colors truncate mb-1">
-            {product.name}
-          </h3>
-        </Link>
+          <Link to={`/products/${product.slug}`}>
+            <h3 className="text-[12px] text-[#2C1810] leading-snug group-hover:text-[#5E4536] transition-colors truncate mb-1">
+              {product.name}
+            </h3>
+          </Link>
 
-        {/* {product.description && (
+          {/* {product.description && (
           <p className="text-sm text-gray-600 font-light line-clamp-2 mb-3">
             {product.description}
           </p>
         )} */}
 
-        <div className="flex-grow" />
+          <div className="flex-grow" />
 
-        <div className="flex items-center justify-between mt-2 border-gray-200">
-          <div>
-            <p className="text-sm font-bold leading-none">
-              {new Intl.NumberFormat("es-CO", {
-                style: "currency",
-                currency: "COP",
-              }).format(isOnSale ? offerPrice : regularPrice)}
-            </p>
-            {isOnSale && (
-              <p className="text-sm text-gray-400 line-through">
+          <div className="flex items-center justify-between mt-2 border-gray-200">
+            <div>
+              <p className="text-sm font-bold leading-none">
                 {new Intl.NumberFormat("es-CO", {
                   style: "currency",
                   currency: "COP",
-                }).format(regularPrice)}
+                }).format(isOnSale ? offerPrice : regularPrice)}
               </p>
-            )}
+              {isOnSale && (
+                <p className="text-sm text-gray-400 line-through">
+                  {new Intl.NumberFormat("es-CO", {
+                    style: "currency",
+                    currency: "COP",
+                  }).format(regularPrice)}
+                </p>
+              )}
+            </div>
           </div>
         </div>
       </div>

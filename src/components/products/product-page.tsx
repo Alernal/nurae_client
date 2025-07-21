@@ -4,7 +4,6 @@ import { ProductInfo } from "./product-info";
 import { ProductActions } from "./product-actions";
 import { ProductDetails } from "./product-details";
 import { ProductReviews } from "./product-reviews";
-import { FeaturedProducts } from "../featured-products";
 
 interface Product {
   id: number;
@@ -72,13 +71,6 @@ export function ProductPage({ product, reviews }: ProductPageProps) {
             />
           </div>
         </div>
-        {/* Productos relacionados */}
-        <div className="container mx-auto px-4 pb-20">
-          <h3 className="text-3xl font-bold mb-6">También podría gustarte</h3>
-
-          <FeaturedProducts />
-        </div>
-
       </div>
     </div>
   );

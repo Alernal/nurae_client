@@ -35,3 +35,15 @@ body {
   --color-marron: #5E4536;
   ---color-gris: #6D6559;
 }
+
+/* En tu archivo global (e.g., index.css o tailwind.css) */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  /* IE y Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
