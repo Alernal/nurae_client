@@ -85,7 +85,7 @@ export function AdminSidebar() {
             <div className="flex items-center gap-3">
               {user?.profile_image_url ? (
                 <img
-                  src={`http://127.0.0.1:8000${user.profile_image_url}`}
+                  src={`https://nurae-api.alernal.com.co/${user.profile_image_url}`}
                   alt="Avatar"
                   className="w-10 h-10 rounded-full object-cover"
                 />

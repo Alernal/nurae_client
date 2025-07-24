@@ -1,8 +1,7 @@
-import { useState } from "react";
 import { LuSearch, LuPackage } from "react-icons/lu";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -22,9 +21,13 @@ interface OrdersListProps {
   selectedOrderId?: number;
   searchTerm: string;
   onSearchChange: (value: string) => void;
+  statusFilter: OrderStatus;
+  onStatusFilterChange: (status: OrderStatus) => void;
+  paymentFilter: PaymentStatus;
+  onPaymentFilterChange: (status: PaymentStatus) => void;
 }
 
-const statusColors = {
+const statusColors: Record<OrderStatus, string> = {
   pending: "bg-yellow-100 text-yellow-800",
   processing: "bg-blue-100 text-blue-800",
   shipped: "bg-purple-100 text-purple-800",
@@ -32,9 +35,9 @@ const statusColors = {
   cancelled: "bg-red-100 text-red-800",
 };
 
-const paymentStatusColors = {
+const paymentStatusColors: Record<PaymentStatus, string> = {
   pending: "bg-yellow-100 text-yellow-800",
-  paid: "bg-green-100 text-green-800",
+  approved: "bg-white text-green-800",
   failed: "bg-red-100 text-red-800",
   refunded: "bg-gray-100 text-gray-800",
 };
@@ -45,12 +48,11 @@ export function OrdersList({
   selectedOrderId,
   searchTerm,
   onSearchChange,
+  statusFilter,
+  onStatusFilterChange,
+  paymentFilter,
+  onPaymentFilterChange,
 }: OrdersListProps) {
-  const [statusFilter, setStatusFilter] = useState<OrderStatus | "all">("all");
-  const [paymentFilter, setPaymentFilter] = useState<PaymentStatus | "all">(
-    "all"
-  );
-
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("es-CO", {
       style: "currency",
@@ -87,15 +89,12 @@ export function OrdersList({
           <div className="flex gap-2">
             <Select
               value={statusFilter}
-              onValueChange={(value) =>
-                setStatusFilter(value as OrderStatus | "all")
-              }
+              onValueChange={(value) => onStatusFilterChange(value as OrderStatus)}
             >
               <SelectTrigger className="flex-1">
                 <SelectValue placeholder="Estado" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Todos los estados</SelectItem>
                 <SelectItem value="pending">Pendiente</SelectItem>
                 <SelectItem value="processing">Procesando</SelectItem>
                 <SelectItem value="shipped">Enviado</SelectItem>
@@ -103,18 +102,14 @@ export function OrdersList({
                 <SelectItem value="cancelled">Cancelado</SelectItem>
               </SelectContent>
             </Select>
-
             <Select
               value={paymentFilter}
-              onValueChange={(value) =>
-                setPaymentFilter(value as PaymentStatus | "all")
-              }
+              onValueChange={(value) => onPaymentFilterChange(value as PaymentStatus)}
             >
               <SelectTrigger className="flex-1">
                 <SelectValue placeholder="Pago" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Todos los pagos</SelectItem>
                 <SelectItem value="pending">Pendiente</SelectItem>
                 <SelectItem value="approved">Pagado</SelectItem>
                 <SelectItem value="failed">Fallido</SelectItem>

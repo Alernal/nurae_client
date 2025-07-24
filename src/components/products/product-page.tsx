@@ -41,7 +41,7 @@ export function ProductPage({ product, reviews }: ProductPageProps) {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto py-5 md:py-12">
         {/* Sección principal del producto */}
         <div className="flex flex-col lg:flex-row gap-12 mb-16">
           {/* Galería de imágenes */}

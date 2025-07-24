@@ -2,7 +2,7 @@
 title: "Accesorios que hablan por ti"
 slug: "accesorios-que-hablan-por-ti"
 excerpt: "Explora cómo un accesorio puede ser más que un adorno: una declaración de identidad, poder y autenticidad femenina."
-image: "https://media.canva.com/v2/files/uri:ifs%3A%2F%2FM%2F8b6Rky0U0IHT2TO2ZbeU_sl685WfVxkcn6hIaloYs30.jpg?csig=AAAAAAAAAAAAAAAAAAAAAF2yglgngY63HOrXWgd7lZH69UxBJpAoLW9Qii5i39Ps&exp=1753151860&signer=media-rpc&token=AAIAAU0ALzhiNlJreTBVMElIVDJUTzJaYmVVX3NsNjg1V2ZWeGtjbjZoSWFsb1lzMzAuanBnAAAAAAGYL_5tIFkEoEGzolB_BzxD-iQzjYHNf_WjFmVENNo9x32WinTK"
+image: "https://ae01.alicdn.com/kf/Sb70a04d5cb014775bd83521d27dd159ad.jpg?width=1200&height=1200&hash=2400"
 imageAlt: "Mujer luciendo accesorios dorados"
 author: "María González"
 authorAvatar: "https://media.nngroup.com/media/people/photos/20211213_Vegas-maria.jpg.600x600_q75_autocrop_crop-smart_upscale.jpg"

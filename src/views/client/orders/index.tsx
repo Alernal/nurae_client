@@ -14,7 +14,7 @@ export type OrderStatus =
   | "shipped"
   | "completed"
   | "cancelled";
-export type PaymentStatus = "pending" | "paid" | "failed" | "refunded";
+export type PaymentStatus = "pending" | "approved" | "failed" | "refunded";
 
 export interface OrderProduct {
   id: number;
@@ -92,7 +92,10 @@ export default function ClientOrdersPage() {
   const [showStatusUpdate, setShowStatusUpdate] = useState(false);
   const [showStatusHistory, setShowStatusHistory] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [debouncedSearchTerm] = useDebounce(searchTerm, 2000); // 2 segundos
+  const [debouncedSearchTerm] = useDebounce(searchTerm, 2000);
+  const [statusFilter, setStatusFilter] = useState<OrderStatus>("pending");
+  const [paymentFilter, setPaymentFilter] = useState<PaymentStatus>("approved");
+
 
   const {
     data: orders = [],
@@ -101,6 +104,17 @@ export default function ClientOrdersPage() {
   } = useOrders({
     search: debouncedSearchTerm,
   });
+
+  const filteredOrders = orders.filter((order) => {
+    return (
+      order.status === statusFilter &&
+      order.payment_status === paymentFilter &&
+      (order.user.first_name.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
+        order.user.last_name?.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
+        order.user.email.toLowerCase().includes(debouncedSearchTerm.toLowerCase()))
+    );
+  });
+
 
   const {
     data: selectedOrder,
@@ -166,11 +180,15 @@ export default function ClientOrdersPage() {
           {/* Lista de órdenes */}
           <div className="lg:col-span-1">
             <OrdersList
-              orders={orders}
+              orders={filteredOrders}
               onOrderSelect={handleOrderSelect}
               selectedOrderId={selectedOrderId}
               searchTerm={searchTerm}
               onSearchChange={setSearchTerm}
+              statusFilter={statusFilter}
+              onStatusFilterChange={setStatusFilter}
+              paymentFilter={paymentFilter}
+              onPaymentFilterChange={setPaymentFilter}
             />
           </div>
 

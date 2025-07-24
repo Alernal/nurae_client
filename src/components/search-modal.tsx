@@ -30,28 +30,32 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl h-[80vh] p-0 bg-white">
-        <DialogHeader className="p-6 m-0">
-          <DialogTitle className="flex p-0 items-center gap-2 text-2xl font-serif">
-            <LuSearch className="text-primary" />
-            Buscar Productos
-          </DialogTitle>
+        <DialogHeader className="px-8 pt-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            {/* Título */}
+            <DialogTitle className="flex items-center gap-2 text-2xl p-0 m-0">
+              <LuSearch className="text-primary" />
+              Buscar Productos
+            </DialogTitle>
 
-          <div className="relative">
-            <LuSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-            <Input
-              type="text"
-              placeholder="¿Qué estás buscando hoy?"
-              className="pl-10 pr-12 h-12 text-lg border-2 focus:border-primary rounded-xl"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              autoFocus
-            />
+            {/* Buscador */}
+            <div className="relative w-full sm:w-auto sm:min-w-[300px]">
+              <LuSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 h-3 w-3 text-gray-400" />
+              <Input
+                type="text"
+                placeholder="¿Qué estás buscando hoy?"
+                className="pl-8 h-8 text-lg border rounded-xl w-full"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                autoFocus
+              />
+            </div>
           </div>
         </DialogHeader>
 
         <div className="flex flex-col h-full">
           {/* Resultados de la Búsqueda */}
-          <div className="flex-1 px-6 overflow-y-auto max-h-[55vh]">
+          <div className="flex-1 px-6 overflow-y-auto max-h-[70vh] -mt-3">
             {isLoading ? (
               <p className="text-center py-16 text-muted-foreground">
                 Cargando productos...

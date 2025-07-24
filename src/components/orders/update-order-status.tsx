@@ -10,7 +10,13 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
@@ -20,7 +26,12 @@ interface UpdateOrderStatusProps {
   order: Order
   open: boolean
   onOpenChange: (open: boolean) => void
-  onUpdateStatus: (orderId: number, newStatus: OrderStatus, message?: string, trackingUrl?: string) => void
+  onUpdateStatus: (
+    orderId: number,
+    newStatus: OrderStatus,
+    message?: string,
+    trackingUrl?: string
+  ) => void
 }
 
 const statusOptions = [
@@ -39,117 +50,174 @@ const statusColors = {
   cancelled: "bg-red-100 text-red-800",
 }
 
-export function UpdateOrderStatus({ order, open, onOpenChange, onUpdateStatus }: UpdateOrderStatusProps) {
+export function UpdateOrderStatus({
+  order,
+  open,
+  onOpenChange,
+  onUpdateStatus,
+}: UpdateOrderStatusProps) {
   const [newStatus, setNewStatus] = useState<OrderStatus>(order.status)
   const [message, setMessage] = useState("")
   const [trackingUrl, setTrackingUrl] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [confirmOpen, setConfirmOpen] = useState(false)
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    setIsSubmitting(true)
-
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-
-    onUpdateStatus(order.id, newStatus, message.trim() || undefined, trackingUrl.trim() || undefined)
-
-    setIsSubmitting(false)
-    setMessage("")
-    setTrackingUrl("")
+    setConfirmOpen(true)
   }
 
   const selectedStatusOption = statusOptions.find((option) => option.value === newStatus)
   const hasStatusChanged = newStatus !== order.status
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[500px]">
-        <DialogHeader>
-          <DialogTitle>Actualizar Estado de Orden</DialogTitle>
-          <DialogDescription>
-            Cambia el estado de la orden #{order.id} para {order.user_name}
-          </DialogDescription>
-        </DialogHeader>
+    <>
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>Actualizar Estado de Orden</DialogTitle>
+            <DialogDescription>
+              Cambia el estado de la orden con id: {order.id} para {order.user.first_name} {order.user.last_name}
+            </DialogDescription>
+          </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Estado Actual */}
-          <div>
-            <Label className="text-sm font-medium">Estado actual</Label>
-            <div className="mt-2">
-              <Badge className={`${statusColors[order.status]}`}>
-                {statusOptions.find((s) => s.value === order.status)?.label}
-              </Badge>
-            </div>
-          </div>
-
-          {/* Nuevo Estado */}
-          <div>
-            <Label htmlFor="status" className="text-sm font-medium">
-              Nuevo estado *
-            </Label>
-            <Select value={newStatus} onValueChange={(value) => setNewStatus(value as OrderStatus)}>
-              <SelectTrigger className="mt-2">
-                <SelectValue placeholder="Selecciona un estado" />
-              </SelectTrigger>
-              <SelectContent>
-                {statusOptions.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
-                    <div>
-                      <div className="font-medium">{option.label}</div>
-                      <div className="text-sm text-gray-500">{option.description}</div>
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            {selectedStatusOption && <p className="text-sm text-gray-600 mt-1">{selectedStatusOption.description}</p>}
-          </div>
-
-          {/* URL de Seguimiento (solo para estado "shipped") */}
-          {newStatus === "shipped" && (
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Estado Actual */}
             <div>
-              <Label htmlFor="tracking" className="text-sm font-medium">
-                URL de seguimiento
-              </Label>
-              <Input
-                id="tracking"
-                type="url"
-                placeholder="https://tracking.example.com/ABC123"
-                value={trackingUrl}
-                onChange={(e) => setTrackingUrl(e.target.value)}
-                className="mt-2"
-              />
-              <p className="text-sm text-gray-500 mt-1">Opcional: URL para que el cliente pueda rastrear su envío</p>
+              <Label className="text-sm font-medium">Estado actual</Label>
+              <div className="mt-2">
+                <Badge className={`${statusColors[order.status]}`}>
+                  {statusOptions.find((s) => s.value === order.status)?.label}
+                </Badge>
+              </div>
             </div>
-          )}
 
-          {/* Mensaje */}
-          <div>
-            <Label htmlFor="message" className="text-sm font-medium">
-              Mensaje adicional
-            </Label>
-            <Textarea
-              id="message"
-              placeholder="Escribe un mensaje opcional sobre este cambio de estado..."
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              className="mt-2"
-              rows={3}
-            />
-            <p className="text-sm text-gray-500 mt-1">Este mensaje se guardará en el historial de la orden</p>
-          </div>
+            {/* Nuevo Estado */}
+            <div>
+              <Label htmlFor="status" className="text-sm font-medium">
+                Nuevo estado *
+              </Label>
+              <Select value={newStatus} onValueChange={(value) => setNewStatus(value as OrderStatus)}>
+                <SelectTrigger className="mt-2">
+                  <SelectValue placeholder="Selecciona un estado">
+                    {selectedStatusOption && (
+                      <div className="flex flex-col text-left">
+                        <span className="font-medium">{selectedStatusOption.label}</span>
+                      </div>
+                    )}
+                  </SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  {statusOptions.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      <div>
+                        <div className="font-medium">{option.label}</div>
+                        <div className="text-sm text-gray-500">{option.description}</div>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {selectedStatusOption && (
+                <p className="text-sm text-gray-600 mt-1">{selectedStatusOption.description}</p>
+              )}
+            </div>
+
+            {/* URL de Seguimiento */}
+            {newStatus === "shipped" && (
+              <div>
+                <Label htmlFor="tracking" className="text-sm font-medium">
+                  URL de seguimiento
+                </Label>
+                <Input
+                  id="tracking"
+                  type="url"
+                  placeholder="https://tracking.example.com/ABC123"
+                  value={trackingUrl}
+                  onChange={(e) => setTrackingUrl(e.target.value)}
+                  className="mt-2"
+                />
+                <p className="text-sm text-gray-500 mt-1">Opcional: URL para que el cliente pueda rastrear su envío</p>
+              </div>
+            )}
+
+            {/* Mensaje */}
+            <div>
+              <Label htmlFor="message" className="text-sm font-medium">
+                Mensaje adicional
+              </Label>
+              <Textarea
+                id="message"
+                placeholder="Escribe un mensaje opcional sobre este cambio de estado..."
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                className="mt-2"
+                rows={3}
+              />
+              <p className="text-sm text-gray-500 mt-1">Este mensaje se guardará en el historial de la orden</p>
+            </div>
+
+            <DialogFooter>
+              <Button
+                type="button"
+                variant="outline"
+                className="border hover:bg-gray-200"
+                onClick={() => onOpenChange(false)}
+                disabled={isSubmitting}
+              >
+                Cancelar
+              </Button>
+              <Button
+                type="submit"
+                disabled={!hasStatusChanged || isSubmitting}
+                className="bg-black text-white hover:bg-black/70"
+              >
+                {isSubmitting ? "Actualizando..." : "Actualizar Estado"}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Diálogo de confirmación */}
+      <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+        <DialogContent className="sm:max-w-[400px]">
+          <DialogHeader>
+            <DialogTitle>¿Confirmar cambio de estado?</DialogTitle>
+            <DialogDescription>
+              Vas a cambiar el estado de la orden <strong>#{order.id}</strong> a{" "}
+              <span className="font-medium">{selectedStatusOption?.label}</span>.
+            </DialogDescription>
+          </DialogHeader>
 
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={isSubmitting}>
+            <Button type="button" variant="outline" onClick={() => setConfirmOpen(false)}>
               Cancelar
             </Button>
-            <Button type="submit" disabled={!hasStatusChanged || isSubmitting}>
-              {isSubmitting ? "Actualizando..." : "Actualizar Estado"}
+            <Button
+              type="button"
+              className="bg-black text-white hover:bg-black/70"
+              onClick={async () => {
+                setIsSubmitting(true)
+                await new Promise((resolve) => setTimeout(resolve, 500))
+                onUpdateStatus(
+                  order.id,
+                  newStatus,
+                  message.trim() || undefined,
+                  trackingUrl.trim() || undefined
+                )
+                setIsSubmitting(false)
+                setMessage("")
+                setTrackingUrl("")
+                setConfirmOpen(false)
+                onOpenChange(false)
+              }}
+            >
+              Confirmar cambio
             </Button>
           </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+        </DialogContent>
+      </Dialog>
+    </>
   )
 }

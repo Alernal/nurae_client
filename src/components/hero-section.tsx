@@ -9,6 +9,7 @@ export function HeroSection() {
         <img
           src="/images/fondo_hero.webp"
           alt="Fondo suave"
+          fetchpriority="high"
           className="w-full h-full object-cover"
         />
       </div>

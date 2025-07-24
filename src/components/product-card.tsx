@@ -51,6 +51,8 @@ export default function ProductCard({ product }) {
   const maxAvailable = product.stock_count ?? 1;
   const isMaxReached = quantityInCart >= maxAvailable;
 
+  const isInCart = quantityInCart > 0;
+
   // 👇 GRID VIEW
   return (
     <div className="group relative flex flex-col w-full h-full">
@@ -112,7 +114,7 @@ export default function ProductCard({ product }) {
             variant="ghost"
             size="icon"
             onClick={handleAddToCart}
-            disabled={isMaxReached}
+            disabled={isInCart}
             className={cn(
               "shadow-md rounded-full transition-colors",
               quantityInCart > 0

@@ -7,11 +7,9 @@ import {
   LuArrowRight,
   LuHeart,
   LuShare2,
-  LuBookOpen,
-  LuSparkles,
 } from "react-icons/lu";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Newsletter } from "@/components/newsletter";
 
 export default function BlogPage() {
   const [posts, setPosts] = useState<any[]>([]);
@@ -20,64 +18,78 @@ export default function BlogPage() {
     loadPosts().then(setPosts);
   }, []);
 
-  const featuredPosts = posts.filter((p) => p.featured);
   const otherPosts = posts;
 
   return (
     <div className="min-h-screen">
-      <section className="relative bg-[#5E4536] py-20 md:py-28 overflow-hidden">
-        <div className="container px-4 md:px-6 relative text-center space-y-8">
-          <h1 className="text-5xl md:text-7xl font-handwritten font-bold text-white leading-tight">Inspírate</h1>
-          <p className="text-xl md:text-2xl text-white max-w-3xl mx-auto font-light leading-relaxed">
-            Descubre consejos de estilo, tendencias y historias inspiradoras para brillar con tu propia luz.
-          </p>
-          <div className="max-w-md mx-auto">
-            <div className="flex gap-2">
-              <Input type="email" placeholder="tu-email@ejemplo.com" className="h-12 rounded-xl border-2 border-[#E8D9CF] bg-white focus:border-[#9A6D4E]" />
-              <Button className="bg-[#9A6D4E] hover:bg-[#7D5840] text-white h-12 px-6 rounded-xl">Suscribirse</Button>
-            </div>
-            <p className="text-xs text-white mt-2">Recibe nuestros últimos artículos en tu email</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Todos los artículos */}
-      <section className="py-20 mb-15">
+      <section className="py-16 md:py-20 bg-white">
         <div className="container px-4 md:px-6">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-[#5E4536]">Todos los Artículos</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {otherPosts.map((post, index) => (
-              <article key={post.slug} className="group bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-500 overflow-hidden transform hover:-translate-y-1">
+
+          {/* Título encima de las tarjetas */}
+          <div className="mb-10 text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-2">
+              Últimos Artículos del Blog
+            </h2>
+            <p className="text-base md:text-lg max-w-2xl mx-auto">
+              Explora contenidos inspiradores, consejos y novedades pensadas para ti.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {otherPosts.map((post) => (
+              <article
+                key={post.slug}
+                className="group bg-white border border-[#E8D9CF] rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden"
+              >
                 <div className="relative aspect-[4/3] overflow-hidden">
-                  <img src={post.image} alt={post.title} className="object-cover transition-transform group-hover:scale-105 duration-700" />
-                  <div className="absolute top-4 left-4 bg-[#9A6D4E] text-white text-xs px-3 py-1.5 rounded-full font-medium shadow-sm">{post.category}</div>
-                  {post.featured && <div className="absolute top-4 right-4 bg-[#D5B23D] text-white text-xs px-3 py-1.5 rounded-full font-medium shadow-sm">Destacado</div>}
+                  <img
+                    src={post.image}
+                    alt={post.title}
+                    className="object-cover transition-transform group-hover:scale-105 duration-500"
+                  />
+                  <div className="absolute top-4 left-4 bg-[#9A6D4E] text-white text-xs px-3 py-1.5 rounded-full font-medium shadow">
+                    {post.category}
+                  </div>
+                  {post.featured && (
+                    <div className="absolute top-4 right-4 border text-white text-xs px-3 py-1.5 rounded-full font-medium shadow">
+                      Destacado
+                    </div>
+                  )}
                 </div>
-                <div className="p-6 space-y-4">
-                  <div className="flex items-center gap-4 text-sm text-[#9A6D4E] mb-3">
-                    <div className="flex items-center gap-1"><LuUser className="h-4 w-4" />{post.author}</div>
-                    <div className="flex items-center gap-1"><LuCalendar className="h-4 w-4" />{new Date(post.date).toLocaleDateString("es-ES")}</div>
+
+                <div className="p-5 space-y-4">
+                  <div className="flex items-center gap-4 text-sm">
+                    <div className="flex items-center gap-1">
+                      <LuUser className="h-4 w-4" />
+                      {post.author}
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <LuCalendar className="h-4 w-4" />
+                      {new Date(post.date).toLocaleDateString("es-ES")}
+                    </div>
                     <span>{post.readTime}</span>
                   </div>
-                  <h3 className="font-bold text-lg text-[#5E4536] group-hover:text-[#9A6D4E] transition-colors line-clamp-2 leading-tight">{post.title}</h3>
-                  <p className="text-[#9A6D4E] text-sm leading-relaxed line-clamp-3">{post.excerpt}</p>
-                  <div className="flex items-center justify-between pt-2">
-                    <div className="flex items-center gap-2">
-                      <Button variant="ghost" size="icon" className="hover:bg-[#F5EEE8] h-8 w-8"><LuHeart className="h-4 w-4" /></Button>
-                      <Button variant="ghost" size="icon" className="hover:bg-[#F5EEE8] h-8 w-8"><LuShare2 className="h-4 w-4" /></Button>
-                    </div>
-                    <Link to={`/blog/${post.slug}`}>
-                      <Button className="bg-[#9A6D4E] hover:bg-[#7D5840] text-white rounded-full px-4 py-2 text-sm">
-                        Leer más <LuArrowRight className="ml-2 h-4 w-4" />
-                      </Button>
-                    </Link>
-                  </div>
+
+                  <h3 className="font-bold text-lg transition-colors line-clamp-2 leading-snug">
+                    {post.title}
+                  </h3>
+
+                  <p className="text-sm leading-relaxed line-clamp-3">
+                    {post.excerpt}
+                  </p>
+
+                  <Link to={`/blog/${post.slug}`}>
+                    <Button className="bg-black hover:bg-black/80 text-white rounded-full px-4 py-2 text-sm">
+                      Leer más <LuArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
                 </div>
               </article>
             ))}
           </div>
         </div>
       </section>
+      <Newsletter />
     </div>
   );
 }

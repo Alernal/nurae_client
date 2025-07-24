@@ -106,7 +106,7 @@ export function OrderDetails({
               </Button>
               {role === "admin" ? (
                 <>
-                  <Button size="sm" onClick={onUpdateStatus}>
+                  <Button size="sm" className="bg-black text-white hover:bg-black/70" onClick={onUpdateStatus}>
                     <LuPencil className="h-4 w-4 mr-2" />
                     Actualizar Estado
                   </Button>
@@ -117,7 +117,7 @@ export function OrderDetails({
                   onOpenChange={setOpenConfirmDialog}
                 >
                   <DialogTrigger asChild>
-                    <Button size="sm" disabled={order.status !== "shipped"}>
+                    <Button className="border bg-black text-white hover:bg-black/80" size="sm" disabled={order.status !== "shipped"}>
                       Confirmar Pedido
                     </Button>
                   </DialogTrigger>

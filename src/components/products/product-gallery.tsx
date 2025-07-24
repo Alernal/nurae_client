@@ -12,9 +12,9 @@ export function ProductGallery({
   productName,
 }: ProductGalleryProps) {
   return (
-    <div className="flex flex-col gap-6">
-      {/* Imagen principal retrato grande */}
-      <div className="w-full h-[640px] overflow-hidden">
+    <div className="flex flex-col gap-2">
+      {/* Imagen principal: cuadrada en móvil, retrato en desktop */}
+      <div className="w-full aspect-square sm:aspect-[3/4] overflow-hidden">
         <img
           src={images[selectedImage] || "/placeholder.svg"}
           alt={`${productName} - Vista ${selectedImage + 1}`}
@@ -22,7 +22,7 @@ export function ProductGallery({
         />
       </div>
 
-      {/* Miniaturas: 2 por fila máximo */}
+      {/* Miniaturas: cuadradas siempre */}
       <div className="grid grid-cols-2 gap-4">
         {images.slice(0, 6).map((image, index) => (
           <button

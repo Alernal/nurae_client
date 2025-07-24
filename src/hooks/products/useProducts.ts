@@ -11,6 +11,7 @@ type Filters = {
   sort?: string;
   page?: number;
   search?: string;
+  paginate?: boolean;
 };
 
 export function useProducts(filters: Filters = {}) {
@@ -21,7 +22,8 @@ export function useProducts(filters: Filters = {}) {
     filters.price_max !== undefined ||
     !!filters.sort ||
     filters.page !== undefined ||
-    !!filters.search;
+    !!filters.search ||
+    filters.paginate !== undefined;
 
   // Query Key estable y serializada
   const queryKey = ["products", stringify(filters)];
@@ -38,6 +40,7 @@ export function useProducts(filters: Filters = {}) {
       if (filters.sort) params.sort = filters.sort;
       if (filters.page !== undefined) params.page = filters.page;
       if (filters.search) params.search = filters.search;
+      if (filters.paginate !== undefined) params.paginate = filters.paginate;
 
       const res = await api.get("/products", { params });
 

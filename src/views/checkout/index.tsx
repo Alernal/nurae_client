@@ -2,19 +2,37 @@ import { useState, useMemo, useEffect } from "react";
 import BillingInfoForm from "@/components/checkout/billing-info-form";
 import CartSummary from "@/components/checkout/cart-summary";
 import { useCartStore } from "@/stores/useCartStore";
-import { useProducts } from "@/hooks/products/useProducts";
 import { useGeneratePaymentLink } from "@/hooks/useGeneratePaymentLink";
 import { toast } from "sonner";
 import { caribbeanDepartments } from "@/lib/caribbeanRegions";
 import type { Address } from "@/components/checkout/address-selector";
+import { useByIds } from "@/hooks/products/useByIds";
+import { useAddresses } from "@/hooks/addresses/useAddresses";
+import { useAuthStore } from "@/stores/useAuthStore";
 
 export default function CheckoutPage() {
-  const { data: products = [] } = useProducts();
+  const { user } = useAuthStore();
   const { items: cartItems } = useCartStore();
+  const productIds = cartItems.map((item) => item.productId);
+  const { data: products = [] } = useByIds(productIds);
+
+  const { data: addresses = [], isLoading: loadingAddresses } = useAddresses();
+  const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
+
+  useEffect(() => {
+    setSelectedAddress(null);
+  }, [user?.id]);
+
+
+  useEffect(() => {
+    if (!selectedAddress && addresses.length > 0) {
+      const defaultAddress = addresses.find((a) => a.is_default) || addresses[0];
+      setSelectedAddress(defaultAddress);
+    }
+  }, [addresses, selectedAddress]);
+
   const { mutate: generatePaymentLink } = useGeneratePaymentLink();
   const [wompiLink, setWompiLink] = useState<string | null>(null);
-
-  const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
   const [discountCode, setDiscountCode] = useState("");
   const [appliedDiscount, setAppliedDiscount] = useState(0);
   const [termsAccepted, setTermsAccepted] = useState(false);
@@ -47,8 +65,8 @@ export default function CheckoutPage() {
       detailedCartItems.reduce((sum, item) => {
         const unitPrice =
           item.original_price &&
-          item.original_price > 0 &&
-          item.original_price < item.price
+            item.original_price > 0 &&
+            item.original_price < item.price
             ? item.original_price
             : item.price;
         return sum + (unitPrice / 1.19) * item.quantity;
@@ -61,8 +79,8 @@ export default function CheckoutPage() {
       detailedCartItems.reduce((sum, item) => {
         const unitPrice =
           item.original_price &&
-          item.original_price > 0 &&
-          item.original_price < item.price
+            item.original_price > 0 &&
+            item.original_price < item.price
             ? item.original_price
             : item.price;
         const baseUnitPrice = unitPrice / 1.19;
@@ -147,6 +165,7 @@ export default function CheckoutPage() {
             <BillingInfoForm
               selectedAddress={selectedAddress}
               onAddressSelect={(address) => setSelectedAddress({ ...address })}
+              addresses={addresses}
             />
           </div>
 

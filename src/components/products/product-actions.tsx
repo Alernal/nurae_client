@@ -134,7 +134,7 @@ export function ProductActions({
       </div>
 
       {/* Botones principales (Verticales) */}
-      <div className="flex flex-col gap-1 w-85">
+      <div className="flex flex-col gap-1 w-full max-w-md">
         <Button
           className="w-full h-12 font-semibold rounded-none text-white bg-black hover:bg-gray-500"
           onClick={handleBuyNow}
@@ -143,9 +143,9 @@ export function ProductActions({
           Comprar ahora
         </Button>
 
-        <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-3 w-full">
           <Button
-            className="flex-1 h-12 border font-semibold rounded-none"
+            className="flex-1 h-12 border font-semibold rounded-none w-full"
             onClick={handleAddToCart}
             disabled={!product.in_stock || isAddingToCart || !!cartItem}
             title={
@@ -159,23 +159,10 @@ export function ProductActions({
             <LuShoppingCart className="w-5 h-5 mr-2" />
             Agregar al carrito
           </Button>
-
-          {/* <Button
-            variant="outline"
-            size="icon"
-            className="h-12 w-12"
-            onClick={toggleWishlist}
-            title={
-              isInWishlist(product.id) ? "En Favoritos" : "Agregar a Favoritos"
-            }
-          >
-            <LuHeart
-              className={`w-6 h-6 ${isInWishlist(product.id) ? "fill-red-500 text-red-500" : ""
-                }`}
-            />
-          </Button> */}
+          {/* Wishlist button aquí si lo necesitas */}
         </div>
       </div>
+
 
       {/* Advertencia de stock bajo */}
       {product.stock_count <= 3 && product.in_stock && (
