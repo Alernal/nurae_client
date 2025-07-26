@@ -2,7 +2,7 @@ import axios from "axios"
 import { useAuthStore } from "@/stores/useAuthStore"
 
 const api = axios.create({
-  baseURL: 'https://nurae-api.alernal.com.co/api',
+  baseURL: 'https://api.nurae.com.co/api',
 })
 
 // Interceptor para agregar token automáticamente si existe

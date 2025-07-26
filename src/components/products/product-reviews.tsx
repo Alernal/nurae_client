@@ -95,7 +95,7 @@ export function ProductReviews({
               <div className="w-10 h-10 bg-gray-200 rounded-none flex items-center justify-center overflow-hidden">
                 {review.user.profile_image_url ? (
                   <img
-                    src={`https://nurae-api.alernal.com.co/${review.user.profile_image_url}`}
+                    src={`https://api.nurae.com.co/${review.user.profile_image_url}`}
                     alt="Foto de perfil"
                     className="w-10 h-10 object-cover"
                   />

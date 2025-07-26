@@ -1,10 +1,3 @@
-import { useState } from "react"
-import { LuChevronDown, LuSearch, LuCircle, LuSparkles } from "react-icons/lu"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
-
-
 export default function FAQPage() {
 
   return (
@@ -14,7 +7,7 @@ export default function FAQPage() {
       <section className="py-16 md:py-24 bg-white/50">
         <div className="container px-4 md:px-6">
           <div className="text-center space-y-8 mb-16">
-            <h2 className="text-4xl md:text-5xl  font-bold text-[#5E4536]">
+            <h2 className="text-4xl md:text-5xl  font-bold">
               Preguntas Frecuentes
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -57,7 +50,7 @@ export default function FAQPage() {
             ].map((faq, index) => (
               <div
                 key={index}
-                className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300"
+                className="bg-white/80 p-6 shadow-lg hover:shadow-xl transition-all duration-300"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <h3 className=" font-bold text-lg text-gray-800 mb-3">{faq.question}</h3>

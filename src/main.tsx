@@ -9,7 +9,7 @@ import App from "@/App";
 import { Buffer } from "buffer";
 window.Buffer = Buffer;
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

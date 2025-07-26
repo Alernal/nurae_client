@@ -71,7 +71,7 @@ export default function AddressSelector({
                     <RadioGroupItem
                       value={address.id.toString()}
                       id={`address-${address.id}`}
-                      className="mt-1 border-black text-yellow-400"
+                      className="mt-1 border-black"
                     />
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
@@ -81,7 +81,7 @@ export default function AddressSelector({
                         >
                           {address.first_name} {address.last_name}
                           {address.is_default && (
-                            <span className="bg-amber-100 text-amber-800 text-xs px-2 py-0.5 rounded-full">
+                            <span className="bg-amber-100 text-amber-800 text-xs px-2 py-0.5 rounded-none">
                               Predeterminada
                             </span>
                           )}
@@ -108,7 +108,7 @@ export default function AddressSelector({
                       </div>
                     </div>
                     <div className="flex flex-col items-center justify-center">
-                      <LuMapPin className="w-5 h-5 text-yellow-600" />
+                      <LuMapPin className="w-5 h-5" />
                     </div>
                   </div>
                 </CardContent>

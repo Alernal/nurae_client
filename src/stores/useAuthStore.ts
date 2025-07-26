@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { isTokenExpired } from "@/utils/jwt";
+import { queryClient } from "@/main";
 
 interface User {
   id: number;
@@ -44,12 +45,14 @@ export const useAuthStore = create<AuthState>()(
         }));
       },
 
-      logout: () =>
+      logout: () => {
+        queryClient.removeQueries(["addresses"]);
         set(() => ({
           isAuthenticated: false,
           token: null,
           user: null,
-        })),
+        }));
+      },
 
       reset: () =>
         set(() => ({

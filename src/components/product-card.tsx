@@ -45,7 +45,7 @@ export default function ProductCard({ product }) {
     : 0;
 
   const imageUrl = product.images?.[0]?.url
-    ? `https://nurae-api.alernal.com.co/${product.images[0].url}`
+    ? `https://api.nurae.com.co/${product.images[0].url}`
     : "https://via.placeholder.com/300x400.png?text=Sin+Imagen";
 
   const maxAvailable = product.stock_count ?? 1;
@@ -70,7 +70,7 @@ export default function ProductCard({ product }) {
             {/* Segunda imagen si existe */}
             {product.images?.[1]?.url && (
               <img
-                src={`https://nurae-api.alernal.com.co/${product.images[1].url}`}
+                src={`https://api.nurae.com.co/${product.images[1].url}`}
                 alt={product.name + " segunda imagen"}
                 loading="lazy"
                 className="absolute inset-0 h-full w-full object-cover transition-opacity duration-500 opacity-0 group-hover:opacity-100"

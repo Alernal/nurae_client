@@ -55,7 +55,7 @@ export default function ShowUser() {
           <p><strong>Creado:</strong> {new Date(user.created_at).toLocaleString()}</p>
           {user.profile_image_url && (
             <img
-              src={`https://nurae-api.alernal.com.co/${user.profile_image_url}`}
+              src={`https://api.nurae.com.co/${user.profile_image_url}`}
               alt={`${user.first_name} profile`}
               className="w-24 h-24 object-cover rounded mt-2"
             />
@@ -129,7 +129,7 @@ export default function ShowUser() {
                       <TableCell>
                         {product.images.length > 0 && (
                           <img
-                            src={`https://nurae-api.alernal.com.co/${product.images[0].url}`}
+                            src={`https://api.nurae.com.co/${product.images[0].url}`}
                             alt={product.name}
                             className="w-16 h-16 object-cover rounded"
                           />

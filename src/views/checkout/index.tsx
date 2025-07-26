@@ -23,7 +23,6 @@ export default function CheckoutPage() {
     setSelectedAddress(null);
   }, [user?.id]);
 
-
   useEffect(() => {
     if (!selectedAddress && addresses.length > 0) {
       const defaultAddress = addresses.find((a) => a.is_default) || addresses[0];
@@ -39,7 +38,48 @@ export default function CheckoutPage() {
   const [dataProcessingAccepted, setDataProcessingAccepted] = useState(false);
   const [showWompiModal, setShowWompiModal] = useState(false);
 
-  // Construye los items del carrito
+  // 🟡 Bloqueo del carrito y cuenta regresiva
+  const [blockTimeLeft, setBlockTimeLeft] = useState<number>(0);
+  const [isCartBlocked, setIsCartBlocked] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const cached = localStorage.getItem("cached_wompi_link");
+      if (!cached) {
+        setIsCartBlocked(false);
+        setBlockTimeLeft(0);
+        return;
+      }
+
+      try {
+        const parsed = JSON.parse(cached);
+        const expiresAt = new Date(parsed.expires_at);
+        const now = new Date();
+        const diffMs = expiresAt.getTime() - now.getTime();
+
+        if (diffMs <= 0) {
+          setIsCartBlocked(false);
+          setBlockTimeLeft(0);
+          localStorage.removeItem("cached_wompi_link");
+        } else {
+          setIsCartBlocked(true);
+          setBlockTimeLeft(Math.floor(diffMs / 1000));
+        }
+      } catch {
+        setIsCartBlocked(false);
+        setBlockTimeLeft(0);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  function formatTime(seconds: number): string {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
+  }
+
   const detailedCartItems = cartItems.map((item) => {
     const product = products.find((p) => p.id === item.productId);
     return {
@@ -54,19 +94,18 @@ export default function CheckoutPage() {
       in_stock: product?.in_stock,
       stock_count: product?.stock_count,
       image: product?.images[0]?.url
-        ? `https://nurae-api.alernal.com.co/${product.images[0].url}`
+        ? `https://api.nurae.com.co/${product.images[0].url}`
         : "/placeholder.svg",
     };
   });
 
-  // Cálculos del subtotal e IVA
   const subtotal = useMemo(
     () =>
       detailedCartItems.reduce((sum, item) => {
         const unitPrice =
           item.original_price &&
-            item.original_price > 0 &&
-            item.original_price < item.price
+          item.original_price > 0 &&
+          item.original_price < item.price
             ? item.original_price
             : item.price;
         return sum + (unitPrice / 1.19) * item.quantity;
@@ -79,8 +118,8 @@ export default function CheckoutPage() {
       detailedCartItems.reduce((sum, item) => {
         const unitPrice =
           item.original_price &&
-            item.original_price > 0 &&
-            item.original_price < item.price
+          item.original_price > 0 &&
+          item.original_price < item.price
             ? item.original_price
             : item.price;
         const baseUnitPrice = unitPrice / 1.19;
@@ -91,11 +130,7 @@ export default function CheckoutPage() {
 
   const totalBruto = subtotal + iva;
 
-  // Lógica para calcular el shipping
-  function calculateShipping(
-    address: Address | null,
-    totalBruto: number
-  ): number {
+  function calculateShipping(address: Address | null, totalBruto: number): number {
     if (totalBruto >= 150000) return 0;
     if (!address) return 15000;
 
@@ -106,7 +141,6 @@ export default function CheckoutPage() {
     return isCaribbeanDepartment ? 9000 : 15000;
   }
 
-  // Usamos useMemo para que solo recalcule cuando cambie selectedAddress o totalBruto
   const shipping = useMemo(
     () => calculateShipping(selectedAddress, totalBruto),
     [selectedAddress, totalBruto]
@@ -117,20 +151,9 @@ export default function CheckoutPage() {
     [totalBruto, shipping, appliedDiscount]
   );
 
-  // Para depuración opcional:
-  useEffect(() => {
-    if (selectedAddress) {
-      console.log(
-        `Shipping recalculado para el estado: ${selectedAddress.state} → ${shipping}`
-      );
-    }
-  }, [selectedAddress, shipping]);
-
   const handleFinalizePurchase = () => {
     if (detailedCartItems.length === 0) {
-      toast.error(
-        "Tu carrito está vacío. Agrega productos antes de continuar."
-      );
+      toast.error("Tu carrito está vacío. Agrega productos antes de continuar.");
       return;
     }
 
@@ -140,16 +163,42 @@ export default function CheckoutPage() {
     }
 
     if (!termsAccepted || !dataProcessingAccepted) {
-      toast.error(
-        "Debes aceptar los términos y condiciones y el tratamiento de datos personales para continuar."
-      );
+      toast.error("Debes aceptar los términos y condiciones y el tratamiento de datos personales.");
       return;
+    }
+
+    const cached = localStorage.getItem("cached_wompi_link");
+    if (cached) {
+      try {
+        const parsed = JSON.parse(cached);
+        const now = new Date();
+        const expiresAt = new Date(parsed.expires_at);
+
+        if (now < expiresAt) {
+          setWompiLink(parsed.url);
+          setShowWompiModal(true);
+          return;
+        } else {
+          localStorage.removeItem("cached_wompi_link");
+        }
+      } catch {
+        localStorage.removeItem("cached_wompi_link");
+      }
     }
 
     generatePaymentLink(
       { subtotal, iva, shipping, total },
       {
         onSuccess: (data) => {
+          const expiresAt = new Date(data.expires_at);
+
+          const cachedLink = {
+            url: data.url,
+            payment_link_id: data.payment_link_id,
+            expires_at: expiresAt.toISOString(),
+          };
+
+          localStorage.setItem("cached_wompi_link", JSON.stringify(cachedLink));
           setWompiLink(data.url);
           setShowWompiModal(true);
         },
@@ -158,8 +207,16 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-white">
       <div className="container mx-auto px-4 py-8">
+        {isCartBlocked && (
+          <div className="bg-yellow-100 border border-yellow-300 text-yellow-800 px-4 py-3 rounded mb-6 text-sm">
+            <strong>Tu carrito está bloqueado</strong> mientras finalizas un pago pendiente.
+            <br />
+            El bloqueo se levantará automáticamente en <strong>{formatTime(blockTimeLeft)}</strong>.
+          </div>
+        )}
+
         <div className="grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
             <BillingInfoForm

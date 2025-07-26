@@ -29,23 +29,7 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative py-20 md:py-40 font-paragraph overflow-hidden bg-[var(--color-marron)]">
-        <div className="container px-4 md:px-6 relative">
-          <div className="text-center space-y-8">
-            <h1 className="text-5xl md:text-7xl font-handwritten font-bold text-white leading-tight">
-              Hablemos
-            </h1>
-
-            <p className="text-xl md:text-2xl text-gray-100 max-w-3xl mx-auto font-light leading-relaxed">
-              Estamos aquí para ayudarte. Ya sea que tengas una pregunta, necesites asesoría de estilo o quieras
-              compartir tu experiencia con NURAE.
-            </p>
-          </div>
-        </div>
-      </section>
-
+    <div className="min-h-screen ">
       {/* Contact Info & Form */}
       <section className="py-16 md:py-24">
         <div className="container px-4 md:px-6">
@@ -64,64 +48,60 @@ export default function ContactPage() {
 
               <div className="space-y-6">
                 {/* Address */}
-                <div className="flex items-start gap-4 p-6 bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+                <div className="flex items-start gap-4 ">
                   
                   <div>
                     <h3 className=" font-bold text-lg text-gray-800 mb-2">Dirección</h3>
                     <p className="text-gray-600">
-                      Av. Reforma 123, Piso 15
+                      Carrera 16 # 15a - 144
                       <br />
-                      Col. Centro, Ciudad de México
+                      Sincelejo, Sucre.
                       <br />
-                      México, 06000
+                      Colombia, 700002
                     </p>
                   </div>
                 </div>
 
                 {/* Phone */}
-                <div className="flex items-start gap-4 p-6 bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+                <div className="flex items-start gap-4 ">
                   
                   <div>
                     <h3 className=" font-bold text-lg text-gray-800 mb-2">Teléfono</h3>
                     <p className="text-gray-600">
-                      +52 55 1234 5678
-                      <br />
-                      WhatsApp: +52 55 8765 4321
+                      WhatsApp: +57 (314) 808 - 7646
                     </p>
                   </div>
                 </div>
 
                 {/* Email */}
-                <div className="flex items-start gap-4 p-6 bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+                <div className="flex items-start gap-4 ">
                   
                   <div>
                     <h3 className=" font-bold text-lg text-gray-800 mb-2">Email</h3>
                     <p className="text-gray-600">
-                      hola@lumina.mx
+                      contacto@nurae.com.co
                       <br />
-                      soporte@lumina.mx
+                      soporte@nurae.com.co
                     </p>
                   </div>
                 </div>
 
                 {/* Hours */}
-                <div className="flex items-start gap-4 p-6 bg-white/80 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+                <div className="flex items-start gap-4  ">
                   
                   <div>
                     <h3 className=" font-bold text-lg text-gray-800 mb-2">Horarios de Atención</h3>
                     <p className="text-gray-600">
-                      Lunes - Viernes: 9:00 AM - 7:00 PM
+                      Lunes - Viernes: 9:00 AM - 6:00 PM
                       <br />
                       Sábados: 10:00 AM - 6:00 PM
-                      <br />
-                      Domingos: 11:00 AM - 5:00 PM
                     </p>
                   </div>
                 </div>
               </div>
 
               {/* Social Media */}
-              <div className="p-6 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl">
+              <div className="">
                 <h3 className=" font-bold text-lg text-gray-800 mb-4">Síguenos en Redes Sociales</h3>
                 <div className="flex gap-4">
                   <Link to="#" className="hover:text-gray-400 text-gray-800 transition-colors">
@@ -138,7 +118,7 @@ export default function ContactPage() {
             </div>
 
             {/* Contact Form */}
-            <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl">
+            <div className="">
               {!isSubmitted ? (
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="space-y-4">
@@ -158,7 +138,7 @@ export default function ContactPage() {
                         required
                         value={formData.name}
                         onChange={(e) => handleInputChange("name", e.target.value)}
-                        className="h-12 rounded-xl border-2 border-gray-100 focus:border-primary"
+                        className="h-12 rounded-none border-1 border-gray-400 focus:border-primary"
                         placeholder="Tu nombre completo"
                       />
                     </div>
@@ -169,7 +149,7 @@ export default function ContactPage() {
                         required
                         value={formData.email}
                         onChange={(e) => handleInputChange("email", e.target.value)}
-                        className="h-12 rounded-xl border-2 border-gray-100 focus:border-primary"
+                        className="h-12 rounded-none border-1 border-gray-400 focus:border-primary"
                         placeholder="tu-email@ejemplo.com"
                       />
                     </div>
@@ -178,7 +158,7 @@ export default function ContactPage() {
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Asunto *</label>
                     <Select onValueChange={(value) => handleInputChange("subject", value)}>
-                      <SelectTrigger className="h-12 rounded-xl border-2 border-gray-100 focus:border-primary">
+                      <SelectTrigger className="h-12 rounded-none border-1 border-gray-400 focus:border-primary">
                         <SelectValue placeholder="Selecciona un asunto" />
                       </SelectTrigger>
                       <SelectContent>
@@ -199,14 +179,14 @@ export default function ContactPage() {
                       required
                       value={formData.message}
                       onChange={(e) => handleInputChange("message", e.target.value)}
-                      className="min-h-32 rounded-xl border-2 border-gray-100 focus:border-primary resize-none"
+                      className="min-h-32 rounded-none border-1 border-gray-400 focus:border-primary resize-none"
                       placeholder="Cuéntanos cómo podemos ayudarte..."
                     />
                   </div>
 
                   <Button
                     type="submit"
-                    className="w-full bg-[#D4AF37] hover:opacity-90 text-white h-12 rounded-xl text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300"
+                    className="w-full bg-black hover:opacity-90 text-white h-12 rounded-none text-lg font-medium shadow-lg "
                   >
                     <LuSend className="mr-2 h-5 w-5" />
                     Enviar Mensaje

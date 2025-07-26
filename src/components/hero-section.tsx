@@ -24,7 +24,7 @@ export function HeroSection() {
                 <img
                   src="/images/hero.png"
                   alt="Modelo con accesorios"
-                  className="w-full h-full object-cover border-gray-200 border-t border-t-gray-400 border-r border-r-gray-400 border-l border-b"
+                  className="w-full h-full object-cover border-gray-200 border-t border-t-gray-200 border-r border-r-gray-200 border-l border-b"
                 />
               </div>
               <div className="py-6 px-3 text-center">

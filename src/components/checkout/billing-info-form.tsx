@@ -75,7 +75,7 @@ export default function BillingInfoForm({
   };
 
   return (
-    <Card className="">
+    <Card className="border border-gray-200">
       <CardHeader className="">
         <CardTitle className="flex items-center space-x-2 text-black">
           <LuMapPin className="w-5 h-5" />
@@ -108,6 +108,7 @@ export default function BillingInfoForm({
           <DialogTrigger asChild>
             <Button
               variant="outline"
+              className="rounded-none bg-black text-white hover:opacity-90"
               onClick={() => {
                 setEditingAddress(null);
                 setOpenDialog(true);

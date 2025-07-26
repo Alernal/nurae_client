@@ -316,7 +316,7 @@ export function AddressForm({ onSubmit, defaultValues }: Props) {
           />
         </div>
 
-        <Button type="submit" className="border hover:bg-black hover:text-white">Guardar Dirección</Button>
+        <Button type="submit" className="border bg-black text-white rounded-none hover:opacity-90">Guardar Dirección</Button>
       </form>
     </Form>
   );

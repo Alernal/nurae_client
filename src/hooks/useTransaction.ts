@@ -8,17 +8,21 @@ export function useTransaction(transactionId?: string) {
     enabled: !!transactionId,
     queryFn: async () => {
       const res = await api.get(`/wompi/transaction/${transactionId}`);
-      return res.data?.data; // 👈 Aquí va la corrección
+      return res.data?.data;
     },
     staleTime: 1000 * 30,
     retry: false,
+    refetchInterval: (data) =>
+      data?.status === "APPROVED" && !data.order ? 5000 : false,
     onSuccess: (data) => {
       const status = data?.status;
 
-      if (status === "APPROVED") {
+      if (status === "APPROVED" && data?.order) {
         toast.success("✅ Pago aprobado. Orden creada con éxito.");
       } else if (["REJECTED", "DECLINED", "ERROR"].includes(status)) {
         toast.error("❌ Pago rechazado o fallido.");
+      } else if (status === "APPROVED") {
+        toast.info("✅ Pago aprobado. Esperando confirmación de la orden...");
       } else {
         toast.warning(`⚠️ Estado de transacción: ${status}`);
       }
@@ -27,6 +31,13 @@ export function useTransaction(transactionId?: string) {
       const message =
         error?.response?.data?.message || "Error al consultar la transacción.";
       toast.error(message);
+    },
+    select: (data) => {
+      return {
+        ...data,
+        isPending:
+          data.status === "APPROVED" && !data.order, // Aprobado pero orden aún no creada
+      };
     },
   });
 }

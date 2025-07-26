@@ -81,7 +81,7 @@ export function Router() {
         <Route element={<ProtectedRoute />}>
           <Route path="wishlist" element={<WishlistPage />} />
           <Route path="checkout" element={<CheckoutPage />} />
-          <Route path="checkout/response" element={<CheckoutResponsePage />} />
+          <Route path="checkout/confirmacion" element={<CheckoutResponsePage />} />
         </Route>
       </Route>
 

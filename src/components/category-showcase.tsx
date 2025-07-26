@@ -5,18 +5,18 @@ export function CategoryShowcase() {
     {
       name: "Collares",
       href: "/collections?category=collares",
-      image: "https://nurae-api.alernal.com.co/storage/products/x86HuAUIoC1l63c082c7hcBPURc1FLbyLQwJ53Nw.webp",
+      image: "https://api.nurae.com.co/storage/products/x86HuAUIoC1l63c082c7hcBPURc1FLbyLQwJ53Nw.webp",
     },
     {
       name: "Aretes",
       href: "/collections?category=aretes",
       image:
-        "https://nurae-api.alernal.com.co/storage/products/rYutQGDNO4ePYkP0zH97JkOOHdAoAt77bvlpDM4B.webp",
+        "https://api.nurae.com.co/storage/products/rYutQGDNO4ePYkP0zH97JkOOHdAoAt77bvlpDM4B.webp",
     },
     {
       name: "Denarios",
       href: "/collections?category=denarios",
-      image: "https://nurae-api.alernal.com.co//storage/products/MHzchqMtPnqdh0p7yC5R2hF3GZ6aQ0I42zbT1tRk.webp",
+      image: "https://api.nurae.com.co//storage/products/MHzchqMtPnqdh0p7yC5R2hF3GZ6aQ0I42zbT1tRk.webp",
     },
   ];
 

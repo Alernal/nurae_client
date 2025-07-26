@@ -63,7 +63,7 @@ export default function CartSummary({
   };
 
   return (
-    <Card className="">
+    <Card className="border border-gray-200">
       <CardHeader className="">
         <CardTitle className="flex items-center space-x-2 text-black">
           <LuShoppingCart className="w-5 h-5" />
@@ -153,37 +153,6 @@ export default function CartSummary({
 
         <Separator />
 
-        {/* Código de descuento
-        <div className="space-y-3">
-          <div className="flex items-center space-x-2">
-            <LuTag className="w-4 h-4 text-amber-600" />
-            <span className="text-sm font-medium text-gray-700">
-              Código de Descuento
-            </span>
-          </div>
-          <div className="flex space-x-2">
-            <Input
-              placeholder="Ingrese su código"
-              value={discountCode}
-              onChange={(e) => onDiscountCodeChange(e.target.value)}
-              className="border-gray-300 focus:border-amber-500 focus:ring-amber-500"
-            />
-            <Button
-              variant="outline"
-              onClick={handleApplyDiscount}
-              className="border-amber-300 text-amber-700 hover:bg-amber-50"
-            >
-              Aplicar
-            </Button>
-          </div>
-          {appliedDiscount > 0 && (
-            <p className="text-sm text-green-600 font-medium">
-              ¡Descuento aplicado! Ahorras {formatPrice(appliedDiscount)}
-            </p>
-          )}
-        </div> */}
-
-        {/* Resumen de precios */}
         <div className="space-y-3">
           <div className="flex justify-between text-sm">
             <span className="text-gray-600">Subtotal</span>
@@ -215,7 +184,7 @@ export default function CartSummary({
         </div>
 
         {/* Aceptación de términos y condiciones */}
-        <div className="space-y-4 p-4 rounded-lg">
+        <div className="space-y-4">
           <div className="flex items-start space-x-3">
             <Checkbox
               id="terms"
@@ -261,7 +230,7 @@ export default function CartSummary({
               >
                 Autorizo el{" "}
                 <a
-                  href="https://nurae-api.alernal.com.co/storage/Politica-de-privacidad.pdf"
+                  href="https://api.nurae.com.co/storage/Politica-de-privacidad.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-[#5E4536] underline font-bold inline-flex items-center"
@@ -292,14 +261,10 @@ export default function CartSummary({
         <Button
           onClick={onFinalizePurchase}
           disabled={!termsAccepted || !dataProcessingAccepted}
-          className="w-full bg-amber-900 hover:bg-amber-800 text-white font-medium py-3 text-lg shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-          style={{
-            backgroundColor:
-              termsAccepted && dataProcessingAccepted ? "#2f1d14" : "#9ca3af",
-          }}
+          className="w-full bg-black hover:opacity-90 rounded-none text-white font-medium py-3 px-2 text-lg"
         >
           {!termsAccepted || !dataProcessingAccepted
-            ? "Debe aceptar los términos para continuar"
+            ? "Debe aceptar los términos"
             : "Finalizar Compra"}
         </Button>
 

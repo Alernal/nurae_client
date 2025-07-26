@@ -29,13 +29,12 @@ export function Newsletter() {
   };
 
   return (
-    <section className="w-full py-12 md:py-20 lg:py-28 relative overflow-hidden">
+    <section className="w-full bg-black py-12 md:py-20 lg:py-28 relative overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 md:px-8 relative">
         <div className="flex flex-col items-center justify-center text-center gap-6">
           <div className="max-w-[90%] sm:max-w-2xl md:max-w-4xl mx-auto px-2">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-black">
-              Suscríbete a nuestro{" "}
-              <span className="italic font-subtitulo font-thin">Boletin</span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-thin italic font-subtitulo leading-tight text-white">
+              Suscríbete a nuestro Boletin
             </h2>
           </div>
 
@@ -54,13 +53,13 @@ export function Newsletter() {
                 />
                 <Button
                   type="submit"
-                  className="bg-black rounded-none text-white hover:bg-black/90 h-12 px-6 w-full sm:w-auto text-sm sm:text-base"
+                  className="bg-white rounded-none text-black hover:bg-white/90 h-12 px-6 w-full sm:w-auto text-sm sm:text-base"
                   disabled={isLoading}
                 >
                   Suscribirse
                 </Button>
               </form>
-              <p className="text-xs sm:text-sm mt-2 text-center text-gray-600">
+              <p className="text-xs sm:text-sm mt-2 text-center text-gray-200">
                 Recibe nuestros últimos artículos en tu email
               </p>
             </div>

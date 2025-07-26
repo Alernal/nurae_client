@@ -1,19 +1,14 @@
 import { Link } from "react-router-dom";
-import {
-  LuPhone,
-  LuMail,
-  LuMapPin,
-} from "react-icons/lu";
 
 export function Footer() {
   return (
-    <footer className="w-full bg-black py-12 font-parrafo text-white">
+    <footer className="w-full bg-white py-12 font-parrafo ">
       <div className="container mx-auto px-4 md:px-6 flex flex-col gap-40">
 
         {/* Contenido principal */}
-        <div className="flex flex-col lg:flex-row justify-between items-start gap-12 w-full">
+        <div className="flex flex-col lg:flex-row justify-between items-start gap-15 w-full">
           {/* Enlaces y contacto */}
-          <div className="flex flex-col sm:flex-row flex-wrap gap-12 flex-1 mt-10">
+          <div className="flex flex-col sm:flex-row flex-wrap gap-15 flex-1 mt-10">
             {[
               {
                 title: "Acerca de Nosotros",
@@ -44,15 +39,12 @@ export function Footer() {
                 {section.custom ? (
                   <ul className="space-y-3 text-sm">
                     <li className="flex items-center gap-2">
-                      <LuPhone className="h-4 w-4" />
                       <span>+57 (314) 808 - 7646</span>
                     </li>
                     <li className="flex items-center gap-2">
-                      <LuMail className="h-4 w-4" />
-                      <span>contacto@nurae.co</span>
+                      <span>contacto@nurae.com.co</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <LuMapPin className="h-4 w-4 mt-1" />
                       <span>
                         Carrera 16 #15a-144
                         <br />
@@ -87,12 +79,12 @@ export function Footer() {
         </div>
 
         {/* Línea inferior */}
-        <div className="border-t border-[#444] pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
-          <p className="text-white text-center md:text-left">
+        <div className="border-t border-gray-200 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
+          <p className="text-center md:text-left">
             © 2025 NURAE. Hecho con amor para mujeres extraordinarias.
           </p>
           <div className="flex flex-wrap justify-center md:justify-end gap-4">
-            {["/privacy", "/terms", "/cookies"].map((path, idx) => (
+            {["/terms", "/cookies"].map((path, idx) => (
               <Link
                 key={idx}
                 to={path}
@@ -101,7 +93,7 @@ export function Footer() {
                 {path.includes("privacy")
                   ? "Privacidad"
                   : path.includes("terms")
-                  ? "Términos"
+                  ? "Términos y Privacidad"
                   : "Cookies"}
               </Link>
             ))}

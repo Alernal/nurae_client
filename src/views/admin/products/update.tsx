@@ -379,7 +379,7 @@ export default function UpdateProduct() {
                         <div key={image.id} className="relative group">
                           <div className="aspect-square rounded-md overflow-hidden border bg-background">
                             <img
-                              src={`https://nurae-api.alernal.com.co/${image.url}`}
+                              src={`https://api.nurae.com.co/${image.url}`}
                               alt={`Imagen ${image.id}`}
                               className="object-cover w-full h-full"
                             />

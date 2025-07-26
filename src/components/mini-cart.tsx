@@ -84,7 +84,7 @@ export function MiniCart() {
               <LuShoppingBag className="h-14 w-14 text-secondary-300" />
               <p className="text-lg font-medium">Tu carrito está vacío</p>
               <Link to="/collections"
-                className="border px-4 py-2 rounded-xl hover:bg-black hover:text-white"
+                className="border px-4 py-2 rounded-none hover:bg-black hover:text-white"
                 onClick={() => setIsOpen(false)}
               >
                 Explorar productos
@@ -99,13 +99,13 @@ export function MiniCart() {
                 return (
                   <div
                     key={item.productId}
-                    className="flex flex-col sm:flex-row gap-4 p-4 bg-muted rounded-lg border border-gray-200"
+                    className="flex flex-col sm:flex-row gap-4 p-4 bg-muted border border-gray-200"
                   >
-                    <div className="w-full sm:w-20 h-48 sm:h-20 bg-terra-warm/10 rounded overflow-hidden flex-shrink-0">
+                    <div className="w-full sm:w-20 h-48 sm:h-20 overflow-hidden flex-shrink-0">
                       <img
                         src={
                           item.images?.[0]?.url
-                            ? `https://nurae-api.alernal.com.co/${item.images[0].url}`
+                            ? `https://api.nurae.com.co/${item.images[0].url}`
                             : "/placeholder.svg"
                         }
                         alt={item.name}
@@ -127,7 +127,7 @@ export function MiniCart() {
                           <Button
                             variant="outline"
                             size="icon"
-                            className="h-7 w-7"
+                            className="h-7 w-7 border-none"
                             onClick={() =>
                               updateQuantity(item.productId, item.quantity - 1)
                             }
@@ -135,13 +135,13 @@ export function MiniCart() {
                           >
                             <LuMinus className="w-4 h-4" />
                           </Button>
-                          <div className="min-w-[50px] px-3 py-1.5 border border-gray-300 rounded-lg bg-gray-100 text-center text-sm font-medium text-gray-800 select-none">
+                          <div className="min-w-[50px] px-3 py-1.5 bg-gray-100 text-center text-sm font-medium text-gray-800 select-none">
                             {item.quantity}
                           </div>
                           <Button
                             variant="outline"
                             size="icon"
-                            className="h-7 w-7"
+                            className="h-7 w-7 border-none"
                             onClick={() =>
                               updateQuantity(item.productId, item.quantity + 1)
                             }
@@ -214,13 +214,13 @@ export function MiniCart() {
 
             <div className="pt-2 flex flex-row gap-2">
               <Link to="/checkout" onClick={() => setIsOpen(false)} className="flex-1">
-                <Button className="w-full border hover:text-white hover:bg-black h-12 font-medium">
+                <Button className="w-full border rounded-none hover:text-white hover:bg-black h-12 font-medium">
                   Proceder al Checkout
                 </Button>
               </Link>
               <Button
                 variant="ghost"
-                className="border border-red-500 text-red-500 hover:bg-red-500 hover:text-white h-12 w-10"
+                className="border border-red-500 text-red-500 hover:bg-red-500 rounded-none hover:text-white h-12 w-10"
                 onClick={clearCartCloud}
                 title="Vaciar carrito"
               >

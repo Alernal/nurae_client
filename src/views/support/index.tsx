@@ -8,9 +8,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 const supportChannels = [
   {
     title: "Chat en Vivo",
-    description: "Respuesta inmediata de nuestros expertos",
+    description: "Recibe respuestas en minutos a tus preguntas",
     icon: LuMessageCircle,
-    color: "text-[var(--color-amarillo)]",
+    color: "text-black",
     bgColor: "bg-gray-100",
     availability: "24/7",
     responseTime: "Inmediato",
@@ -18,33 +18,23 @@ const supportChannels = [
   },
   {
     title: "Llamada Telefónica",
-    description: "Habla directamente con nuestro equipo",
+    description: "Recibe atención personalizada en minutos",
     icon: LuPhone,
-    color: "text-[var(--color-amarillo)]",
+    color: "text-black",
     bgColor: "bg-gray-100",
-    availability: "Lun-Dom 9AM-9PM",
-    responseTime: "Inmediato",
+    availability: "Lun-Sab 9AM-6PM",
+    responseTime: "En pocos minutos",
     action: "Llamar Ahora",
   },
   {
     title: "Email Soporte",
-    description: "Envía tu consulta detallada por correo",
+    description: "Recibe una respuesta detallada en unas horas",
     icon: LuMail,
-    color: "text-[var(--color-amarillo)]",
+    color: "text-black",
     bgColor: "bg-gray-100",
     availability: "24/7",
     responseTime: "2-4 horas",
     action: "Enviar Email",
-  },
-  {
-    title: "Cita Presencial",
-    description: "Visita nuestro showroom para asesoría personalizada",
-    icon: LuCalendar,
-    color: "text-[var(--color-amarillo)]",
-    bgColor: "bg-gray-100",
-    availability: "Lun-Sáb 10AM-7PM",
-    responseTime: "Mismo día",
-    action: "Agendar Cita",
   },
 ]
 
@@ -52,34 +42,17 @@ export default function SupportPage() {
 
   return (
     <div className="min-h-screen">
-
-      {/* Hero Section */}
-      <section className="relative py-20 md:py-40 overflow-hidden bg-[var(--color-marron)]">
-        <div className="container px-4 md:px-6 relative">
-          <div className="text-center space-y-8">
-
-            <h1 className="text-5xl md:text-7xl text-white font-bold  leading-tight">
-              ¿Cómo podemos ayudarte?
-            </h1>
-
-            <p className="text-xl md:text-2xl text-gray-100 max-w-3xl mx-auto font-light leading-relaxed">
-              Nuestro equipo de expertos está aquí para resolver todas tus dudas y brindarte la mejor experiencia.
-            </p>
-          </div>
-        </div>
-      </section>
-
       {/* Support Channels */}
       <section className="py-16 md:py-24">
         <div className="container px-4 md:px-6">
           <div className="text-center space-y-8 mb-16">
-            <h2 className="text-4xl md:text-5xl text-[var(--color-marron)] font-bold ">
+            <h2 className="text-4xl md:text-5xl font-bold ">
               Canales de Soporte
             </h2>
             <p className="text-xl text-black max-w-3xl mx-auto">Elige el canal que mejor se adapte a tu consulta</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-6xl mx-auto">
             {supportChannels.map((channel, index) => {
               const IconComponent = channel.icon
               return (
@@ -102,10 +75,6 @@ export default function SupportPage() {
                       <div className="flex justify-between">
                         <span>Disponibilidad:</span>
                         <span className="font-medium">{channel.availability}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Respuesta:</span>
-                        <span className="font-medium">{channel.responseTime}</span>
                       </div>
                     </div>
                     <Button

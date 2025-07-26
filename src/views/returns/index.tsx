@@ -9,28 +9,28 @@ const returnReasons = [
     title: "Producto defectuoso",
     description: "El producto llegó dañado o con defectos de fabricación",
     icon: LuCircleAlert,
-    color: "text-[var(--color-amarillo)]",
+    color: "text-black",
     bgColor: "bg-gray-100",
   },
   {
     title: "Talla incorrecta",
     description: "El producto no tiene la talla que esperabas",
     icon: LuPackage,
-    color: "text-[var(--color-amarillo)]",
+    color: "text-black",
     bgColor: "bg-gray-100",
   },
   {
     title: "No cumple expectativas",
     description: "El producto no es como lo esperabas",
     icon: LuRotateCcw,
-    color: "text-[var(--color-amarillo)]",
+    color: "text-black",
     bgColor: "bg-gray-100",
   },
   {
     title: "Cambio de opinión",
     description: "Simplemente cambiaste de opinión sobre la compra",
     icon: LuCircle,
-    color: "text-[var(--color-amarillo)]",
+    color: "text-black",
     bgColor: "bg-gray-100",
   },
 ]
@@ -64,28 +64,12 @@ const returnProcess = [
 
 export default function ReturnsPage() {
   return (
-    <div className="min-h-screen">
-
-      {/* Hero Section */}
-      <section className="relative py-20 lg:py-40 bg-[var(--color-marron)] md:py-28 overflow-hidden">
-        <div className="container px-4 md:px-6 relative">
-          <div className="text-center text-white space-y-8">
-           <h1 className="text-5xl md:text-7xl  font-bold leading-tight">
-              Devoluciones Fáciles
-            </h1>
-
-            <p className="text-xl md:text-2xl text-gray-100 max-w-3xl mx-auto font-light leading-relaxed">
-              Tu satisfacción es nuestra prioridad. Ofrecemos devoluciones gratuitas dentro de 30 días.
-            </p>
-          </div>
-        </div>
-      </section>
-
+    <div className="min-h-screen bg-white">
       {/* Return Policy Overview */}
-      <section className="py-16 md:py-24">
+      <section className="py-16 md:py-24 border-b border-gray-200">
         <div className="container px-4 md:px-6">
           <div className="text-center space-y-8 mb-16">
-            <h2 className="text-4xl md:text-5xl text-[var(--color-marron)] font-bold">
+            <h2 className="text-4xl md:text-5xl font-bold">
               Nuestra Política
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -96,9 +80,6 @@ export default function ReturnsPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
             <Card className="bg-white/80 backdrop-blur-sm border-pink-100 text-center">
               <CardContent className="p-8">
-                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <LuClock className="h-8 w-8 text-[var(--color-amarillo)]" />
-                </div>
                 <h3 className=" text-xl font-bold text-gray-800 mb-2">30 Días</h3>
                 <p className="text-gray-600">Tienes 30 días desde la recepción para solicitar una devolución</p>
               </CardContent>
@@ -106,9 +87,6 @@ export default function ReturnsPage() {
 
             <Card className="bg-white/80 backdrop-blur-sm border-pink-100 text-center">
               <CardContent className="p-8">
-                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <LuTruck className="h-8 w-8 text-[var(--color-amarillo)]" />
-                </div>
                 <h3 className=" text-xl font-bold text-gray-800 mb-2">Envío Gratis</h3>
                 <p className="text-gray-600">Proporcionamos etiqueta de envío prepagada para todas las devoluciones</p>
               </CardContent>
@@ -116,9 +94,6 @@ export default function ReturnsPage() {
 
             <Card className="bg-white/80 backdrop-blur-sm border-pink-100 text-center">
               <CardContent className="p-8">
-                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <LuCreditCard className="h-8 w-8 text-[var(--color-amarillo)]" />
-                </div>
                 <h3 className=" text-xl font-bold text-gray-800 mb-2">Reembolso Completo</h3>
                 <p className="text-gray-600">Reembolsamos el 100% del valor del producto en 3-7 días hábiles</p>
               </CardContent>
@@ -128,10 +103,10 @@ export default function ReturnsPage() {
       </section>
 
       {/* Return Reasons */}
-      <section className="py-16 md:py-24 bg-white/50">
+      <section className="py-16 md:py-24 border-b border-gray-200">
         <div className="container px-4 md:px-6">
           <div className="text-center space-y-8 mb-16">
-            <h2 className="text-4xl md:text-5xl text-[var(--color-marron)] font-bold">
+            <h2 className="text-4xl md:text-5xl font-bold">
               Motivos de Devolución
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -169,10 +144,10 @@ export default function ReturnsPage() {
       </section>
 
       {/* Return Process */}
-      <section className="py-16 md:py-24">
+      <section className="py-16 md:py-24 border-b border-gray-200">
         <div className="container px-4 md:px-6">
           <div className="text-center space-y-8 mb-16">
-            <h2 className="text-4xl md:text-5xl text-[var(--color-marron)] font-bold">
+            <h2 className="text-4xl md:text-5xl font-bold">
               Proceso de Devolución
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -183,7 +158,7 @@ export default function ReturnsPage() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {returnProcess.map((step, index) => (
               <div key={step.step} className="text-center space-y-4" style={{ animationDelay: `${index * 0.2}s` }}>
-                <div className="mx-auto w-16 h-16 rounded-full flex items-center justify-center text-[var(--color-amarillo)] bg-gray-100 text-2xl font-bold">
+                <div className="mx-auto w-16 h-16 rounded-full flex items-center justify-center bg-gray-100 text-2xl font-bold">
                   {step.step}
                 </div>
                 <h3 className=" text-xl font-bold text-gray-800">{step.title}</h3>
@@ -198,10 +173,10 @@ export default function ReturnsPage() {
       </section>
 
       {/* Conditions */}
-      <section className="py-16 md:py-24 bg-white/50">
+      <section className="py-16 md:py-24 border-b border-gray-200">
         <div className="container px-4 md:px-6">
           <div className="text-center space-y-8 mb-16">
-            <h2 className="text-4xl md:text-5xl text-[var(--color-marron)] font-bold">
+            <h2 className="text-4xl md:text-5xl font-bold">
               Condiciones para Devoluciones
             </h2>
           </div>
@@ -209,7 +184,7 @@ export default function ReturnsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <Card className="bg-white/80 backdrop-blur-sm border-pink-100">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2  text-xl text-[var(--color-amarillo)]">
+                <CardTitle className="flex items-center gap-2  text-xl">
                   <LuCircle className="h-6 w-6" />
                   Productos Elegibles
                 </CardTitle>
@@ -225,7 +200,7 @@ export default function ReturnsPage() {
 
             <Card className="bg-white/80 backdrop-blur-sm border-pink-100">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2  text-xl text-[var(--color-amarillo)]">
+                <CardTitle className="flex items-center gap-2  text-xl">
                   <LuCircleAlert className="h-6 w-6" />
                   Productos No Elegibles
                 </CardTitle>
@@ -246,7 +221,7 @@ export default function ReturnsPage() {
       <section className="py-16 md:py-24">
         <div className="container px-4 md:px-6">
           <div className="text-center space-y-8 mb-16">
-            <h2 className="text-4xl md:text-5xl text-[var(--color-marron)] font-bold">
+            <h2 className="text-4xl md:text-5xl font-bold">
               Preguntas Frecuentes
             </h2>
           </div>
@@ -292,20 +267,20 @@ export default function ReturnsPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 md:py-24 bg-white/50">
+      <section className="py-16 md:py-24 bg-black text-white">
         <div className="container px-4 md:px-6">
           <div className="text-center space-y-8 max-w-4xl mx-auto">
-            <h2 className="text-4xl md:text-5xl text-[var(--color-marron)] font-bold">
+            <h2 className="text-4xl md:text-5xl font-bold">
               ¿Necesitas hacer una devolución?
             </h2>
-            <p className="text-xl text-gray-600 leading-relaxed">
+            <p className="text-xl text-gray-200 leading-relaxed">
               Nuestro equipo de atención al cliente está aquí para ayudarte con el proceso de devolución.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/support">
                 <Button
                   variant="outline"
-                  className="bg-[var(--color-marron)] border-none text-white px-8 py-3 rounded-full text-lg font-medium"
+                  className="bg-white hover:opacity-90 border-none text-black px-8 py-3 rounded-none text-lg font-medium"
                 >
                   Contactar Soporte
                 </Button>
