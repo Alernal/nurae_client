@@ -62,8 +62,8 @@ export default function CheckoutPage() {
       detailedCartItems.reduce((sum, item) => {
         const unitPrice =
           item.original_price &&
-          item.original_price > 0 &&
-          item.original_price < item.price
+            item.original_price > 0 &&
+            item.original_price < item.price
             ? item.original_price
             : item.price;
         return sum + (unitPrice / 1.19) * item.quantity;
@@ -76,8 +76,8 @@ export default function CheckoutPage() {
       detailedCartItems.reduce((sum, item) => {
         const unitPrice =
           item.original_price &&
-          item.original_price > 0 &&
-          item.original_price < item.price
+            item.original_price > 0 &&
+            item.original_price < item.price
             ? item.original_price
             : item.price;
         const baseUnitPrice = unitPrice / 1.19;
@@ -92,10 +92,18 @@ export default function CheckoutPage() {
     if (totalBruto >= 150000) return 0;
     if (!address) return 15000;
 
-    const addressDepartment = address.state?.toLowerCase() || "";
+    const department = (address.state || "").toLowerCase();
+    const city = (address.city || "").toLowerCase();
+
+    // 🎯 Excepción: Sincelejo - Sucre
+    if (department === "sucre" && city === "sincelejo") {
+      return 5000;
+    }
+
     const isCaribbeanDepartment = caribbeanDepartments
       .map((d) => d.toLowerCase())
-      .some((d) => addressDepartment.includes(d));
+      .some((d) => department.includes(d));
+
     return isCaribbeanDepartment ? 9000 : 15000;
   }
 
