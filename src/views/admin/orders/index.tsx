@@ -65,6 +65,8 @@ export interface Order {
   subtotal: number;
   total: number;
   transaction_id?: string;
+  reference?: string;
+  payment_link?: string;
   created_at: string;
   updated_at: string;
   order_items: OrderProduct[];
@@ -94,7 +96,7 @@ export default function AdminOrdersPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm] = useDebounce(searchTerm, 2000);
   const [statusFilter, setStatusFilter] = useState<OrderStatus>("pending");
-  const [paymentFilter, setPaymentFilter] = useState<PaymentStatus>("approved");
+  const [paymentFilter, setPaymentFilter] = useState<PaymentStatus>("pending");
 
   const {
     data: orders = [],

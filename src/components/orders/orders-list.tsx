@@ -142,7 +142,7 @@ export function OrdersList({
                   <div className="flex justify-between items-start mb-2">
                     <div>
                       <h3 className="font-semibold text-sm">
-                        #{order.transaction_id}
+                        #{order.transaction_id ?? order.reference}
                       </h3>
                       <p className="text-sm text-gray-600">
                         {order.user.first_name}

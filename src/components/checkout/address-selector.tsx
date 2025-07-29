@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
-import { LuPlus, LuMapPin, LuPencil, LuTrash2 } from "react-icons/lu"
+import { LuMapPin, LuPencil } from "react-icons/lu"
 
 export interface Address {
   id: number
@@ -30,9 +30,7 @@ interface AddressSelectorProps {
   addresses: Address[]
   selectedAddressId: number | null
   onSelectAddress: (address: Address) => void
-  onAddNewClick: () => void
   onEditAddress?: (address: Address) => void
-  onDeleteAddress?: (addressId: number) => void
   type: "billing" | "shipping"
 }
 
@@ -40,9 +38,7 @@ export default function AddressSelector({
   addresses = [],
   selectedAddressId,
   onSelectAddress,
-  onAddNewClick,
   onEditAddress,
-  onDeleteAddress,
   type,
 }: AddressSelectorProps) {
   const [hoveredAddressId, setHoveredAddressId] = useState<number | null>(null)
@@ -115,7 +111,7 @@ export default function AddressSelector({
               </Card>
 
               {/* Botones de editar/eliminar que aparecen al hacer hover */}
-              {hoveredAddressId === address.id && (onEditAddress || onDeleteAddress) && (
+              {hoveredAddressId === address.id && (onEditAddress) && (
                 <div className="absolute top-2 right-2 flex space-x-1">
                   {onEditAddress && (
                     <Button
@@ -129,20 +125,6 @@ export default function AddressSelector({
                     >
                       <LuPencil className="h-4 w-4" />
                       <span className="sr-only">Editar</span>
-                    </Button>
-                  )}
-                  {onDeleteAddress && (
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-8 w-8 rounded-full bg-white border border-gray-200 hover:bg-red-50 hover:text-red-600"
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        onDeleteAddress(address.id)
-                      }}
-                    >
-                      <LuTrash2 className="h-4 w-4" />
-                      <span className="sr-only">Eliminar</span>
                     </Button>
                   )}
                 </div>

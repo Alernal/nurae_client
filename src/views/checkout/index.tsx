@@ -38,48 +38,6 @@ export default function CheckoutPage() {
   const [dataProcessingAccepted, setDataProcessingAccepted] = useState(false);
   const [showWompiModal, setShowWompiModal] = useState(false);
 
-  // 🟡 Bloqueo del carrito y cuenta regresiva
-  const [blockTimeLeft, setBlockTimeLeft] = useState<number>(0);
-  const [isCartBlocked, setIsCartBlocked] = useState(false);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const cached = localStorage.getItem("cached_wompi_link");
-      if (!cached) {
-        setIsCartBlocked(false);
-        setBlockTimeLeft(0);
-        return;
-      }
-
-      try {
-        const parsed = JSON.parse(cached);
-        const expiresAt = new Date(parsed.expires_at);
-        const now = new Date();
-        const diffMs = expiresAt.getTime() - now.getTime();
-
-        if (diffMs <= 0) {
-          setIsCartBlocked(false);
-          setBlockTimeLeft(0);
-          localStorage.removeItem("cached_wompi_link");
-        } else {
-          setIsCartBlocked(true);
-          setBlockTimeLeft(Math.floor(diffMs / 1000));
-        }
-      } catch {
-        setIsCartBlocked(false);
-        setBlockTimeLeft(0);
-      }
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  function formatTime(seconds: number): string {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, "0")}`;
-  }
-
   const detailedCartItems = cartItems.map((item) => {
     const product = products.find((p) => p.id === item.productId);
     return {
@@ -167,14 +125,30 @@ export default function CheckoutPage() {
       return;
     }
 
+    const carritoSnapshot = {
+      items: cartItems.map((item) => ({
+        id: item.productId,
+        quantity: item.quantity,
+      })),
+      address_id: selectedAddress?.id,
+      subtotal,
+      iva,
+      shipping,
+      total,
+      discount: appliedDiscount,
+    };
+
     const cached = localStorage.getItem("cached_wompi_link");
     if (cached) {
       try {
         const parsed = JSON.parse(cached);
+        const sameSnapshot = JSON.stringify(parsed.snapshot) === JSON.stringify(carritoSnapshot);
+        const createdAt = new Date(parsed.created_at);
         const now = new Date();
-        const expiresAt = new Date(parsed.expires_at);
+        const diffInMs = now.getTime() - createdAt.getTime();
+        const diffInMinutes = diffInMs / 1000 / 60;
 
-        if (now < expiresAt) {
+        if (sameSnapshot && diffInMinutes <= 120) {
           setWompiLink(parsed.url);
           setShowWompiModal(true);
           return;
@@ -186,16 +160,22 @@ export default function CheckoutPage() {
       }
     }
 
+    const confirmed = window.confirm(
+      "Se va a generar una orden y un nuevo enlace de pago con una validez de 2 horas. ¿Deseas continuar?"
+    );
+
+    if (!confirmed) return;
+
     generatePaymentLink(
       { subtotal, iva, shipping, total },
       {
         onSuccess: (data) => {
-          const expiresAt = new Date(data.expires_at);
-
           const cachedLink = {
             url: data.url,
             payment_link_id: data.payment_link_id,
-            expires_at: expiresAt.toISOString(),
+            order_id: data.order_id,
+            snapshot: carritoSnapshot,
+            created_at: new Date().toISOString(),
           };
 
           localStorage.setItem("cached_wompi_link", JSON.stringify(cachedLink));
@@ -209,14 +189,6 @@ export default function CheckoutPage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="container mx-auto px-4 py-8">
-        {isCartBlocked && (
-          <div className="bg-yellow-100 border border-yellow-300 text-yellow-800 px-4 py-3 rounded mb-6 text-sm">
-            <strong>Tu carrito está bloqueado</strong> mientras finalizas un pago pendiente.
-            <br />
-            El bloqueo se levantará automáticamente en <strong>{formatTime(blockTimeLeft)}</strong>.
-          </div>
-        )}
-
         <div className="grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
             <BillingInfoForm

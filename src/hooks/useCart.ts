@@ -3,7 +3,6 @@ import { useAuthStore } from "@/stores/useAuthStore";
 import { useMutation } from "@tanstack/react-query";
 import api from "@/api/client";
 import { toast } from "sonner";
-import { isCartBlocked } from "@/lib/cartLock";
 
 type CartItem = {
   productId: number;
@@ -32,17 +31,8 @@ export function useCart() {
       });
     },
     onSuccess: refetchCartFromCloud,
-    onError: (error: any) => {
-      const message = error?.response?.data?.message;
-
-      if (
-        error?.response?.status === 403 &&
-        message?.includes("carrito está bloqueado")
-      ) {
-        toast.warning(message);
-      } else {
-        toast.error("Error al sincronizar el carrito");
-      }
+    onError: () => {
+      toast.error("Error al sincronizar el carrito");
     },
   });
 
@@ -52,17 +42,8 @@ export function useCart() {
       return api.delete(`/cart/${productId}`);
     },
     onSuccess: refetchCartFromCloud,
-    onError: (error: any) => {
-      const message = error?.response?.data?.message;
-
-      if (
-        error?.response?.status === 403 &&
-        message?.includes("carrito está bloqueado")
-      ) {
-        toast.warning(message);
-      } else {
-        toast.error("Error al sincronizar el carrito");
-      }
+    onError: () => {
+      toast.error("Error al sincronizar el carrito");
     },
   });
 
@@ -72,17 +53,8 @@ export function useCart() {
       return api.patch(`/cart/${productId}/decrement`);
     },
     onSuccess: refetchCartFromCloud,
-    onError: (error: any) => {
-      const message = error?.response?.data?.message;
-
-      if (
-        error?.response?.status === 403 &&
-        message?.includes("carrito está bloqueado")
-      ) {
-        toast.warning(message);
-      } else {
-        toast.error("Error al sincronizar el carrito");
-      }
+    onError: () => {
+      toast.error("Error al sincronizar el carrito");
     },
   });
 
@@ -92,25 +64,12 @@ export function useCart() {
       return api.delete("/cart/clear");
     },
     onSuccess: refetchCartFromCloud,
-    onError: (error: any) => {
-      const message = error?.response?.data?.message;
-
-      if (
-        error?.response?.status === 403 &&
-        message?.includes("carrito está bloqueado")
-      ) {
-        toast.warning(message);
-      } else {
-        toast.error("Error al sincronizar el carrito");
-      }
+    onError: () => {
+      toast.error("Error al sincronizar el carrito");
     },
   });
 
   function addToCart(productId: number, quantity = 1) {
-    if (isCartBlocked()) {
-      toast.warning("El carrito está bloqueado por un pago pendiente.");
-      return;
-    }
     addLocal(productId, quantity);
     if (isAuthenticated) {
       syncItem.mutate({ productId, quantity }); // ✅ solo la diferencia real
@@ -118,10 +77,6 @@ export function useCart() {
   }
 
   function removeFromCart(productId: number) {
-    if (isCartBlocked()) {
-      toast.warning("El carrito está bloqueado por un pago pendiente.");
-      return;
-    }
     removeLocal(productId);
     if (isAuthenticated) {
       removeItemCloud.mutate(productId);
@@ -129,10 +84,6 @@ export function useCart() {
   }
 
   function updateQuantity(productId: number, quantity: number) {
-    if (isCartBlocked()) {
-      toast.warning("El carrito está bloqueado por un pago pendiente.");
-      return;
-    }
     const currentQty = getQuantity(productId);
     updateLocal(productId, quantity);
 
@@ -148,10 +99,6 @@ export function useCart() {
   }
 
   async function clearCartCloud() {
-    if (isCartBlocked()) {
-      toast.warning("El carrito está bloqueado por un pago pendiente.");
-      return;
-    }
     clearCart(); // local
     if (isAuthenticated) {
       await clearCloud.mutateAsync(); // backend

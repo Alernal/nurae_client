@@ -57,12 +57,10 @@ import type { AddressFormValues } from "@/schemas/addresses/createAddressSchema"
 
 export default function ClientAddresses() {
   const { data: addresses = [], isLoading, isError } = useAddresses();
-  const { mutate: deleteAddress } = useDeleteAddress();
   const { mutate: createAddress } = useCreateAddress();
   const { mutate: updateAddress } = useUpdateAddress();
 
   const [openDialog, setOpenDialog] = useState(false);
-  const [deletingId, setDeletingId] = useState<number | null>(null);
   const [editingAddress, setEditingAddress] = useState<any | null>(null);
 
   const handleCreate = (data: AddressFormValues) => {
@@ -212,48 +210,6 @@ export default function ClientAddresses() {
                               <LuPencilLine className="mr-2 h-4 w-4" />
                               Editar
                             </DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <AlertDialog>
-                              <AlertDialogTrigger asChild>
-                                <DropdownMenuItem
-                                  className="text-red-600"
-                                  onSelect={(e) => e.preventDefault()}
-                                >
-                                  <LuTrash2 className="mr-2 h-4 w-4" />
-                                  Eliminar
-                                </DropdownMenuItem>
-                              </AlertDialogTrigger>
-                              <AlertDialogContent>
-                                <AlertDialogHeader>
-                                  <AlertDialogTitle>
-                                    ¿Estás seguro?
-                                  </AlertDialogTitle>
-                                  <AlertDialogDescription>
-                                    Esta acción eliminará la dirección "
-                                    {address.name}" permanentemente.
-                                  </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                  <AlertDialogCancel>
-                                    Cancelar
-                                  </AlertDialogCancel>
-                                  <AlertDialogAction
-                                    onClick={() => {
-                                      setDeletingId(address.id);
-                                      deleteAddress(address.id, {
-                                        onSettled: () => setDeletingId(null),
-                                      });
-                                    }}
-                                    disabled={deletingId === address.id}
-                                    className="bg-red-600 hover:bg-red-700"
-                                  >
-                                    {deletingId === address.id
-                                      ? "Eliminando..."
-                                      : "Eliminar"}
-                                  </AlertDialogAction>
-                                </AlertDialogFooter>
-                              </AlertDialogContent>
-                            </AlertDialog>
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </TableCell>

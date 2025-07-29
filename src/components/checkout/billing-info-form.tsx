@@ -92,10 +92,6 @@ export default function BillingInfoForm({
             setEditingAddress(address);
             setOpenDialog(true);
           }}
-          onDeleteAddress={(id) => {
-            setDeletingId(id);
-            deleteAddress(id, { onSettled: () => setDeletingId(null) });
-          }}
         />
 
         <Dialog

@@ -8,12 +8,7 @@ import { useCreateOrderHistory } from "@/hooks/orders/useCreateOrderHistory";
 import { useOrder } from "@/hooks/orders/useOrder";
 import { useDebounce } from "use-debounce";
 
-export type OrderStatus =
-  | "pending"
-  | "processing"
-  | "shipped"
-  | "completed"
-  | "cancelled";
+export type OrderStatus = "pending" | "processing" | "shipped" | "completed" | "cancelled";
 export type PaymentStatus = "pending" | "approved" | "failed" | "refunded";
 
 export interface OrderProduct {
@@ -65,6 +60,8 @@ export interface Order {
   subtotal: number;
   total: number;
   transaction_id?: string;
+  reference?: string;
+  payment_link?: string;
   created_at: string;
   updated_at: string;
   products: OrderProduct[];
@@ -94,7 +91,7 @@ export default function ClientOrdersPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm] = useDebounce(searchTerm, 2000);
   const [statusFilter, setStatusFilter] = useState<OrderStatus>("pending");
-  const [paymentFilter, setPaymentFilter] = useState<PaymentStatus>("approved");
+  const [paymentFilter, setPaymentFilter] = useState<PaymentStatus>("pending");
 
 
   const {

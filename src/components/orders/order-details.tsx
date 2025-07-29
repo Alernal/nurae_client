@@ -1,7 +1,6 @@
 import {
   LuPackage,
   LuUser,
-  LuMapPin,
   LuCreditCard,
   LuTruck,
   LuClock,
@@ -83,6 +82,9 @@ export function OrderDetails({
       minute: "2-digit",
     });
   };
+
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+
 
   return (
     <div className="space-y-6">
@@ -170,6 +172,34 @@ export function OrderDetails({
             <Badge className={`${paymentStatusColors[order.payment_status]}`}>
               Pago: {order.payment_status}
             </Badge>
+
+            {order.payment_status === "pending" && order.payment_link && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowPaymentModal(true)}
+              >
+                <LuCreditCard className="h-4 w-4 mr-2" />
+                Pagar ahora
+              </Button>
+            )}
+
+            {showPaymentModal && (
+              <Dialog open={showPaymentModal} onOpenChange={setShowPaymentModal}>
+                <DialogContent className="max-w-4xl w-full">
+                  <DialogHeader>
+                    <DialogTitle>Completa tu pago</DialogTitle>
+                  </DialogHeader>
+                  <iframe
+                    src={order.payment_link}
+                    className="w-full h-[600px] rounded"
+                    frameBorder="0"
+                    allow="payment"
+                  />
+                </DialogContent>
+              </Dialog>
+            )}
+
           </div>
         </CardHeader>
       </Card>

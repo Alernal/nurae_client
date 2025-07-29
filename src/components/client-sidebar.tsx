@@ -17,7 +17,6 @@ import { useAuthStore } from "@/stores/useAuthStore";
 import { useLogout } from "@/hooks/auth/useLogout";
 
 const navigation = [
-  { name: "Dashboard", path: "dashboard", icon: LuLayoutDashboard },
   { name: "Perfil", path: "profile", icon: LuUser },
   { name: "Mis Pedidos", path: "orders", icon: LuPackage },
   { name: "Direcciones", path: "addresses", icon: LuMapPin },
@@ -82,7 +81,7 @@ export function ClientSidebar() {
             <div className="flex items-center gap-3">
               {user?.profile_image_url ? (
                 <img
-                  src={`http://127.0.0.1:8000${user.profile_image_url}`}
+                  src={`https://api.nurae.com.co${user.profile_image_url}`}
                   alt="Avatar"
                   className="w-10 h-10 rounded-full object-cover"
                 />
