@@ -90,9 +90,8 @@ export default function ClientOrdersPage() {
   const [showStatusHistory, setShowStatusHistory] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm] = useDebounce(searchTerm, 2000);
-  const [statusFilter, setStatusFilter] = useState<OrderStatus>("pending");
-  const [paymentFilter, setPaymentFilter] = useState<PaymentStatus>("pending");
-
+  const [statusFilter, setStatusFilter] = useState<OrderStatus | "all">("all");
+  const [paymentFilter, setPaymentFilter] = useState<PaymentStatus | "all">("all");
 
   const {
     data: orders = [],
@@ -103,15 +102,11 @@ export default function ClientOrdersPage() {
   });
 
   const filteredOrders = orders.filter((order) => {
-    return (
-      order.status === statusFilter &&
-      order.payment_status === paymentFilter &&
-      (order.user.first_name.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
-        order.user.last_name?.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
-        order.user.email.toLowerCase().includes(debouncedSearchTerm.toLowerCase()))
-    );
-  });
+    const matchesStatus = statusFilter === "all" || order.status === statusFilter;
+    const matchesPayment = paymentFilter === "all" || order.payment_status === paymentFilter;
 
+    return matchesStatus && matchesPayment;
+  });
 
   const {
     data: selectedOrder,

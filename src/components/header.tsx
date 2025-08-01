@@ -52,7 +52,7 @@ export function Header() {
 
           {/* Promoción */}
           <div className="flex items-center gap-2">
-            <span>Envío gratis en compras mayores a $150.000 COP • Hasta 4 cuotas</span>
+            <span>Descubre joyas únicas seleccionadas especialmente para ti en Colombia</span>
           </div>
 
           {/* Redes sociales */}

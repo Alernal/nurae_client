@@ -271,7 +271,6 @@ export default function CartSummary({
         {/* Información de seguridad */}
         <div className="text-center text-xs text-gray-500 space-y-1">
           <p>🔒 Pago 100% seguro y encriptado</p>
-          <p>📦 Envío gratis en compras superiores a $150.000</p>
           <p>↩️ Devoluciones gratuitas hasta 30 días</p>
         </div>
       </CardContent>

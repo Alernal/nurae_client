@@ -21,10 +21,10 @@ interface OrdersListProps {
   selectedOrderId?: number;
   searchTerm: string;
   onSearchChange: (value: string) => void;
-  statusFilter: OrderStatus;
-  onStatusFilterChange: (status: OrderStatus) => void;
-  paymentFilter: PaymentStatus;
-  onPaymentFilterChange: (status: PaymentStatus) => void;
+  statusFilter: OrderStatus | "all";
+  onStatusFilterChange: (status: OrderStatus | "all") => void;
+  paymentFilter: PaymentStatus | "all";
+  onPaymentFilterChange: (status: PaymentStatus | "all") => void;
 }
 
 const statusColors: Record<OrderStatus, string> = {
@@ -89,12 +89,13 @@ export function OrdersList({
           <div className="flex gap-2">
             <Select
               value={statusFilter}
-              onValueChange={(value) => onStatusFilterChange(value as OrderStatus)}
+              onValueChange={(value) => onStatusFilterChange(value as OrderStatus | "all")}
             >
               <SelectTrigger className="flex-1">
                 <SelectValue placeholder="Estado" />
               </SelectTrigger>
               <SelectContent>
+                <SelectItem value="all">Todos</SelectItem>
                 <SelectItem value="pending">Pendiente</SelectItem>
                 <SelectItem value="processing">Procesando</SelectItem>
                 <SelectItem value="shipped">Enviado</SelectItem>
@@ -104,12 +105,13 @@ export function OrdersList({
             </Select>
             <Select
               value={paymentFilter}
-              onValueChange={(value) => onPaymentFilterChange(value as PaymentStatus)}
+              onValueChange={(value) => onPaymentFilterChange(value as PaymentStatus | "all")}
             >
               <SelectTrigger className="flex-1">
                 <SelectValue placeholder="Pago" />
               </SelectTrigger>
               <SelectContent>
+                <SelectItem value="all">Todos</SelectItem>
                 <SelectItem value="pending">Pendiente</SelectItem>
                 <SelectItem value="approved">Pagado</SelectItem>
                 <SelectItem value="failed">Fallido</SelectItem>
@@ -132,11 +134,10 @@ export function OrdersList({
               {orders.map((order) => (
                 <div
                   key={order.id}
-                  className={`p-4 border-b cursor-pointer hover:bg-gray-50 transition-colors ${
-                    selectedOrderId === order.id
-                      ? "bg-blue-50 border-l-4 border-l-blue-500"
-                      : ""
-                  }`}
+                  className={`p-4 border-b cursor-pointer hover:bg-gray-50 transition-colors ${selectedOrderId === order.id
+                    ? "bg-blue-50 border-l-4 border-l-blue-500"
+                    : ""
+                    }`}
                   onClick={() => onOrderSelect(order)}
                 >
                   <div className="flex justify-between items-start mb-2">
@@ -163,9 +164,8 @@ export function OrdersList({
                       {order.status}
                     </Badge>
                     <Badge
-                      className={`text-xs ${
-                        paymentStatusColors[order.payment_status]
-                      }`}
+                      className={`text-xs ${paymentStatusColors[order.payment_status]
+                        }`}
                     >
                       {order.payment_status}
                     </Badge>

@@ -44,8 +44,11 @@ export function MiniCart() {
         : item.price),
     0
   );
-  const shipping = subtotal >= 150000 ? 0 : 15000;
-  const total = subtotal + shipping;
+
+  // Nuevo: desglose de impuestos
+  const subtotalSinIva = subtotal / 1.19;
+  const iva = subtotal - subtotalSinIva;
+  const total = subtotal;
 
   const formatPrice = (price: number) =>
     new Intl.NumberFormat("es-CO", {
@@ -190,24 +193,15 @@ export function MiniCart() {
         {cartWithDetails.length > 0 && (
           <div className="border-t pt-4 mt-4 space-y-2">
             <div className="flex justify-between text-sm text-secondary-700">
-              <span>Subtotal</span>
-              <span>{formatPrice(subtotal)}</span>
+              <span>Subtotal (sin IVA)</span>
+              <span>{formatPrice(subtotalSinIva)}</span>
             </div>
             <div className="flex justify-between text-sm text-secondary-700">
-              <span>Envío</span>
-              <span
-                className={shipping === 0 ? "text-green-600 font-medium" : ""}
-              >
-                {shipping === 0 ? "¡Gratis!" : formatPrice(shipping)}
-              </span>
+              <span>IVA (19%)</span>
+              <span>{formatPrice(iva)}</span>
             </div>
-            {subtotal < 150000 && (
-              <p className="text-xs text-secondary-500">
-                Agrega {formatPrice(150000 - subtotal)} más para envío gratis
-              </p>
-            )}
             <Separator />
-            <div className="flex justify-between  text-lg font-bold">
+            <div className="flex justify-between text-lg font-bold">
               <span>Total</span>
               <span className="text-primary">{formatPrice(total)}</span>
             </div>

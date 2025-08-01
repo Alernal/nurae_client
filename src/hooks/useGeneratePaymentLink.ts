@@ -7,12 +7,29 @@ type GeneratePaymentPayload = {
   iva: number;
   shipping: number;
   total: number;
+  discount?: number;
+  address_id?: string;
+  guest?: boolean;
+  guest_info?: {
+    name: string;
+    email: string;
+  };
+  address?: {
+    state: string;
+    city: string;
+    address: string;
+  };
+  items: {
+    id: string;
+    quantity: number;
+  }[];
 };
 
 type GeneratePaymentResponse = {
   url: string;
   payment_link_id: string;
   expires_at: string;
+  order_id?: string;
 };
 
 export function useGeneratePaymentLink() {
@@ -21,7 +38,6 @@ export function useGeneratePaymentLink() {
       const res = await api.post("/generate-link", payload);
       return res.data;
     },
-
     onError: (error) => {
       const message =
         error?.response?.data?.message || "Error al generar el enlace de pago";

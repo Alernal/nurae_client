@@ -4,7 +4,6 @@ import {
   LuUserPlus,
   LuHeart,
   LuPackage,
-  LuSettings,
   LuLogOut,
 } from "react-icons/lu";
 import { Button } from "@/components/ui/button";
@@ -63,12 +62,6 @@ export function UserMenu() {
               <Link to="/wishlist" className="flex items-center gap-2">
                 <LuHeart className="h-4 w-4" />
                 Lista de Deseos
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link to={`/${user.role}/settings`} className="flex items-center gap-2">
-                <LuSettings className="h-4 w-4" />
-                Configuración
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />

@@ -32,7 +32,6 @@ import ClientOrdersPage from "@/views/client/orders";
 
 import AdminOrders from "@/views/admin/orders";
 import AdminUsers from "@/views/admin/users";
-import CheckoutResponsePage from "@/views/checkout/response";
 import BlogPage from "@/views/blog";
 import ContactPage from "@/views/contact";
 import NewPage from "@/views/new";
@@ -77,11 +76,10 @@ export function Router() {
         <Route path="careers" element={<CareersPage />} />
         <Route path="terms" element={<Terms />} />
         <Route path="support" element={<SupportPage />} />
+        <Route path="checkout" element={<CheckoutPage />} />
 
         <Route element={<ProtectedRoute />}>
           <Route path="wishlist" element={<WishlistPage />} />
-          <Route path="checkout" element={<CheckoutPage />} />
-          <Route path="checkout/confirmacion" element={<CheckoutResponsePage />} />
         </Route>
       </Route>
 
