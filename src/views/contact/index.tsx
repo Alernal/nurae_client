@@ -29,7 +29,7 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="min-h-screen ">
+    <div className="min-h-screen bg-white">
       {/* Contact Info & Form */}
       <section className="py-16 md:py-24">
         <div className="container px-4 md:px-6">

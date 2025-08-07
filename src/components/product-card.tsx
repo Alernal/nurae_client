@@ -56,7 +56,7 @@ export default function ProductCard({ product }) {
   // 👇 GRID VIEW
   return (
     <div className="group relative flex flex-col w-full h-full">
-      <div className="relative overflow-hidden">
+      <div className="relative overflow-hidden border border-gray-50">
         <Link to={`/products/${product.slug}`} className="relative group block overflow-hidden">
           <div className="relative flex items-center justify-center aspect-[3/4]">
             {/* Imagen principal */}

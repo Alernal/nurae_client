@@ -5,7 +5,7 @@ export function CategoryShowcase() {
     {
       name: "Collares",
       href: "/collections?category=collares",
-      image: "https://api.nurae.com.co/storage/products/x86HuAUIoC1l63c082c7hcBPURc1FLbyLQwJ53Nw.webp",
+      image: "https://api.nurae.com.co//storage/products/LmhFkMxmaeXHL0j33OBeI9VFgJsyUcpitfhlmX4B.webp",
     },
     {
       name: "Aretes",
@@ -49,7 +49,7 @@ export function CategoryShowcase() {
                 loading="lazy"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
-              <div className="absolute inset-0 bg-black/80 hover:bg-black/10 group-hover:bg-black/50 transition duration-300" />
+              <div className="absolute inset-0 bg-black/40 hover:bg-black/10 group-hover:bg-black/50 transition duration-300" />
               <div className="absolute bottom-5 left-5 text-white z-10">
                 <h3 className="text-4xl font-semibold">{category.name}</h3>
                 <p className="text-sm mt-1 opacity-90">Explorar colección &gt;</p>

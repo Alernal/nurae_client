@@ -14,14 +14,18 @@ export default function AboutPage() {
             {/* Galería de Imágenes */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 w-full max-w-5xl mb-40">
               {images.map((src, index) => (
+              <div
+                key={index}
+                className="flex items-center justify-center h-[350px] w-full overflow-hidden"
+              >
                 <img
-                  key={index}
-                  src={src}
-                  alt={`Imagen ${index + 1}`}
-                  loading="lazy"
-                  fetchpriority={index === 0 ? "high" : "low"} 
-                  className="object-contain w-full h-[380px] md:h-[420px] shadow-md transition-transform duration-300 hover:scale-[1.02]"
+                src={src}
+                alt={`Imagen ${index + 1}`}
+                loading="lazy"
+                fetchpriority={index === 0 ? "high" : "low"}
+                className="object-contain w-full h-full max-h-[350px] transition-transform duration-300 hover:scale-[1.02]"
                 />
+              </div>
               ))}
             </div>
 
@@ -76,9 +80,9 @@ export default function AboutPage() {
       </section>
 
       {/* Sección Promesa */}
-      <section className="py-16 md:py-24 text-center">
+      <section className="py-16 md:py-24 text-center bg-[#ebebeb]">
         <div className="container px-4 md:px-6 mx-auto space-y-6 md:space-y-8">
-          <h2 className="text-3xl md:text-5xl font-normal text-gray-900 font-parrafo m-0">
+          <h2 className="text-3xl md:text-5xl font-normal text-gray-900 font-parrafo mb-4">
             Nuestra promesa
           </h2>
           <p className="text-2xl md:text-5xl italic text-[var(--color-amarillo)] font-subtitulo">

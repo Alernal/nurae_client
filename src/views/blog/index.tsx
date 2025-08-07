@@ -31,9 +31,11 @@ export default function BlogPage() {
               </div>
 
               <div className="py-10 px-6 text-center">
-                <h3 className="font-medium text-2xl leading-snug mb-5">
-                  {firstPost.title}
-                </h3>
+                <Link to={`/blog/${firstPost.slug}`}>
+                  <h3 className="font-medium text-2xl leading-snug mb-5 hover:text-blue-600 cursor-pointer">
+                    {firstPost.title}
+                  </h3>
+                </Link>
 
                 <p className="text-base leading-relaxed max-w-4xl mx-auto font-light">
                   {firstPost.excerpt}
@@ -51,24 +53,26 @@ export default function BlogPage() {
           )}
 
           {/* Resto de los artículos en cuadrícula */}
-          <div className="flex items-center gap-10">
-            {otherPosts.map((post) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            {otherPosts.slice(0, 2).map((post) => (
               <article
                 key={post.slug}
-                className="group bg-[#f0f1f3]  overflow-hidden"
+                className="group bg-[#f0f1f3] overflow-hidden flex flex-col h-full"
               >
-                <div className="relative  overflow-hidden">
+                <div className="relative aspect-[16/9] overflow-hidden">
                   <img
                     src={post.image}
                     alt={post.title}
-                    className="object-cover"
+                    className="object-cover w-full h-full"
                   />
                 </div>
 
-                <div className="py-10 px-6 text-center">
-                  <h3 className="font-medium text-lg transition-colors line-clamp-2 leading-snug mb-5">
-                    {post.title}
-                  </h3>
+                <div className="py-10 px-6 text-center flex-1 flex flex-col justify-between">
+                    <Link to={`/blog/${post.slug}`}>
+                    <h3 className="font-medium text-lg transition-colors line-clamp-2 leading-snug mb-5 hover:text-blue-600 cursor-pointer">
+                      {post.title}
+                    </h3>
+                    </Link>
 
                   <p className="text-sm leading-relaxed line-clamp-3 font-light">
                     {post.excerpt}

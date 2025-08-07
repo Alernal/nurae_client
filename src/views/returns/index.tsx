@@ -66,7 +66,7 @@ export default function ReturnsPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Return Policy Overview */}
-      <section className="py-16 md:py-24 border-b border-gray-200">
+      <section className="py-16 md:py-24">
         <div className="container px-4 md:px-6">
           <div className="text-center space-y-8 mb-16">
             <h2 className="text-4xl md:text-5xl font-bold">
@@ -103,7 +103,7 @@ export default function ReturnsPage() {
       </section>
 
       {/* Return Reasons */}
-      <section className="py-16 md:py-24 border-b border-gray-200">
+      <section className="py-16 md:py-24">
         <div className="container px-4 md:px-6">
           <div className="text-center space-y-8 mb-16">
             <h2 className="text-4xl md:text-5xl font-bold">
@@ -144,7 +144,7 @@ export default function ReturnsPage() {
       </section>
 
       {/* Return Process */}
-      <section className="py-16 md:py-24 border-b border-gray-200">
+      <section className="py-16 md:py-24">
         <div className="container px-4 md:px-6">
           <div className="text-center space-y-8 mb-16">
             <h2 className="text-4xl md:text-5xl font-bold">
@@ -173,7 +173,7 @@ export default function ReturnsPage() {
       </section>
 
       {/* Conditions */}
-      <section className="py-16 md:py-24 border-b border-gray-200">
+      <section className="py-16 md:py-24">
         <div className="container px-4 md:px-6">
           <div className="text-center space-y-8 mb-16">
             <h2 className="text-4xl md:text-5xl font-bold">
@@ -181,7 +181,7 @@ export default function ReturnsPage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center justify-center w-4xl mx-auto">
             <Card className="bg-white/80 backdrop-blur-sm border-pink-100">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2  text-xl">

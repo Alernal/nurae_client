@@ -81,7 +81,7 @@ export function Footer() {
         {/* Línea inferior */}
         <div className="border-t border-gray-200 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
           <p className="text-center md:text-left">
-            © 2025 NURAE. Hecho con amor para mujeres extraordinarias.
+            2025 © NURAE. Hecho con amor para mujeres extraordinarias.
           </p>
           <div className="flex flex-wrap justify-center md:justify-end gap-4">
             {["/terms", "/cookies"].map((path, idx) => (

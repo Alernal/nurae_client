@@ -97,6 +97,7 @@ export default function ClientOrdersPage() {
     data: orders = [],
     isLoading,
     isError,
+    refetch
   } = useOrders({
     search: debouncedSearchTerm,
   });
@@ -166,6 +167,16 @@ export default function ClientOrdersPage() {
           <p className="text-gray-600 mt-2">
             Administra y monitorea todas las órdenes del sistema
           </p>
+        </div>
+
+        <div className="flex justify-between items-center mb-4">
+          <div></div>
+          <button
+            onClick={() => refetch()}
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+          >
+            🔄 Recargar órdenes
+          </button>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

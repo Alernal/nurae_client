@@ -31,9 +31,8 @@ export default function CheckoutPage() {
   const [appliedDiscount, setAppliedDiscount] = useState(0);
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [dataProcessingAccepted, setDataProcessingAccepted] = useState(false);
-  const [showGuestModal, setShowGuestModal] = useState(false);
-  const [showWompiModal, setShowWompiModal] = useState(false);
-  const [wompiLink, setWompiLink] = useState<string | null>(null);
+  const [shippingType, setShippingType] = useState<"standard" | "contraentrega">("standard");
+
   const [guestInfo, setGuestInfo] = useState<GuestInfo>({
     name: "",
     email: "",
@@ -124,8 +123,7 @@ export default function CheckoutPage() {
 
         if (sameSnapshot && diffMinutes <= 5) {
           toast.info("Se usará el mismo enlace de pago generado hace menos de 5 minutos. Si cambias el carrito o dirección, se generará otro enlace.");
-          setWompiLink(parsed.url);
-          setShowWompiModal(true);
+          window.location.href = data.url;
           return;
         }
       } catch {
@@ -140,9 +138,8 @@ export default function CheckoutPage() {
           snapshot,
           created_at: new Date().toISOString(),
         }));
-        toast.success("Enlace de pago generado correctamente.");
-        setWompiLink(data.url);
-        setShowWompiModal(true);
+        toast.success("Redirigiendo a la pasarela de pago...");
+        window.location.href = data.url;
       },
     });
   };
@@ -150,57 +147,56 @@ export default function CheckoutPage() {
   const handleFinalizePurchase = () => {
     if (detailedCartItems.length === 0) return toast.error("Tu carrito está vacío.");
     if (!termsAccepted || !dataProcessingAccepted) return toast.error("Debes aceptar los términos y el tratamiento de datos.");
-    if (!user?.id) return setShowGuestModal(true);
-    if (!selectedAddress) return toast.error("Selecciona una dirección válida.");
 
-    const snapshot = {
-      guest: false,
-      items: cartItems.map(i => ({ id: i.productId, quantity: i.quantity })),
-      address_id: selectedAddress.id,
-      subtotal: +subtotal.toFixed(2),
-      iva: +iva.toFixed(2),
-      shipping,
-      total: +(subtotal + iva + shipping - appliedDiscount).toFixed(2),
-      discount: appliedDiscount,
-    };
+    if (!user?.id && (!guestInfo.name || !guestInfo.email || !guestInfo.department || !guestInfo.city || !guestInfo.address)) {
+      return toast.error("Por favor completa todos los campos requeridos para continuar como invitado.");
+    }
+
+    const address: Address = user?.id
+      ? selectedAddress!
+      : {
+        state: guestInfo.department.trim(),
+        city: guestInfo.city.trim(),
+        address: guestInfo.address.trim(),
+      };
+
+    const shippingCost = calculateShipping(address, totalBruto);
+    const finalTotal = totalBruto + shippingCost - appliedDiscount;
+
+    const snapshot = user?.id
+      ? {
+        guest: false,
+        items: cartItems.map(i => ({ id: i.productId, quantity: i.quantity })),
+        address_id: selectedAddress?.id,
+        subtotal: +subtotal.toFixed(2),
+        iva: +iva.toFixed(2),
+        shipping: shippingCost,
+        total: +finalTotal.toFixed(2),
+        discount: appliedDiscount,
+      }
+      : {
+        guest: true,
+        guest_info: {
+          name: guestInfo.name.trim(),
+          email: guestInfo.email.trim().toLowerCase(),
+        },
+        address: {
+          state: address.state.toLowerCase(),
+          city: address.city.toLowerCase(),
+          address: address.address,
+        },
+        items: cartItems.map((item) => ({
+          id: item.productId,
+          quantity: item.quantity,
+        })),
+        subtotal: +subtotal.toFixed(2),
+        iva: +iva.toFixed(2),
+        shipping: shippingCost,
+        total: +finalTotal.toFixed(2),
+        discount: appliedDiscount,
+      };
 
     generateLinkWithCache(snapshot);
-  };
-
-  const handleGuestSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const address: Address = {
-      state: guestInfo.department.trim(),
-      city: guestInfo.city.trim(),
-      address: guestInfo.address.trim(),
-    };
-    const guestShipping = calculateShipping(address, totalBruto);
-    const guestTotal = totalBruto + guestShipping - appliedDiscount;
-
-    const snapshot = {
-      guest: true,
-      guest_info: {
-        name: guestInfo.name.trim(),
-        email: guestInfo.email.trim().toLowerCase(),
-      },
-      address: {
-        state: address.state.toLowerCase(),
-        city: address.city.toLowerCase(),
-        address: address.address,
-      },
-      items: cartItems.map((item) => ({
-        id: item.productId,
-        quantity: item.quantity,
-      })),
-      subtotal: +subtotal.toFixed(2),
-      iva: +iva.toFixed(2),
-      shipping: guestShipping,
-      total: +guestTotal.toFixed(2),
-      discount: appliedDiscount,
-    };
-
-    generateLinkWithCache(snapshot);
-    setShowGuestModal(false);
   };
 
   return (
@@ -208,12 +204,84 @@ export default function CheckoutPage() {
       <div className="container mx-auto px-4 py-8">
         <div className="grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
-            {user?.id && (
+            <div className="mt-4 space-y-2">
+              <h2 className="text-lg font-semibold">Tipo de envío</h2>
+              <div className="flex items-center gap-4">
+                <label className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    name="shippingType"
+                    value="standard"
+                    checked={shippingType === "standard"}
+                    onChange={() => setShippingType("standard")}
+                  />
+                  <span>Standard</span>
+                </label>
+                <label className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    name="shippingType"
+                    value="contraentrega"
+                    checked={shippingType === "contraentrega"}
+                    onChange={() => setShippingType("contraentrega")}
+                  />
+                  <span>Contraentrega</span>
+                </label>
+              </div>
+            </div>
+
+            {user?.id ? (
               <BillingInfoForm
                 selectedAddress={selectedAddress}
                 onAddressSelect={(address) => setSelectedAddress({ ...address })}
                 addresses={addresses}
               />
+            ) : (
+              <div className="space-y-4">
+                <h2 className="text-lg font-bold mb-2">Información para el envío</h2>
+                <Input
+                  required
+                  placeholder="Nombre completo"
+                  value={guestInfo.name}
+                  onChange={(e) => setGuestInfo({ ...guestInfo, name: e.target.value })}
+                />
+                <Input
+                  required
+                  type="email"
+                  placeholder="Correo electrónico"
+                  value={guestInfo.email}
+                  onChange={(e) => setGuestInfo({ ...guestInfo, email: e.target.value })}
+                />
+                <Input
+                  required
+                  placeholder="Departamento"
+                  value={guestInfo.department}
+                  onChange={(e) => setGuestInfo({ ...guestInfo, department: e.target.value })}
+                />
+                <Input
+                  required
+                  placeholder="Ciudad"
+                  value={guestInfo.city}
+                  onChange={(e) => setGuestInfo({ ...guestInfo, city: e.target.value })}
+                />
+                <Input
+                  required
+                  placeholder="Dirección"
+                  value={guestInfo.address}
+                  onChange={(e) => setGuestInfo({ ...guestInfo, address: e.target.value })}
+                />
+
+                <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 p-4 rounded-md text-sm">
+                  <p className="font-semibold mb-1">Importante</p>
+                  <ul className="list-disc pl-4 space-y-1">
+                    <li>Al generar el enlace de pago, se creará automáticamente una cuenta con los datos ingresados.</li>
+                    <li>Recibirás tus credenciales de acceso al correo electrónico proporcionado.</li>
+                    <li>Esto nos permite mantener la trazabilidad de la compra y ofrecerte un mejor soporte.</li>
+                    <li>Si ya tienes cuenta, tu compra se asociará a ella.</li>
+                    <li className="font-semibold">¡Lo ideal es que inicies sesión para tener acceso completo!</li>
+                  </ul>
+                </div>
+              </div>
             )}
           </div>
 
@@ -238,62 +306,6 @@ export default function CheckoutPage() {
           </div>
         </div>
       </div>
-
-      {/* Modal Wompi */}
-      {showWompiModal && wompiLink && (
-        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-4 relative w-full max-w-5xl">
-            <button
-              className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
-              onClick={() => {
-                setShowWompiModal(false);
-                setWompiLink(null);
-              }}
-            >
-              ✖
-            </button>
-            <iframe
-              src={wompiLink}
-              className="w-full h-[600px]"
-              frameBorder="0"
-              allow="payment"
-            />
-          </div>
-        </div>
-      )}
-
-      {/* Modal Invitado */}
-      {showGuestModal && (
-        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-xl relative">
-            <button
-              className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
-              onClick={() => setShowGuestModal(false)}
-            >
-              ✖
-            </button>
-            <h2 className="text-lg font-bold mb-4">Datos para el envío</h2>
-            <form className="space-y-4" onSubmit={handleGuestSubmit}>
-              <Input required placeholder="Nombre completo" value={guestInfo.name}
-                onChange={(e) => setGuestInfo({ ...guestInfo, name: e.target.value })} />
-              <Input required type="email" placeholder="Correo electrónico" value={guestInfo.email}
-                onChange={(e) => setGuestInfo({ ...guestInfo, email: e.target.value })} />
-              <Input required placeholder="Departamento" value={guestInfo.department}
-                onChange={(e) => setGuestInfo({ ...guestInfo, department: e.target.value })} />
-              <Input required placeholder="Ciudad" value={guestInfo.city}
-                onChange={(e) => setGuestInfo({ ...guestInfo, city: e.target.value })} />
-              <Input required placeholder="Dirección" value={guestInfo.address}
-                onChange={(e) => setGuestInfo({ ...guestInfo, address: e.target.value })} />
-              <button
-                type="submit"
-                className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 w-full"
-              >
-                Continuar al pago
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

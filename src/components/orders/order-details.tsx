@@ -173,17 +173,6 @@ export function OrderDetails({
               Pago: {order.payment_status}
             </Badge>
 
-            {order.payment_status === "pending" && order.payment_link && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setShowPaymentModal(true)}
-              >
-                <LuCreditCard className="h-4 w-4 mr-2" />
-                Pagar ahora
-              </Button>
-            )}
-
             {showPaymentModal && (
               <Dialog open={showPaymentModal} onOpenChange={setShowPaymentModal}>
                 <DialogContent className="max-w-4xl w-full">

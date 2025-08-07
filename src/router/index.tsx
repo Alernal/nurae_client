@@ -48,6 +48,7 @@ import ShowProduct from "@/views/admin/products/show";
 import ShowUser from "@/views/admin/users/show";
 import Terms from "@/views/terms";
 import SupportPage from "@/views/support";
+import ConfirmPage from "@/views/checkout/confirm";
 
 export function Router() {
   return (
@@ -77,6 +78,7 @@ export function Router() {
         <Route path="terms" element={<Terms />} />
         <Route path="support" element={<SupportPage />} />
         <Route path="checkout" element={<CheckoutPage />} />
+        <Route path="confirmacion-pago" element={<ConfirmPage />} />
 
         <Route element={<ProtectedRoute />}>
           <Route path="wishlist" element={<WishlistPage />} />

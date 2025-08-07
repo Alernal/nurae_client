@@ -221,7 +221,7 @@ export default function UpdateProduct() {
                     </p>
                   )}
                 </div>
-                <div className="space-y-2">
+                {/* <div className="space-y-2">
                   <Label htmlFor="original_price">Precio Original</Label>
                   <Input
                     id="original_price"
@@ -237,7 +237,7 @@ export default function UpdateProduct() {
                   <p className="text-sm text-muted-foreground">
                     Opcional. Usado para mostrar descuentos.
                   </p>
-                </div>
+                </div> */}
               </div>
             </CardContent>
           </Card>
