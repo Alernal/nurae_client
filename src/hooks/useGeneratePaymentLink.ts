@@ -1,8 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 import api from "@/api/client";
-import { toast } from "sonner";
 
 type GeneratePaymentPayload = {
+  shipping_type: "standard" | "contraentrega";
   subtotal: number;
   iva: number;
   shipping: number;
@@ -10,25 +10,15 @@ type GeneratePaymentPayload = {
   discount?: number;
   address_id?: string;
   guest?: boolean;
-  guest_info?: {
-    name: string;
-    email: string;
-  };
-  address?: {
-    state: string;
-    city: string;
-    address: string;
-  };
-  items: {
-    id: string;
-    quantity: number;
-  }[];
+  guest_info?: { name: string; email: string; };
+  address?: { state: string; city: string; address: string; };
+  items: { id: string; quantity: number }[];
 };
 
 type GeneratePaymentResponse = {
-  url: string;
-  payment_link_id: string;
-  expires_at: string;
+  url?: string;
+  payment_link_id?: string;
+  expires_at?: string;
   order_id?: string;
 };
 
@@ -37,11 +27,6 @@ export function useGeneratePaymentLink() {
     mutationFn: async (payload) => {
       const res = await api.post("/generate-link", payload);
       return res.data;
-    },
-    onError: (error) => {
-      const message =
-        error?.response?.data?.message || "Error al generar el enlace de pago";
-      toast.error(message);
     },
   });
 }

@@ -1,10 +1,10 @@
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   addressSchema,
   type AddressFormValues,
 } from "@/schemas/addresses/createAddressSchema";
-
+import { useColombiaData } from "@/lib/useColombiaData";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -25,13 +25,19 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { useEffect, useMemo, useRef } from "react";
 
 interface Props {
   onSubmit: (data: AddressFormValues) => void;
   defaultValues?: Partial<AddressFormValues>;
 }
 
+const normalize = (s: string) =>
+  s ? s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim() : "";
+
+
 export function AddressForm({ onSubmit, defaultValues }: Props) {
+  const { data: colombia, loading: loadingCo, error: errorCo } = useColombiaData();
   const form = useForm<AddressFormValues>({
     resolver: zodResolver(addressSchema),
     defaultValues: {
@@ -55,6 +61,59 @@ export function AddressForm({ onSubmit, defaultValues }: Props) {
       ...defaultValues,
     },
   });
+
+  const selectedState: string = useWatch({ control: form.control, name: "state" }) || "";
+  const selectedCity: string = useWatch({ control: form.control, name: "city" }) || "";
+
+  // Opciones de departamentos
+  const departamentos = useMemo(
+    () => colombia.map((d) => d.departamento),
+    [colombia]
+  );
+
+  // Ciudades del departamento seleccionado
+  const ciudadesDelDepto = useMemo(() => {
+    const dpto = colombia.find(
+      (d) => d.departamento.toLowerCase() === selectedState.toLowerCase()
+    );
+    return dpto ? dpto.ciudades : [];
+  }, [colombia, selectedState]);
+
+  useEffect(() => {
+    if (loadingCo || !selectedState) return;
+    const matchDep = departamentos.find((dep) => normalize(dep) === normalize(selectedState));
+    if (matchDep && matchDep !== selectedState) {
+      form.setValue("state", matchDep, { shouldDirty: false, shouldValidate: false });
+    }
+  }, [loadingCo, departamentos, selectedState, form]);
+
+  const prevStateRef = useRef<string>("");
+  useEffect(() => {
+    if (loadingCo) return;
+
+    const prevState = prevStateRef.current;
+    const deptoCambio = prevState && prevState !== selectedState;
+    prevStateRef.current = selectedState;
+
+    // Si no hay departamento, no hay ciudades válidas
+    if (!selectedState) {
+      form.setValue("city", "", { shouldDirty: false, shouldValidate: false });
+      return;
+    }
+
+    // Si hay ciudad seleccionada, intenta mapearla a la versión oficial (case/tildes)
+    if (selectedCity) {
+      const matchCity = ciudadesDelDepto.find((c) => normalize(c) === normalize(selectedCity));
+      if (matchCity) {
+        if (matchCity !== selectedCity) {
+          form.setValue("city", matchCity, { shouldDirty: false, shouldValidate: false });
+        }
+      } else if (deptoCambio) {
+        // Solo limpiar si el usuario cambió el dpto y la ciudad ya no pertenece
+        form.setValue("city", "", { shouldDirty: true, shouldValidate: true });
+      }
+    }
+  }, [loadingCo, selectedState, selectedCity, ciudadesDelDepto, form]);
 
   return (
     <Form {...form}>
@@ -231,19 +290,7 @@ export function AddressForm({ onSubmit, defaultValues }: Props) {
                 </FormItem>
               )}
             />
-            <FormField
-              name="city"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Ciudad</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Ej: Medellín" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            {/* Departamento / Estado */}
             <FormField
               name="state"
               control={form.control}
@@ -251,12 +298,58 @@ export function AddressForm({ onSubmit, defaultValues }: Props) {
                 <FormItem>
                   <FormLabel>Departamento / Estado</FormLabel>
                   <FormControl>
-                    <Input placeholder="Ej: Antioquia" {...field} />
+                    <Select
+                      disabled={loadingCo || !!errorCo}
+                      value={field.value || undefined}
+                      onValueChange={(val) => {
+                        // set y dispara onChange para RHF
+                        field.onChange(val);
+                      }}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder={loadingCo ? "Cargando..." : "Selecciona un departamento"} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {departamentos.map((dep) => (
+                          <SelectItem key={dep} value={dep}>{dep}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  {errorCo && <p className="text-xs text-red-600">No se pudo cargar la lista. Puedes intentar de nuevo.</p>}
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Ciudad / Municipio */}
+            <FormField
+              name="city"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Ciudad / Municipio</FormLabel>
+                  <FormControl>
+                    <Select
+                      disabled={!selectedState || ciudadesDelDepto.length === 0}
+                      value={field.value || undefined}
+                      onValueChange={(val) => field.onChange(val)}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder={!selectedState ? "Selecciona un departamento primero" : "Selecciona la ciudad"} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {ciudadesDelDepto.map((city) => (
+                          <SelectItem key={city} value={city}>{city}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+
             <FormField
               name="postal_code"
               control={form.control}
