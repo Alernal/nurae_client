@@ -89,7 +89,7 @@ export default function ProfileSecurity({ user }: ProfileSecurityProps) {
                 onChange={(e) =>
                   handlePasswordChange("current", e.target.value)
                 }
-                className="pr-10 border-violet-300 focus-visible:ring-violet-500"
+                className="pr-10 border-gray-200 focus-visible:ring-black"
               />
               <button
                 type="button"
@@ -116,7 +116,7 @@ export default function ProfileSecurity({ user }: ProfileSecurityProps) {
                 type={showNewPassword ? "text" : "password"}
                 value={passwords.new}
                 onChange={(e) => handlePasswordChange("new", e.target.value)}
-                className="pr-10 border-violet-300 focus-visible:ring-violet-500"
+                className="pr-10 border-gray-200 focus-visible:ring-black"
               />
               <button
                 type="button"
@@ -139,7 +139,7 @@ export default function ProfileSecurity({ user }: ProfileSecurityProps) {
                 onChange={(e) =>
                   handlePasswordChange("confirm", e.target.value)
                 }
-                className="pr-10 border-violet-300 focus-visible:ring-violet-500"
+                className="pr-10 border-gray-200 focus-visible:ring-black"
               />
               <button
                 type="button"
@@ -164,7 +164,7 @@ export default function ProfileSecurity({ user }: ProfileSecurityProps) {
         <CardFooter>
           <Button
             onClick={updatePassword}
-            className="w-full bg-violet-600 hover:bg-violet-700"
+            className="w-full bg-black hover:bg-black text-white  "
             disabled={
               isPending ||
               !passwords.current ||

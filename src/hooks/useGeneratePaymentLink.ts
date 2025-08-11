@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import api from "@/api/client";
 
+// useGeneratePaymentLink.ts — CHANGED TYPES
 type GeneratePaymentPayload = {
   shipping_type: "standard" | "contraentrega";
   subtotal: number;
@@ -10,17 +11,34 @@ type GeneratePaymentPayload = {
   discount?: number;
   address_id?: string;
   guest?: boolean;
-  guest_info?: { name: string; email: string; };
-  address?: { state: string; city: string; address: string; };
-  items: { id: string; quantity: number }[];
+
+  // CHANGED: guest_info ampliado
+  guest_info?: {
+    name: string;           // nombre de referencia o nombre completo visible
+    first_name: string;
+    last_name: string;
+    email: string;
+    phone: string;
+    company?: string;
+    document_type: "CC" | "NIT" | "RUC" | "RFC";
+    document_number: string;
+    fiscal_name?: string;
+  };
+
+  // CHANGED: address ampliada
+  address?: {
+    state: string;          // Departamento
+    city: string;
+    address: string; // antes "address"
+    apartment?: string;
+    postal_code?: string;
+    country?: string;
+    notes?: string;
+  };
+
+  items: { id: string | number; quantity: number }[];
 };
 
-type GeneratePaymentResponse = {
-  url?: string;
-  payment_link_id?: string;
-  expires_at?: string;
-  order_id?: string;
-};
 
 export function useGeneratePaymentLink() {
   return useMutation<GeneratePaymentResponse, any, GeneratePaymentPayload>({

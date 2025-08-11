@@ -72,7 +72,7 @@ export function OrdersList({
   };
 
   return (
-    <Card className="h-fit">
+    <Card className="h-fit shadow-2xl">
       <CardHeader>
         {/* Filtros */}
         <div className="space-y-3">
@@ -123,7 +123,7 @@ export function OrdersList({
       </CardHeader>
 
       <CardContent className="p-0">
-        <div className="max-h-[600px] overflow-y-auto">
+        <div className="max-h-[600px] overflow-y-auto scroll-thin">
           {orders.length === 0 ? (
             <div className="p-6 text-center text-gray-500">
               <LuPackage className="mx-auto h-8 w-8 mb-2 opacity-50" />
@@ -134,8 +134,8 @@ export function OrdersList({
               {orders.map((order) => (
                 <div
                   key={order.id}
-                  className={`p-4 border-b cursor-pointer hover:bg-gray-50 transition-colors ${selectedOrderId === order.id
-                    ? "bg-blue-50 border-l-4 border-l-blue-500"
+                  className={`p-4 mx-2 border-b border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors ${selectedOrderId === order.id
+                    ? "bg-gray-50 border-l-4 border-l-black"
                     : ""
                     }`}
                   onClick={() => onOrderSelect(order)}

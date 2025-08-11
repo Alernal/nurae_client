@@ -47,3 +47,22 @@ body {
   scrollbar-width: none;
   /* Firefox */
 }
+
+/* global.css */
+.scroll-thin::-webkit-scrollbar {
+  width: 6px; /* grosor */
+}
+
+.scroll-thin::-webkit-scrollbar-thumb {
+  background-color: #9ca3af; /* gris-400 */
+  border-radius: 4px;
+}
+
+.scroll-thin::-webkit-scrollbar-track {
+  background-color: #e5e7eb; /* gris-200 */
+}
+
+.scroll-thin {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #9ca3af #e5e7eb;
+}

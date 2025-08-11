@@ -91,7 +91,7 @@ export default function ProfilePersonalInfo({
           variant={isEditing ? "default" : "outline"}
           size="sm"
           onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
-          className={isEditing ? "bg-green-600 hover:bg-green-700 text-white" : "bg-gray-200 border-none"}
+          className={isEditing ? "bg-black hover:bg-black text-white" : "bg-gray-200 border-none"}
           disabled={isPending}
         >
           {isEditing ? (
@@ -112,7 +112,7 @@ export default function ProfilePersonalInfo({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label htmlFor="first_name" className="flex items-center gap-2">
-              <LuUser size={16} className="text-violet-600" />
+              <LuUser size={16} className="text-yellow-500" />
               Nombre
             </Label>
             <Input
@@ -126,7 +126,7 @@ export default function ProfilePersonalInfo({
           </div>
           <div className="space-y-2">
             <Label htmlFor="last_name" className="flex items-center gap-2">
-              <LuUser size={16} className="text-violet-600" />
+              <LuUser size={16} className="text-yellow-500" />
               Apellidos
             </Label>
             <Input
@@ -142,7 +142,7 @@ export default function ProfilePersonalInfo({
 
         <div className="space-y-2">
           <Label htmlFor="email" className="flex items-center gap-2">
-            <LuMail size={16} className="text-violet-600" />
+            <LuMail size={16} className="text-yellow-500" />
             Correo Electrónico
           </Label>
           <Input id="email" value={user.email || ""} disabled />
@@ -151,7 +151,7 @@ export default function ProfilePersonalInfo({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label htmlFor="phone" className="flex items-center gap-2">
-              <LuPhone size={16} className="text-violet-600" />
+              <LuPhone size={16} className="text-yellow-500" />
               Teléfono
             </Label>
             <Input
@@ -167,9 +167,9 @@ export default function ProfilePersonalInfo({
           <div className="space-y-2">
             <Label htmlFor="gender" className="flex items-center gap-2">
               {user.gender === "male" ? (
-                <LuUsb size={16} className="text-violet-600" />
+                <LuUsb size={16} className="text-yellow-500" />
               ) : (
-                <LuVariable size={16} className="text-violet-600" />
+                <LuVariable size={16} className="text-yellow-500" />
               )}
               Género
             </Label>
@@ -195,7 +195,7 @@ export default function ProfilePersonalInfo({
           <div className="pt-2">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <LuShield size={16} className="text-violet-600" />
+                <LuShield size={16} className="text-yellow-500" />
                 <Label htmlFor="role" className="font-medium">
                   Rol de Administrador
                 </Label>

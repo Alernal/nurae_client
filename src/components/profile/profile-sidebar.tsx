@@ -59,15 +59,14 @@ export default function ProfileSidebar({
   return (
     <div className="w-full md:w-1/3">
       <Card className="border-none shadow-lg">
-        <CardHeader className="border-b border-gray-200">
+        <CardHeader className="">
           <CardTitle className="text-center">Mi Perfil</CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col items-center pt-6 pb-8">
           <div className="relative mb-4 group">
             <div
-              className={`relative w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-lg bg-gray-100 ${
-                isUploading ? "opacity-50" : ""
-              }`}
+              className={`relative w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-lg bg-gray-100 ${isUploading ? "opacity-50" : ""
+                }`}
               style={{
                 boxShadow: "0 4px 16px rgba(80, 0, 120, 0.15)",
                 transition: "box-shadow 0.2s",
@@ -87,7 +86,7 @@ export default function ProfileSidebar({
             </div>
             <button
               onClick={triggerFileInput}
-              className="absolute bottom-0 right-0 bg-violet-600 hover:bg-violet-700 text-white p-2 rounded-full shadow-lg transition-all duration-200"
+              className="absolute bottom-0 right-0 bg-yellow-500 hover:bg-yellow-500 text-white p-2 rounded-full shadow-lg transition-all duration-200"
               disabled={isUploading}
             >
               <LuUpload size={16} />
@@ -111,8 +110,9 @@ export default function ProfileSidebar({
               variant={user.role === "admin" ? "destructive" : "secondary"}
               className="capitalize"
             >
-              {user.role}
+              {user.role === "admin" ? "Administrador" : "Cliente"}
             </Badge>
+
             {user.is_verified ? (
               <Badge
                 variant="outline"

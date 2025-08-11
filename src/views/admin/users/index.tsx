@@ -48,7 +48,7 @@ export default function AdminUsers() {
               Error al cargar usuarios
             </p>
           ) : (
-            <div className="rounded-md border border-gray-200">
+            <div className="border border-gray-200">
               <Table>
                 <TableHeader>
                   <TableRow>

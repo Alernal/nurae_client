@@ -115,9 +115,6 @@ export function ProductInfo({ product, reviews = [] }: ProductInfoProps) {
             </>
           )}
         </div>
-        <p className="text-[10px] font-parrafo">
-          Precio incluye IVA • Envío gratuito en compras mayores a $150.000
-        </p>
       </div>
     </div>
   );

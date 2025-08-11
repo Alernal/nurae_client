@@ -3,7 +3,7 @@ import { AdminSidebar } from "@/components/admin-sidebar";
 
 export default function ClientLayout() {
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-gray-50">
+    <div className="min-h-screen flex flex-col md:flex-row">
       {/* Sidebar responsivo */}
       <aside className="w-full md:w-72 h-16 md:h-screen border-b md:border-b-0 md:border-r border-gray-200 bg-white flex-shrink-0">
         <AdminSidebar />

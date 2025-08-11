@@ -366,7 +366,7 @@ export default function CreateProduct() {
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                       {imagePreviews.map((image, index) => (
                         <div key={index} className="relative group">
-                          <div className="aspect-square rounded-md overflow-hidden border bg-background">
+                          <div className="aspect-square overflow-hidden border border-gray-200 bg-background">
                             <img
                               src={image || "/placeholder.svg"}
                               alt={`Imagen ${index + 1}`}

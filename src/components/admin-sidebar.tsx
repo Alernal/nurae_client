@@ -61,35 +61,30 @@ export function AdminSidebar() {
       {/* Sidebar */}
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-50 w-72 h-screen bg-white border-r border-gray-200 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static",
+          "fixed inset-y-0 left-0 z-50 w-72 h-screen bg-white shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static",
           isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
+
         <div className="flex flex-col h-full overflow-hidden">
           {/* Header */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+          <div className="mt-10 flex items-center justify-center px-6 py-4">
             <Link to="/admin/dashboard" className="flex items-center gap-3">
               <img src="/logo.png" alt="NURAE" className="h-8 object-contain" />
             </Link>
-            <Badge
-              variant="outline"
-              className="bg-blue-100 text-blue-800 border border-blue-200"
-            >
-              Admin
-            </Badge>
           </div>
 
           {/* Usuario */}
-          <div className="px-6 py-4 border-b border-gray-200">
+          <div className="px-6 py-4">
             <div className="flex items-center gap-3">
               {user?.profile_image_url ? (
                 <img
                   src={`https://api.nurae.com.co/${user.profile_image_url}`}
                   alt="Avatar"
-                  className="w-10 h-10 rounded-full object-cover"
+                  className="w-10 h-10 object-cover rounded-full"
                 />
               ) : (
-                <div className="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center">
+                <div className="w-10 h-10 bg-gray-600 flex items-center justify-center">
                   <LuUser className="w-5 h-5 text-white" />
                 </div>
               )}
@@ -114,9 +109,9 @@ export function AdminSidebar() {
                   to={item.href}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={cn(
-                    "flex items-center justify-between px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-200",
+                    "flex items-center justify-between px-4 py-3 text-sm font-medium transition-colors duration-200",
                     isActive
-                      ? "bg-blue-600 text-white shadow"
+                      ? "bg-black text-white shadow"
                       : "text-gray-700 hover:bg-gray-100"
                   )}
                 >
@@ -130,11 +125,11 @@ export function AdminSidebar() {
           </nav>
 
           {/* Ver tienda */}
-          <div className="p-6 border-t border-gray-200">
+          <div className="p-6 -mb-10">
             <Link to="/" onClick={() => setIsMobileMenuOpen(false)}>
               <Button
                 variant="outline"
-                className="w-full justify-start text-gray-700"
+                className="w-full text-gray-700 flex justify-center rounded-none"
               >
                 <LuHouse className="w-4 h-4 mr-2" />
                 Ver tienda
@@ -143,10 +138,10 @@ export function AdminSidebar() {
           </div>
 
           {/* Logout */}
-          <div className="p-6 border-t border-gray-200">
+          <div className="p-6">
             <Button
               variant="outline"
-              className="w-full justify-start text-red-600 border-red-200 hover:bg-red-600 hover:text-white"
+              className="w-full justify-center text-red-600 border-red-200 hover:bg-red-600 hover:text-white rounded-none"
               onClick={() => logoutMutate()}
               disabled={isPending}
             >

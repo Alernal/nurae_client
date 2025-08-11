@@ -86,10 +86,10 @@ export default function ShowProduct() {
       : 0;
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen p-6">
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}
-        <div className="bg-white rounded-lg shadow-sm border p-6">
+        <div className="bg-white shadow-sm border border-gray-200 p-6">
           <div className="flex items-start justify-between">
             <div className="space-y-2">
               <div className="flex items-center gap-3">
@@ -138,7 +138,7 @@ export default function ShowProduct() {
                 <img
                   src={
                   product.images[0]?.url
-                    ? `https://nurae-api.alernal.com.co${product.images[0].url}`
+                    ? `https://api.nurae.com.co${product.images[0].url}`
                     : "/placeholder.svg?height=400&width=400"
                   }
                   alt={product.name}

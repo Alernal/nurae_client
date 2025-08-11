@@ -120,7 +120,7 @@ export default function AdminProducts() {
         </div>
         <Button
           onClick={() => navigate("/admin/products/create")}
-          className="bg-blue-600 hover:bg-blue-700 text-white"
+          className="bg-black hover:bg-black text-white"
         >
           <LuPlus className="mr-2 h-4 w-4" />
           Agregar Producto
@@ -183,7 +183,7 @@ export default function AdminProducts() {
               Error al cargar productos
             </p>
           ) : (
-            <div className="rounded-md border border-gray-200">
+            <div className="border border-gray-200">
               <Table>
                 <TableHeader>
                   <TableRow>

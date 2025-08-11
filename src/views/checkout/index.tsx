@@ -16,11 +16,25 @@ import { useCart } from "@/hooks/useCart";
 import { useNavigate } from "react-router-dom";
 
 type GuestInfo = {
+  // “name” lo dejamos como referencia (Casa/Oficina o nombre completo de contacto)
   name: string;
+  first_name: string;
+  last_name: string;
   email: string;
-  department: string;
+  phone: string;
+  company?: string;
+  document_type: "CC" | "NIT" | "RUC" | "RFC" | "";
+  document_number: string;
+  fiscal_name?: string;
+
+  // dirección
+  department: string;       // = state
   city: string;
-  address: string;
+  address: string;          // = address
+  apartment?: string;
+  postal_code?: string;
+  country?: string;
+  notes?: string;
 };
 
 type ApiImage = { url: string };
@@ -58,12 +72,22 @@ export default function CheckoutPage() {
   // Invitado
   const [guestInfo, setGuestInfo] = useState<GuestInfo>({
     name: "",
+    first_name: "",
+    last_name: "",
     email: "",
+    phone: "",
+    company: "",
+    document_type: "",
+    document_number: "",
+    fiscal_name: "",
     department: "",
     city: "",
     address: "",
+    apartment: "",
+    postal_code: "",
+    country: "Colombia",
+    notes: "",
   });
-
   // Colombia: departamentos/ciudades
   const { data: colombia, loading: loadingCo, error: errorCo } = useColombiaData();
 
@@ -158,7 +182,7 @@ export default function CheckoutPage() {
           item.original_price && item.original_price > 0 && item.original_price < item.price
             ? item.original_price
             : item.price;
-        return sum + (unitPrice / 1.19) * item.quantity;
+        return sum + (unitPrice) * item.quantity;
       }, 0),
     [detailedCartItems]
   );
@@ -170,8 +194,8 @@ export default function CheckoutPage() {
           item.original_price && item.original_price > 0 && item.original_price < item.price
             ? item.original_price
             : item.price;
-        const baseUnitPrice = unitPrice / 1.19;
-        return sum + (unitPrice - baseUnitPrice) * item.quantity;
+        const baseUnitPrice = unitPrice;
+        return sum + (0) * item.quantity;
       }, 0),
     [detailedCartItems]
   );
@@ -292,11 +316,22 @@ export default function CheckoutPage() {
     if (!termsAccepted || !dataProcessingAccepted)
       return toast.error("Debes aceptar los términos y el tratamiento de datos.");
 
-    if (
-      !user?.id &&
-      (!guestInfo.name || !guestInfo.email || !guestInfo.department || !guestInfo.city || !guestInfo.address)
-    ) {
-      return toast.error("Por favor completa todos los campos requeridos para continuar como invitado.");
+    // handleFinalizePurchase — CHANGED
+    if (!user?.id) {
+      const missing =
+        !guestInfo.first_name ||
+        !guestInfo.last_name ||
+        !guestInfo.email ||
+        !guestInfo.phone ||
+        !guestInfo.document_type ||
+        !guestInfo.document_number ||
+        !guestInfo.department ||
+        !guestInfo.city ||
+        !guestInfo.address;
+
+      if (missing) {
+        return toast.error("Completa los campos obligatorios del titular y la dirección.");
+      }
     }
 
     const address: Address = user?.id
@@ -326,13 +361,24 @@ export default function CheckoutPage() {
         guest: true,
         shipping_type: shippingType,
         guest_info: {
-          name: guestInfo.name.trim(),
+          name: guestInfo.name.trim() || `${guestInfo.first_name} ${guestInfo.last_name}`.trim(),
+          first_name: guestInfo.first_name.trim(),
+          last_name: guestInfo.last_name.trim(),
           email: guestInfo.email.trim().toLowerCase(),
+          phone: guestInfo.phone.trim(),
+          company: guestInfo.company?.trim() || undefined,
+          document_type: guestInfo.document_type as "CC" | "NIT" | "RUC" | "RFC",
+          document_number: guestInfo.document_number.trim(),
+          fiscal_name: guestInfo.fiscal_name?.trim() || undefined,
         },
         address: {
-          state: address.state.toLowerCase(),
-          city: address.city.toLowerCase(),
-          address: address.address,
+          state: (address.state || "").trim(),
+          city: (address.city || "").trim(),
+          address: guestInfo.address.trim(),
+          apartment: guestInfo.apartment?.trim() || undefined,
+          postal_code: guestInfo.postal_code?.trim() || undefined,
+          country: guestInfo.country?.trim() || "Colombia",
+          notes: guestInfo.notes?.trim() || undefined,
         },
         items: cartItems.map((item) => ({
           id: item.productId,
@@ -410,26 +456,97 @@ export default function CheckoutPage() {
                 addresses={addresses}
               />
             ) : (
-              <div className="space-y-4">
-                <h2 className="text-lg font-bold mb-2">Información para el envío</h2>
+              < div className="space-y-4">
+                <h2 className="text-lg font-bold mb-2">Información del titular</h2>
 
-                <Input
-                  required
-                  placeholder="Nombre completo"
-                  value={guestInfo.name}
-                  onChange={(e) => setGuestInfo({ ...guestInfo, name: e.target.value })}
-                />
-
-                <Input
-                  required
-                  type="email"
-                  placeholder="Correo electrónico"
-                  value={guestInfo.email}
-                  onChange={(e) => setGuestInfo({ ...guestInfo, email: e.target.value })}
-                />
-
+                {/* Nombre referencia / Empresa */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {/* Departamento */}
+                  <Input
+                    placeholder="Nombre de referencia (Casa, Oficina) o nombre completo"
+                    value={guestInfo.name}
+                    onChange={(e) => setGuestInfo({ ...guestInfo, name: e.target.value })}
+                  />
+                  <Input
+                    placeholder="Empresa (opcional)"
+                    value={guestInfo.company ?? ""}
+                    onChange={(e) => setGuestInfo({ ...guestInfo, company: e.target.value })}
+                  />
+                </div>
+
+                {/* Nombres */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <Input
+                    required
+                    placeholder="Nombre"
+                    value={guestInfo.first_name}
+                    onChange={(e) => setGuestInfo({ ...guestInfo, first_name: e.target.value })}
+                  />
+                  <Input
+                    required
+                    placeholder="Apellido"
+                    value={guestInfo.last_name}
+                    onChange={(e) => setGuestInfo({ ...guestInfo, last_name: e.target.value })}
+                  />
+                </div>
+
+                {/* Contacto */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <Input
+                    required
+                    type="email"
+                    placeholder="Correo electrónico"
+                    value={guestInfo.email}
+                    onChange={(e) => setGuestInfo({ ...guestInfo, email: e.target.value })}
+                  />
+                  <Input
+                    required
+                    placeholder="Teléfono"
+                    value={guestInfo.phone}
+                    onChange={(e) => setGuestInfo({ ...guestInfo, phone: e.target.value })}
+                  />
+                </div>
+
+                {/* Documento */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-end justify-between">
+                  {/* Tipo documento */}
+                  <div className="space-y-1">
+                    <label className="text-sm font-medium">Tipo de documento</label>
+                    <Select
+                      value={guestInfo.document_type || undefined}
+                      onValueChange={(val) =>
+                        setGuestInfo((prev) => ({ ...prev, document_type: val as GuestInfo["document_type"] }))
+                      }
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecciona..." />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="CC">Cédula (CC)</SelectItem>
+                        <SelectItem value="NIT">NIT</SelectItem>
+                        <SelectItem value="RUC">RUC</SelectItem>
+                        <SelectItem value="RFC">RFC</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  {/* Número documento */}
+                  <Input
+                    required
+                    placeholder="Número de documento"
+                    value={guestInfo.document_number}
+                    onChange={(e) => setGuestInfo({ ...guestInfo, document_number: e.target.value })}
+                  />
+                  {/* Razón fiscal (opcional) */}
+                  <Input
+                    placeholder="Razón fiscal / social (opcional)"
+                    value={guestInfo.fiscal_name ?? ""}
+                    onChange={(e) => setGuestInfo({ ...guestInfo, fiscal_name: e.target.value })}
+                  />
+                </div>
+
+                <h2 className="text-lg font-semibold mt-6">Dirección de envío</h2>
+
+                {/* Departamento / Ciudad */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="space-y-1">
                     <label className="text-sm font-medium">Departamento</label>
                     <Select
@@ -448,12 +565,8 @@ export default function CheckoutPage() {
                         ))}
                       </SelectContent>
                     </Select>
-                    {errorCo && (
-                      <p className="text-xs text-red-600">No se pudo cargar la lista. Reintenta o escribe manualmente.</p>
-                    )}
                   </div>
 
-                  {/* Ciudad */}
                   <div className="space-y-1">
                     <label className="text-sm font-medium">Ciudad / Municipio</label>
                     <Select
@@ -477,21 +590,49 @@ export default function CheckoutPage() {
                   </div>
                 </div>
 
+                {/* Dirección */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <Input
+                    required
+                    placeholder="Dirección (Calle 123 #45-67)"
+                    value={guestInfo.address}
+                    onChange={(e) => setGuestInfo({ ...guestInfo, address: e.target.value })}
+                  />
+                  <Input
+                    placeholder="Apartamento / Interior (opcional)"
+                    value={guestInfo.apartment ?? ""}
+                    onChange={(e) => setGuestInfo({ ...guestInfo, apartment: e.target.value })}
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <Input
+                    placeholder="Código Postal"
+                    value={guestInfo.postal_code ?? ""}
+                    onChange={(e) => setGuestInfo({ ...guestInfo, postal_code: e.target.value })}
+                  />
+                  <Input
+                    placeholder="País"
+                    value={guestInfo.country ?? ""}
+                    onChange={(e) => setGuestInfo({ ...guestInfo, country: e.target.value })}
+                  />
+                </div>
+
                 <Input
-                  required
-                  placeholder="Dirección"
-                  value={guestInfo.address}
-                  onChange={(e) => setGuestInfo({ ...guestInfo, address: e.target.value })}
+                  placeholder="Notas adicionales (indicaciones, puntos de referencia...)"
+                  value={guestInfo.notes ?? ""}
+                  onChange={(e) => setGuestInfo({ ...guestInfo, notes: e.target.value })}
                 />
 
+                {/* Aviso */}
                 <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 p-4 rounded-md text-sm">
                   <p className="font-semibold mb-1">Importante</p>
                   <ul className="list-disc pl-4 space-y-1">
                     <li>Al generar el enlace de pago, se creará automáticamente una cuenta con los datos ingresados.</li>
-                    <li>Recibirás tus credenciales de acceso al correo electrónico proporcionado.</li>
-                    <li>Esto nos permite mantener la trazabilidad de la compra y ofrecerte un mejor soporte.</li>
-                    <li>Si ya tienes cuenta, tu compra se asociará a ella.</li>
-                    <li className="font-semibold">¡Lo ideal es que inicies sesión para tener acceso completo!</li>
+                    <li>Recibirás credenciales en el correo proporcionado.</li>
+                    <li>Esto nos permite trazabilidad y mejor soporte.</li>
+                    <li>Si ya tienes cuenta, la compra se asociará a ella.</li>
+                    <li className="font-semibold">Lo ideal es iniciar sesión para acceso completo.</li>
                   </ul>
                 </div>
               </div>
@@ -620,6 +761,6 @@ export default function CheckoutPage() {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 }

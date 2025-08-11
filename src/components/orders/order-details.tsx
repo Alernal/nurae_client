@@ -87,7 +87,7 @@ export function OrderDetails({
 
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 px-5 shadow-2xl">
       {/* Header */}
       <Card>
         <CardHeader>
@@ -193,17 +193,19 @@ export function OrderDetails({
         </CardHeader>
       </Card>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Información del Cliente */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <LuUser className="h-5 w-5" />
-              Cliente
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <div>
+      {/* Contenedor */}
+      <div className="space-y-6">
+        {/* Fila superior: cliente + pago/envío */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Datos básicos del cliente */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <LuUser className="h-5 w-5" />
+                Cliente
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-1">
               <p className="font-semibold">
                 {order.user?.first_name} {order.user?.last_name || ""}
               </p>
@@ -214,10 +216,59 @@ export function OrderDetails({
               <p className="text-sm text-gray-600 capitalize">
                 {order.user?.gender || "Sin género especificado"}
               </p>
-            </div>
+            </CardContent>
+          </Card>
 
-            {order.address && (
-              <div className="space-y-1 text-sm text-gray-600">
+          {/* Pago y envío */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <LuCreditCard className="h-5 w-5" />
+                Pago y Envío
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div className="flex justify-between">
+                <span className="text-sm">Método de pago:</span>
+                <span className="text-sm font-medium capitalize">
+                  {order.payment_method}
+                </span>
+              </div>
+
+              {order.transaction_id && (
+                <div className="flex justify-between">
+                  <span className="text-sm">ID Transacción:</span>
+                  <span className="text-sm font-mono">{order.transaction_id}</span>
+                </div>
+              )}
+
+              {order.shipping_method && (
+                <div className="flex justify-between">
+                  <span className="text-sm">Método de envío:</span>
+                  <span className="text-sm font-medium capitalize">
+                    {order.shipping_method}
+                  </span>
+                </div>
+              )}
+
+              <div className="flex items-center gap-2 text-sm">
+                <LuTruck className="h-4 w-4 text-gray-400" />
+                <span>Costo de envío: {formatCurrency(order.shipping_cost)}</span>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Fila inferior: resto de info del cliente */}
+        {order.address && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                Dirección y Datos Fiscales
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-600">
                 <p>
                   <strong>Nombre:</strong> {order.address?.first_name}{" "}
                   {order.address?.last_name}
@@ -247,55 +298,14 @@ export function OrderDetails({
                   <strong>Código Postal:</strong> {order.address?.postal_code}
                 </p>
                 {order.address?.notes && (
-                  <p>
+                  <p className="md:col-span-2">
                     <strong>Notas:</strong> {order.address.notes}
                   </p>
                 )}
               </div>
-            )}
-          </CardContent>
-        </Card>
-
-        {/* Información de Pago y Envío */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <LuCreditCard className="h-5 w-5" />
-              Pago y Envío
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <div className="flex justify-between">
-              <span className="text-sm">Método de pago:</span>
-              <span className="text-sm font-medium capitalize">
-                {order.payment_method}
-              </span>
-            </div>
-
-            {order.transaction_id && (
-              <div className="flex justify-between">
-                <span className="text-sm">ID Transacción:</span>
-                <span className="text-sm font-mono">
-                  {order.transaction_id}
-                </span>
-              </div>
-            )}
-
-            {order.shipping_method && (
-              <div className="flex justify-between">
-                <span className="text-sm">Método de envío:</span>
-                <span className="text-sm font-medium capitalize">
-                  {order.shipping_method}
-                </span>
-              </div>
-            )}
-
-            <div className="flex items-center gap-2 text-sm">
-              <LuTruck className="h-4 w-4 text-gray-400" />
-              <span>Costo de envío: {formatCurrency(order.shipping_cost)}</span>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        )}
       </div>
 
       {/* Productos */}

@@ -152,7 +152,7 @@ export default function ClientAddresses() {
               Error al cargar direcciones
             </p>
           ) : (
-            <div className="rounded-md border">
+            <div className="border border-gray-200">
               <Table>
                 <TableHeader>
                   <TableRow>

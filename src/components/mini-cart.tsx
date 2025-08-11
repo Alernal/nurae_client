@@ -46,8 +46,8 @@ export function MiniCart() {
   );
 
   // Nuevo: desglose de impuestos
-  const subtotalSinIva = subtotal / 1.19;
-  const iva = subtotal - subtotalSinIva;
+  const subtotalSinIva = subtotal;
+  const iva = 0;
   const total = subtotal;
 
   const formatPrice = (price: number) =>
@@ -197,7 +197,7 @@ export function MiniCart() {
               <span>{formatPrice(subtotalSinIva)}</span>
             </div>
             <div className="flex justify-between text-sm text-secondary-700">
-              <span>IVA (19%)</span>
+              <span>IVA (0%)</span>
               <span>{formatPrice(iva)}</span>
             </div>
             <Separator />
@@ -214,7 +214,7 @@ export function MiniCart() {
               </Link>
               <Button
                 variant="ghost"
-                className="border border-red-500 text-red-500 hover:bg-red-500 rounded-none hover:text-white h-12 w-10"
+                className="border text-black hover:bg-black rounded-none hover:text-white h-12 w-10"
                 onClick={clearCartCloud}
                 title="Vaciar carrito"
               >

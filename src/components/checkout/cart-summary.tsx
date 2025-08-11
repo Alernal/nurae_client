@@ -192,7 +192,7 @@ export default function CartSummary({
             <span className="font-regular">{formatPrice(shipping)}</span>
           </div>
           <div className="flex justify-between text-sm">
-            <span className="text-gray-600">IVA (19%)</span>
+            <span className="text-gray-600">IVA (0%)</span>
             <span className="font-regular">{formatPrice(iva)}</span>
           </div>
           {appliedDiscount > 0 && (

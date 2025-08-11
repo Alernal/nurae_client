@@ -377,7 +377,7 @@ export default function UpdateProduct() {
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                       {existingImages.map((image) => (
                         <div key={image.id} className="relative group">
-                          <div className="aspect-square rounded-md overflow-hidden border bg-background">
+                          <div className="aspect-square overflow-hidden border border-gray-100 bg-background">
                             <img
                               src={`https://api.nurae.com.co/${image.url}`}
                               alt={`Imagen ${image.id}`}
